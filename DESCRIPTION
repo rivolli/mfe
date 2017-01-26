@@ -1,0 +1,30 @@
+Package: mfe
+Type: Package
+Title: Meta-Features Extraction for Meta-Learning
+Version: 0.1.0
+Date: 2017-01-24
+Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", role=c("aut", "cre")),
+  person("Luis Paulo", "F. Garcia", email="lpgarcia@icmc.usp.br", role="aut"))
+Description: Extract data set meta-features for meta-learning solutions and 
+  data set characterization.
+URL: https://github.com/rivolli/mfe
+Depends:
+    R (>= 3.3.1),
+Imports:
+    C50,
+    class,
+    e1071,
+    infotheo,
+    MASS,
+    rpart,
+    stats,
+    utils
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
+License: GPL | file LICENSE
+LazyData: true
+BugReports: https://github.com/rivolli/mfe
+RoxygenNote: 5.0.1
+VignetteBuilder: knitr

@@ -1,0 +1,68 @@
+---
+title: "mfe: Meta-Features Extraction for Meta-Learning"
+author: "Adriano Rivolli and Luis Paulo F. Garcia"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Overview
+
+The simplest way to extract meta-features is using the `metafeatures` method.
+You just need to inform which group of measures do you need or use "all" for 
+all measures. For instance:
+```{r}
+library(mfe)
+data("iris")
+
+## Extract general, statistical and information-theoretic measures
+iris.info <- metafeatures(Species ~ ., iris, c("general", "statistical", "infotheo"))
+
+## Extract all meta-features
+iris.info <- metafeatures(iris[1:4], iris$Species)
+
+## List the available groups
+ls.metafeatures()
+```
+
+Several measures generates more than one values and them can be post processing
+using distinct alternatives. It is possible compute the min, max, mean, median,
+kurtosis, standard deviation, among others (See the `post.processing` 
+documentation for more details). The default is the `mean` and the `sd` however
+you can use anothers. For instance:
+```{r}
+## Summarize multiples meta-features values using min, median and max 
+iris.info <- metafeatures(Species ~ ., iris, "statistical", 
+                          summary=c("min", "median", "max"))
+                          
+## Summarize multiples meta-features values using quantile
+iris.info <- metafeatures(Species ~ ., iris, "statistical", summary="quantile")
+```
+
+Despite the simplicity it is not possible customize the meta-features, for this 
+is necessary to use the specific methods. There is a method for each group of 
+measure, for instance `mf.general` and `mf.statistical` compute the general and
+the statistical measures respectively. To list the measures of these groups use 
+`ls.general()` and `ls.statistical()`. The folloing examples illustrate this 
+cases:
+```{r}
+## Extract some statistical meta-features
+stat.iris <- mf.statistical(iris[1:4], iris[5], c("correlation", "variance"))
+
+## Extract the histogram of correlation
+hist.iris <- mf.statistical(iris[1:4], iris[5], "correlation", "hist")
+
+## Extract some discriminant meta-features
+disc.iris <- mf.discriminant(iris[1:4], iris[5], c("cancor", "cancor.fract"))
+```
+
+Different from the `metafeatures` method, these methods return a list instead of
+a numeric vector. To get all meta-feature values without post processing use `summary=non.aggregated` like this:
+```{r}
+## Extract all correlation values
+cor.iris <- mf.statistical(iris[1:4], iris[5], "correlation", 
+                           summary="non.aggregated", by.class=FALSE)
+```
