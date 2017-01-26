@@ -1,38 +1,41 @@
-# mfe: Meta-features Extraction for meta-learning
+# mfe: Meta-Features Extraction for Meta-Learning
 [![Travis-CI Build Status](https://travis-ci.org/rivolli/mfe.svg?branch=master)](https://travis-ci.org/rivolli/mfe)
 
-The `mfe` package is designed to extract meta-features from datasets. It 
-contains traditional and new characterization measures reported in the 
-literature of meta-learning. Its main objective is to be employed as part of the
-meta-learning experiments, however it contains a wide range of measures that can 
-be used for another purposes.
+The `mfe` package is designed to extract meta-features from datasets. The 
+meta-features can be understood as characterization measures able to describe 
+datasets to support recommendation systems based on Meta-learning (MtL). The 
+package contains traditional and new characterization measures with the goal to 
+improve the MtL experiments and also guide the complexity dataset understanding. 
 
 > *Note*: In this current version, only classification datasets are supported, 
 however, we plan support regression datasets in the future versions. 
 
-## Groups of measures
-* **General** (`general`) - General information related to the dataset, also known as simple 
-measures, such as number of instances, attributes and classes.
-* **Statistical** (`statistical`) - Standard statistical measures to describe the numerical 
-properties of a distribution of data.
-* **Discriminant** (`discriminant`) - Measures computed using the discriminant analysis.
-* **Information-theoretic** (`infotheo`) - Particularly appropriate to describe discrete 
-(categorical) attributes and thei relationship with the classes.
-* **Model-based**  (`model.based`) - Measures desined to extract characteristics like the depth, 
-the shape and size of a Decision Tree model induced from a dataset.
-* **Landmarking** (`landmarking`) - Represents the performance of some simple and efficient 
-learning algorithms.
+## Measures
+
+The meta-features are designed to extract general properties of datasets and 
+provide evidences about the performance of algorithms in MtL recomendation 
+systems. These measures must be able to predict, with a low computational cost, 
+the performance of these algorithms. The main standard measures used in MtL can 
+be divided into three groups:
+
+* **General** (`general`) - General information related to the dataset, also 
+known as simple measures, such as number of instances, attributes and classes.
+* **Statistical** (`statistical`) - Standard statistical measures to describe 
+the numerical properties of a distribution of data.
+* **Discriminant** (`discriminant`) - Measures computed using the discriminant 
+analysis.
+* **Information-theoretic** (`infotheo`) - Particularly appropriate to describe 
+discrete (categorical) attributes and thei relationship with the classes.
+* **Decision Tree Model-based**  (`model.based`) - Measures desined to extract 
+characteristics like the depth, the shape and size of a Decision Tree model 
+induced from a dataset.
+* **Landmarking** (`landmarking`) - Represents the performance of some simple 
+and efficient learning algorithms.
 
 ## Installation
 The installation process is similar to other packages available on CRAN:
 ```r
 install.packages("mfe")
-```
-
-### Development version
-It is possible to install the development version using
-```r
-devtools::install_github("rivolli/mfe")
 ```
 
 ### Compile the project:
@@ -88,7 +91,8 @@ disc.iris <- mf.discriminant(iris[1:4], iris[5], c("cancor", "cancor.fract"))
 ```
 
 Different from the `metafeatures` method, these methods return a list instead of
-a numeric vector. To get all meta-feature values without post processing use `summary=non.aggregated` like this:
+a numeric vector. To get all meta-feature values without post processing use 
+`summary=non.aggregated` like this:
 ```{r}
 ## Extract all correlation values
 cor.iris <- mf.statistical(iris[1:4], iris[5], "correlation", 
