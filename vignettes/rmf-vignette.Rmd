@@ -9,11 +9,47 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Overview
+# Introduction
 
+The mfe package is designed to extract meta-features from datasets. 
+The meta-features can be understood as characterization measures able to 
+describe datasets to support recommendation systems based on meta-learning.
+The package contains traditional and new characterization measures with the 
+goal to improve the meta-learning experiments and also guide the complexity 
+dataset understanding.
+
+The following groups of measures are available:
+
+* **General** - General information related to the dataset, also known as simple 
+measures, such as number of instances, attributes and classes.
+* **Statistical** - Standard statistical measures to describe the numerical 
+properties of a distribution of data.
+* **Discriminant** - Measures computed using the discriminant analysis.
+* **Information-theoretic** - Particularly appropriate to describe discrete 
+(categorical) attributes and thei relationship with the classes.
+* **Model-based** - Measures desined to extract characteristics like the depth, 
+the shape and size of a Decision Tree model induced from a dataset.
+* **Landmarking** - Represents the performance of some simple and efficient 
+learning algorithms.
+
+# Getting Started
+
+## Installation
+The installation process is similar to other packages available on CRAN:
+```r
+install.packages("mfe")
+```
+
+It is possible to install the development version using
+```r
+devtools::install_github("rivolli/mfe")
+```
+
+## Extracting meta-features
 The simplest way to extract meta-features is using the `metafeatures` method.
-You just need to inform which group of measures do you need or use "all" for 
-all measures. For instance:
+It receives as parameter which groups of measures will be needed. To get all 
+groups, use the value "all". 
+For instance:
 ```{r}
 library(mfe)
 data("iris")
@@ -22,7 +58,7 @@ data("iris")
 iris.info <- metafeatures(Species ~ ., iris, c("general", "statistical", "infotheo"))
 
 ## Extract all meta-features
-iris.info <- metafeatures(iris[1:4], iris$Species)
+iris.info <- metafeatures(iris[1:4], iris$Species, "all")
 
 ## List the available groups
 ls.metafeatures()
@@ -30,9 +66,9 @@ ls.metafeatures()
 
 Several measures generates more than one values and them can be post processing
 using distinct alternatives. It is possible compute the min, max, mean, median,
-kurtosis, standard deviation, among others (See the `post.processing` 
-documentation for more details). The default is the `mean` and the `sd` however
-you can use anothers. For instance:
+kurtosis, standard deviation, among others (Described in the section Post Processing). 
+The default is the `mean` and the `sd` however any other method can be used. 
+For instance:
 ```{r}
 ## Summarize multiples meta-features values using min, median and max 
 iris.info <- metafeatures(Species ~ ., iris, "statistical", 
@@ -42,12 +78,13 @@ iris.info <- metafeatures(Species ~ ., iris, "statistical",
 iris.info <- metafeatures(Species ~ ., iris, "statistical", summary="quantile")
 ```
 
-Despite the simplicity it is not possible customize the meta-features, for this 
-is necessary to use the specific methods. There is a method for each group of 
-measure, for instance `mf.general` and `mf.statistical` compute the general and
-the statistical measures respectively. To list the measures of these groups use 
-`ls.general()` and `ls.statistical()`. The folloing examples illustrate this 
-cases:
+## Meta-features by group
+Despite the simplicity of the method `metafeatures`, it is not possible choose 
+or customize the meta-features. For this is necessary to use the group methods, 
+they begin with `mf.` prefix, for instance `mf.general` and `mf.statistical` 
+compute the general and the statistical measures respectively. 
+To list the measures of these groups use `ls.general()` and `ls.statistical()`. 
+The folloing examples illustrate this cases:
 ```{r}
 ## Extract some statistical meta-features
 stat.iris <- mf.statistical(iris[1:4], iris[5], c("correlation", "variance"))
@@ -66,3 +103,24 @@ a numeric vector. To get all meta-feature values without post processing use `su
 cor.iris <- mf.statistical(iris[1:4], iris[5], "correlation", 
                            summary="non.aggregated", by.class=FALSE)
 ```
+
+In the next sections, each group is detailed and the post processing methods are described.
+
+# Meta-features Groups
+
+## General
+
+## Statistical
+
+## Discriminant
+
+## Information Theoretical
+
+## Model based
+
+## Landmarking
+
+# Post Processing Methods
+
+
+# Summary

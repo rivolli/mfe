@@ -5,8 +5,9 @@ Version: 0.1.0
 Date: 2017-01-24
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", role=c("aut", "cre")),
   person("Luis Paulo", "F. Garcia", email="lpgarcia@icmc.usp.br", role="aut"))
-Description: Extract data set meta-features for meta-learning solutions and 
-  data set characterization.
+Description: The mfe package is designed to extract meta-features from data sets. 
+  The meta-features can be understood as characterization measures able to 
+  describe data sets to support recommendation systems based on meta-learning.
 URL: https://github.com/rivolli/mfe
 Depends:
     R (>= 3.3.1),

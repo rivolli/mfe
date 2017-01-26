@@ -28,6 +28,12 @@ The installation process is similar to other packages available on CRAN:
 install.packages("mfe")
 ```
 
+### Development version
+It is possible to install the development version using
+```r
+devtools::install_github("rivolli/mfe")
+```
+
 ### Compile the project:
 R CMD INSTALL --no-multiarch --with-keep.source mfe
 
