@@ -78,7 +78,7 @@ Different from the `metafeatures` method, these methods return a list instead of
 
 ```{r}
 ## Extract all correlation values
-cor.iris <- mf.statistical(iris[1:4], iris[5], "correlation", summary="non.aggregated", by.class=FALSE)
+cor.iris <- mf.statistical(Species ~ ., iris, "correlation", summary="non.aggregated", by.class=FALSE)
 ```
 
 Consult the method documentation to details about the variation of each group of measures.
