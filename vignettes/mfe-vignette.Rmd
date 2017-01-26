@@ -126,7 +126,7 @@ available groups:
 ls.metafeatures()
 ```
 
-## General
+### General
 
 These are the most simple measures for extracting general properties of the 
 datasets. For instance, `nattribute` and `nclasse` are the total number of 
@@ -152,15 +152,15 @@ The general measures return  a list named by the requested measures. The
 `post.processing` methodis not applied in these mreasures since they return 
 simple values.
 
-## Statistical
+### Statistical
 
-## Discriminant
+### Discriminant
 
-## Information Theoretical
+### Information Theoretical
 
-## Model based
+### Model based
 
-## Landmarking
+### Landmarking
 
 # Post Processing Methods
 
