@@ -63,14 +63,14 @@ To customize the measure extraction, is necessary to use specific methods for ea
 ## Extract two statistical measures
 stat.iris <- mf.statistical(Species ~ ., iris, features=c("correlation", "variance"))
 
+## Extract two discriminant measures
+disc.iris <- mf.discriminant(Species ~ ., iris, features=c("cancor", "cancor.fract"))
+
 ## Extract the histogram for the correlation measure
 hist.iris <- mf.statistical(Species ~ ., iris, features="correlation", summary="hist")
-
-## Extract two discriminant meta-features
-disc.iris <- mf.discriminant(Species ~ ., iris, features=c("cancor", "cancor.fract"))
 ```
 
-Different from the `metafeatures` method, these methods return a list instead of a numeric vector. To get all meta-features values without post processing, use `summary=non.aggregated` like this:
+Different from the `metafeatures` method, these methods return a list instead of a numeric vector. To get all measures without post processing, use `summary=non.aggregated` like this:
 
 ```{r}
 ## Extract all correlation values
