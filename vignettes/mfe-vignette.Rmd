@@ -11,7 +11,7 @@ vignette: >
 
 # Introduction
 
-The mfe package is designed to extract meta-features from datasets. The 
+The **mfe** package is designed to extract meta-features from datasets. The 
 meta-features can be understood as characterization measures able to describe 
 datasets to support recommendation systems based on Meta-learning (MtL). The 
 package contains the standard and the state of the art characterization measures
@@ -38,13 +38,19 @@ dataset.
 * **Landmarking**: Represents the performance of some simple and efficient 
 learning algorithms.
 
+In the following sections we will briefly introduce how to use the **mfe** 
+package to extract all the measures using stadard methods as well as to extract 
+specific measures using methods for each measure groups. Once the package is 
+loaded, the vignette is also available inside R with the command 
+"browseVignettes".
+
 # Extracting meta-features
 
-The simplest way to extract meta-features is using the `metafeatures` method. 
-The method can be usage by a symbolic description of the model or by a data 
-frame. The parameters are the dataset and the group of measures to be extracted.
- To extract all the measures, the parameter "group" needs to be set as "all". 
- For instance:
+The simplest way to extract meta-features is using the `metafeatures` methods. 
+The methods can be usage by a symbolic description of the model (formula) or by 
+a data frame. The parameters are the dataset and the group of measures to be 
+extracted. To extract all the measures, the parameter "group" needs to be set 
+as "all". For instance:
 
 ```{r}
 library(mfe)
@@ -60,8 +66,6 @@ iris.info <- metafeatures(iris[1:4], iris[,5], groups="all")
 iris.info <- metafeatures(Species ~ ., iris, 
                           groups=c("general", "statistical", "infotheo"))
 
-## Show the the available groups
-ls.metafeatures()
 ```
 
 Several measures return more than one value. To agregate them, post processed 
@@ -82,8 +86,7 @@ iris.info <- metafeatures(Species ~ ., iris, summary="quantile")
 
 To customize the measure extraction, is necessary to use specific methods for 
 each group of measures. For instance, `mf.general` and `mf.statistical` compute 
-the general and the statistical measures, respectively. To list the measures of 
-these groups use `ls.general()` and `ls.statistical()`. The folloing examples 
+the general and the statistical measures, respectively. The folloing examples 
 illustrate this cases:
 
 ```{r}
@@ -116,7 +119,43 @@ In the next sections, each group is detailed and the post processing methods are
 
 # Meta-features Groups
 
+There are six measure groups which can be either general information about the 
+dataset, statistical information, discriminant analysis measures, descriptors 
+about information theoretical, measures desined to extract characteristics about
+ the Decision Tree (DT) model based or landmarks which represent the performance
+ of simple algorithms applied to the dataset. The folloing example show the 
+available groups:
+
+```{r}
+## Show the the available groups
+ls.metafeatures()
+```
+
 ## General
+
+These are the most simple measures for extracting general properties of the 
+datasets. For instance, `nattribute` and `nclasse` are the total number of 
+attributes in the dataset and the number of output values (classes) in the 
+dataset, respectively. To list the measures of these groups use `ls.general()`. 
+The folloing examples illustrate these measures:
+
+
+```{r}
+## Show the the available general measures
+ls.general()
+
+## Extract all general measures
+general.iris <- mf.statistical(Species ~ ., iris, features="all")
+
+## Extract two general measures
+general.iris <- mf.statistical(Species ~ ., iris, 
+                               features=c("nattribute", "nclasse"))
+
+```
+
+The general measures return  a list named by the requested measures. The 
+`post.processing` methodis not applied in these mreasures since they return 
+simple values.
 
 ## Statistical
 
