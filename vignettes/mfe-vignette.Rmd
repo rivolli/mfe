@@ -16,7 +16,7 @@ meta-features can be understood as characterization measures able to describe
 datasets to support recommendation systems based on Meta-learning (MtL). The 
 package contains the standard and the state of the art characterization measures
  with the goal to improve the MtL experiments and also guide the complexity 
-dataset understanding. In the current version, only classification datasets are 
+dataset understanding. In the current version, only classification problems are 
 supported, however, we plan support regression datasets in the future versions. 
 
 The meta-features are designed to extract general properties of datasets and 
@@ -46,8 +46,8 @@ loaded, the vignette is also available inside R with the command
 
 # Extracting meta-features
 
-The simplest way to extract meta-features is using the `metafeatures` methods. 
-The methods can be usage by a symbolic description of the model (formula) or by 
+The stadard way to extract meta-features is using the `metafeatures` methods. 
+The method can be usage by a symbolic description of the model (formula) or by 
 a data frame. The parameters are the dataset and the group of measures to be 
 extracted. To extract all the measures, the parameter "group" needs to be set 
 as "all". For instance:
@@ -70,8 +70,8 @@ iris.info <- metafeatures(Species ~ ., iris,
 
 Several measures return more than one value. To agregate them, post processed 
 methods can be used. It is possible to compute min, max, mean, median, kurtosis,
- standard deviation, among others (see the `post.processing` documentation for 
- more details). The default methods are the `mean` and the `sd`. For instance:
+ standard deviation, among others. The default methods are the `mean` and the 
+ `sd`. For instance:
 
 
 ```{r}
@@ -113,11 +113,6 @@ cor.iris <- mf.statistical(Species ~ ., iris,
                            features="correlation", summary="non.aggregated", 
                            by.class=FALSE)
 ```
-
-In the next sections, each group is detailed and the post processing methods are
- described.
-
-# Meta-features Groups
 
 There are six measure groups which can be either general information about the 
 dataset, statistical information, discriminant analysis measures, descriptors 
