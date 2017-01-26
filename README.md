@@ -2,13 +2,13 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/rivolli/mfe.svg?branch=master)](https://travis-ci.org/rivolli/mfe)
 
-The `mfe` package is designed to extract meta-features from datasets. The  meta-features can be understood as characterization measures able to describe datasets to support recommendation systems based on Meta-learning (MtL). The package contains traditional and new characterization measures with the goal to improve the MtL experiments and also guide the complexity dataset understanding. 
+The `mfe` package is designed to extract meta-features from datasets. The meta-features can be understood as characterization measures able to describe datasets to support recommendation systems based on Meta-learning (MtL). The package contains the standard and the state of the art characterization measures with the goal to improve the MtL experiments and also guide the complexity dataset understanding.
 
 > *Note*: In this current version, only classification datasets are supported, however, we plan support regression datasets in the future versions. 
 
 ## Measures
 
-The meta-features are designed to extract general properties of datasets and provide evidences about the performance of algorithms in MtL recomendation systems. These measures must be able to predict, with a low computational cost, the performance of these algorithms. The main standard measures used in MtL can be divided into three groups:
+The meta-features are designed to extract general properties of datasets and provide evidences about the performance of algorithms in MtL recomendation systems. These measures must be able to predict, with a low computational cost, the performance of these algorithms. The measures used in MtL can be divided into six groups:
 
 * **General** (`general`) - General information related to the dataset, also known as simple measures, such as number of instances, attributes and classes.
 * **Statistical** (`statistical`) - Standard statistical measures to describe the numerical properties of a distribution of data.
@@ -31,43 +31,47 @@ R CMD INSTALL --no-multiarch --with-keep.source mfe
 
 ## Extracting meta-features
 
-The simplest way to extract meta-features is using the `metafeatures` method. You just need to inform which group of measures do you need or use "all" for all measures. For instance:
+The simplest way to extract meta-features is using the `metafeatures` method. The method can be usage by a symbolic description of the model or by a data frame. The parameters are the dataset and the group of measures to be extracted. To extract all the measures, the parameter "group" needs to be set as "all". For instance:
+
 
 ```{r}
 library(mfe)
 data("iris")
 
+## Extract all measures using formula
+iris.info <- metafeatures(Species ~ ., iris, groups="all")
+
+## Extract all measures using data frame
+iris.info <- metafeatures(iris[1:4], iris[,5])
+
 ## Extract general, statistical and information-theoretic measures
-iris.info <- metafeatures(Species ~ ., iris, c("general", "statistical", "infotheo"))
+iris.info <- metafeatures(Species ~ ., iris, groups=c("general", "statistical", "infotheo"))
 
-## Extract all meta-features
-iris.info <- metafeatures(iris[1:4], iris$Species)
-
-## List the available groups
+## Show the the available groups
 ls.metafeatures()
 ```
 
-Several measures generates more than one values and them can be post processed using distinct alternatives. It is possible compute the min, max, mean, median, kurtosis, standard deviation, among others (See the `post.processing` documentation for more details). The default is the `mean` and the `sd` however you can use anothers. For instance:
+Several measures return more than one value. To agregate them, post processed methods can be used. It is possible to compute min, max, mean, median, kurtosis, standard deviation, among others (See the `post.processing` documentation for more details). The default is the `mean` and the `sd` however you can use others. For instance:
 
 ```{r}
-## Summarize multiples meta-features values using min, median and max 
-iris.info <- metafeatures(Species ~ ., iris, "statistical", summary=c("min", "median", "max"))
+## Compute all measures using min, median and max 
+iris.info <- metafeatures(Species ~ ., iris, summary=c("min", "median", "max"))
                           
-## Summarize multiples meta-features values using quantile
-iris.info <- metafeatures(Species ~ ., iris, "statistical", summary="quantile")
+## Compute all measures using quantile
+iris.info <- metafeatures(Species ~ ., iris, summary="quantile")
 ```
 
-To customize the meta-features extraction, is necessary to use specific methods for each group of measure. For instance,  `mf.general` and `mf.statistical` compute the general and the statistical measures, respectively. To list the measures of these groups use `ls.general()` and `ls.statistical()`. The folloing examples illustrate this cases:
+To customize the measure extraction, is necessary to use specific methods for each group of measures. For instance, `mf.general` and `mf.statistical` compute the general and the statistical measures, respectively. To list the measures of these groups use `ls.general()` and `ls.statistical()`. The folloing examples illustrate this cases:
 
 ```{r}
-## Extract some statistical meta-features
-stat.iris <- mf.statistical(iris[1:4], iris[5], c("correlation", "variance"))
+## Extract two statistical measures
+stat.iris <- mf.statistical(Species ~ ., iris, features=c("correlation", "variance"))
 
-## Extract the histogram of correlation
-hist.iris <- mf.statistical(iris[1:4], iris[5], "correlation", "hist")
+## Extract the histogram for the correlation measure
+hist.iris <- mf.statistical(Species ~ ., iris, features="correlation", summary="hist")
 
-## Extract some discriminant meta-features
-disc.iris <- mf.discriminant(iris[1:4], iris[5], c("cancor", "cancor.fract"))
+## Extract two discriminant meta-features
+disc.iris <- mf.discriminant(Species ~ ., iris, features=c("cancor", "cancor.fract"))
 ```
 
 Different from the `metafeatures` method, these methods return a list instead of a numeric vector. To get all meta-features values without post processing, use `summary=non.aggregated` like this:
