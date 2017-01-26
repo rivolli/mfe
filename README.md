@@ -51,8 +51,7 @@ Several measures generates more than one values and them can be post processed u
 
 ```{r}
 ## Summarize multiples meta-features values using min, median and max 
-iris.info <- metafeatures(Species ~ ., iris, "statistical", 
-                          summary=c("min", "median", "max"))
+iris.info <- metafeatures(Species ~ ., iris, "statistical", summary=c("min", "median", "max"))
                           
 ## Summarize multiples meta-features values using quantile
 iris.info <- metafeatures(Species ~ ., iris, "statistical", summary="quantile")
@@ -75,8 +74,7 @@ Different from the `metafeatures` method, these methods return a list instead of
 
 ```{r}
 ## Extract all correlation values
-cor.iris <- mf.statistical(iris[1:4], iris[5], "correlation", 
-                           summary="non.aggregated", by.class=FALSE)
+cor.iris <- mf.statistical(iris[1:4], iris[5], "correlation", summary="non.aggregated", by.class=FALSE)
 ```
 
 Consult the method documentation to details about the variation of each group of measures.
