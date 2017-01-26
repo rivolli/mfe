@@ -1,4 +1,5 @@
 # mfe: Meta-features Extraction for meta-learning
+[![Travis-CI Build Status](https://travis-ci.org/rivolli/mfe.svg?branch=master)](https://travis-ci.org/rivolli/mfe)
 
 The `mfe` package is designed to extract meta-features from datasets. It 
 contains traditional and new characterization measures reported in the 
