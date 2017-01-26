@@ -1,4 +1,5 @@
-# mfe: Meta-Features Extraction for Meta-Learning
+# mfe: Meta-Features Extractor for Meta-Learning
+
 [![Travis-CI Build Status](https://travis-ci.org/rivolli/mfe.svg?branch=master)](https://travis-ci.org/rivolli/mfe)
 
 The `mfe` package is designed to extract meta-features from datasets. The  meta-features can be understood as characterization measures able to describe datasets to support recommendation systems based on Meta-learning (MtL). The package contains traditional and new characterization measures with the goal to improve the MtL experiments and also guide the complexity dataset understanding. 
@@ -17,16 +18,21 @@ The meta-features are designed to extract general properties of datasets and pro
 * **Landmarking** (`landmarking`) - Represents the performance of some simple and efficient learning algorithms.
 
 ## Installation
+
 The installation process is similar to other packages available on CRAN:
+
 ```r
 install.packages("mfe")
 ```
 
 ### Compile the project:
+
 R CMD INSTALL --no-multiarch --with-keep.source mfe
 
 ## Extracting meta-features
+
 The simplest way to extract meta-features is using the `metafeatures` method. You just need to inform which group of measures do you need or use "all" for all measures. For instance:
+
 ```{r}
 library(mfe)
 data("iris")
@@ -41,7 +47,8 @@ iris.info <- metafeatures(iris[1:4], iris$Species)
 ls.metafeatures()
 ```
 
-Several measures generates more than one values and them can be post processing using distinct alternatives. It is possible compute the min, max, mean, median, kurtosis, standard deviation, among others (See the `post.processing` documentation for more details). The default is the `mean` and the `sd` however you can use anothers. For instance:
+Several measures generates more than one values and them can be post processed using distinct alternatives. It is possible compute the min, max, mean, median, kurtosis, standard deviation, among others (See the `post.processing` documentation for more details). The default is the `mean` and the `sd` however you can use anothers. For instance:
+
 ```{r}
 ## Summarize multiples meta-features values using min, median and max 
 iris.info <- metafeatures(Species ~ ., iris, "statistical", 
@@ -51,7 +58,8 @@ iris.info <- metafeatures(Species ~ ., iris, "statistical",
 iris.info <- metafeatures(Species ~ ., iris, "statistical", summary="quantile")
 ```
 
-Despite the simplicity it is not possible customize the meta-features, for this is necessary to use the specific methods. There is a method for each group of measure, for instance `mf.general` and `mf.statistical` compute the general and the statistical measures respectively. To list the measures of these groups use `ls.general()` and `ls.statistical()`. The folloing examples illustrate this cases:
+To customize the meta-features extraction, is necessary to use specific methods for each group of measure. For instance,  `mf.general` and `mf.statistical` compute the general and the statistical measures, respectively. To list the measures of these groups use `ls.general()` and `ls.statistical()`. The folloing examples illustrate this cases:
+
 ```{r}
 ## Extract some statistical meta-features
 stat.iris <- mf.statistical(iris[1:4], iris[5], c("correlation", "variance"))
@@ -63,7 +71,8 @@ hist.iris <- mf.statistical(iris[1:4], iris[5], "correlation", "hist")
 disc.iris <- mf.discriminant(iris[1:4], iris[5], c("cancor", "cancor.fract"))
 ```
 
-Different from the `metafeatures` method, these methods return a list instead of a numeric vector. To get all meta-feature values without post processing use `summary=non.aggregated` like this:
+Different from the `metafeatures` method, these methods return a list instead of a numeric vector. To get all meta-features values without post processing, use `summary=non.aggregated` like this:
+
 ```{r}
 ## Extract all correlation values
 cor.iris <- mf.statistical(iris[1:4], iris[5], "correlation", 
