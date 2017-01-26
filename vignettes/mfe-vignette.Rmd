@@ -1,0 +1,134 @@
+---
+title: "mfe: Meta-Features Extractor for Meta-Learning"
+author: "Adriano Rivolli and Luis Paulo F. Garcia"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+The mfe package is designed to extract meta-features from datasets. The 
+meta-features can be understood as characterization measures able to describe 
+datasets to support recommendation systems based on Meta-learning (MtL). The 
+package contains the standard and the state of the art characterization measures
+ with the goal to improve the MtL experiments and also guide the complexity 
+dataset understanding. In the current version, only classification datasets are 
+supported, however, we plan support regression datasets in the future versions. 
+
+The meta-features are designed to extract general properties of datasets and 
+provide evidences about the performance of algorithms in MtL recomendation 
+systems. These measures must be able to predict, with a low computational cost, 
+the performance of these algorithms. The measures used in MtL can be divided 
+into six groups:
+
+* **General**: General information related to the dataset, also known as simple 
+measures, such as number of instances, attributes and classes.
+* **Statistical**: Standard statistical measures to describe the numerical 
+properties of a distribution of data.
+* **Discriminant**: Measures computed using the discriminant analysis.
+* **Information-theoretic**: Particularly appropriate to describe discrete 
+(categorical) attributes and thei relationship with the classes.
+* **Decision Tree Model-based**: Measures desined to extract characteristics 
+like the depth, the shape and size of a Decision Tree model induced from a 
+dataset.
+* **Landmarking**: Represents the performance of some simple and efficient 
+learning algorithms.
+
+# Extracting meta-features
+
+The simplest way to extract meta-features is using the `metafeatures` method. 
+The method can be usage by a symbolic description of the model or by a data 
+frame. The parameters are the dataset and the group of measures to be extracted.
+ To extract all the measures, the parameter "group" needs to be set as "all". 
+ For instance:
+
+```{r}
+library(mfe)
+data("iris")
+
+## Extract all measures using formula
+iris.info <- metafeatures(Species ~ ., iris, groups="all")
+
+## Extract all measures using data frame
+iris.info <- metafeatures(iris[1:4], iris[,5], groups="all")
+
+## Extract general, statistical and information-theoretic measures
+iris.info <- metafeatures(Species ~ ., iris, 
+                          groups=c("general", "statistical", "infotheo"))
+
+## Show the the available groups
+ls.metafeatures()
+```
+
+Several measures return more than one value. To agregate them, post processed 
+methods can be used. It is possible to compute min, max, mean, median, kurtosis,
+ standard deviation, among others (see the `post.processing` documentation for 
+ more details). The default methods are the `mean` and the `sd`. For instance:
+
+
+```{r}
+## Compute all measures using min, median and max 
+iris.info <- metafeatures(Species ~ ., iris, summary=c("min", "median", "max"))
+                          
+## Compute all measures using quantile
+iris.info <- metafeatures(Species ~ ., iris, summary="quantile")
+```
+
+## Extracting meta-features by group
+
+To customize the measure extraction, is necessary to use specific methods for 
+each group of measures. For instance, `mf.general` and `mf.statistical` compute 
+the general and the statistical measures, respectively. To list the measures of 
+these groups use `ls.general()` and `ls.statistical()`. The folloing examples 
+illustrate this cases:
+
+```{r}
+## Extract two statistical measures
+stat.iris <- mf.statistical(Species ~ ., iris, 
+                            features=c("correlation", "variance"))
+
+## Extract two discriminant measures
+disc.iris <- mf.discriminant(Species ~ ., iris, 
+                             features=c("cancor", "cancor.fract"))
+
+## Extract the histogram for the correlation measure
+hist.iris <- mf.statistical(Species ~ ., iris, 
+                            features="correlation", summary="hist")
+```
+
+Different from the `metafeatures` method, these methods return a list instead of
+ a numeric vector. To get all measures without post processing, use 
+ `summary=non.aggregated` like this:
+
+```{r}
+## Extract all correlation values
+cor.iris <- mf.statistical(Species ~ ., iris, 
+                           features="correlation", summary="non.aggregated", 
+                           by.class=FALSE)
+```
+
+In the next sections, each group is detailed and the post processing methods are
+ described.
+
+# Meta-features Groups
+
+## General
+
+## Statistical
+
+## Discriminant
+
+## Information Theoretical
+
+## Model based
+
+## Landmarking
+
+# Post Processing Methods
+
+
+# Summary
