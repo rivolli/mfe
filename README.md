@@ -1,7 +1,7 @@
 # mfe: Meta-Features Extractor for Meta-Learning
 [![Travis-CI Build Status](https://travis-ci.org/rivolli/mfe.svg?branch=master)](https://travis-ci.org/rivolli/mfe)
 
-The `mfe` package is designed to extract meta-features from datasets. The meta-features can be understood as characterization measures able to describe datasets to support recommendation systems based on Meta-learning (MtL). The package contains the standard and the state of the art characterization measures with the goal to improve the MtL experiments and also guide the complexity dataset understanding. In the current version, only classification datasets are supported, however, we plan support regression datasets in the future versions. 
+The `mfe` package is designed to extract meta-features from datasets. The meta-features can be understood as characterization measures able to describe datasets to support recommendation systems based on Meta-learning (MtL). The package contains the standard and the state of the art characterization measures with the goal to improve the MtL experiments and also guide the complexity dataset understanding.
 
 ## Measures
 
@@ -22,11 +22,24 @@ The installation process is similar to other packages available on CRAN:
 install.packages("mfe")
 ```
 
-### Compile the project:
+Compile the project:
 
+```r
 R CMD INSTALL --no-multiarch --with-keep.source mfe
+```
 
-## Extracting meta-features
+It is possible to install the development version using:
+
+```r
+if (!require("devtools")) {
+    install.packages("devtools")
+    library("devtools")
+}
+install_github("rivolli/mfe")
+library("mfe")
+```
+
+## Example of use
 
 The simplest way to extract meta-features is using the `metafeatures` method. The method can be usage by a symbolic description of the model or by a data frame. The parameters are the dataset and the group of measures to be extracted. To extract all the measures, the parameter "group" needs to be set as "all". For instance:
 
@@ -57,27 +70,11 @@ iris.info <- metafeatures(Species ~ ., iris, summary=c("min", "median", "max"))
 iris.info <- metafeatures(Species ~ ., iris, summary="quantile")
 ```
 
-To customize the measure extraction, is necessary to use specific methods for each group of measures. For instance, `mf.general` and `mf.statistical` compute the general and the statistical measures, respectively. To list the measures of these groups use `ls.general()` and `ls.statistical()`. The folloing examples illustrate this cases:
+## Developer notes
 
-```{r}
-## Extract two statistical measures
-stat.iris <- mf.statistical(Species ~ ., iris, features=c("correlation", "variance"))
+In the current version, the meta-feature extractor only support classification problems. In a near future we plan add clustering and regression measures and also support MtL evaluation measures. For more specific information on how to extract each group of measures, please refer to the functions documentation page and the examples contained therein. For a general overview of the **mfe** package, please look up the associated vignette.
 
-## Extract two discriminant measures
-disc.iris <- mf.discriminant(Species ~ ., iris, features=c("cancor", "cancor.fract"))
+To cite **mfe** in publications use:
 
-## Extract the histogram for the correlation measure
-hist.iris <- mf.statistical(Species ~ ., iris, features="correlation", summary="hist")
-```
-
-Different from the `metafeatures` method, these methods return a list instead of a numeric vector. To get all measures without post processing, use `summary=non.aggregated` like this:
-
-```{r}
-## Extract all correlation values
-cor.iris <- mf.statistical(Species ~ ., iris, features="correlation", summary="non.aggregated", by.class=FALSE)
-```
-
-Consult the method documentation to details about the variation of each group of measures.
-
-
+Rivolli, Adriano and Garcia, Luis P. F. (2017). mfe: Meta-Features Extractor for Meta-Learning. R package version 1.0.0. http://CRAN.R-project.org/package=mfe
 
