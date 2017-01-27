@@ -239,6 +239,25 @@ parameter, as detailed in the section **Post Processing Methods**.
 
 ## Model based
 
+These measures describe characteristics of the investigated models. These 
+meta-features can include, for example, the description of the DT induced for a 
+dataset, like its number of leaves (`nleave`) and the maximum depth 
+(`max.depth`) of the tree. The following examples illustrate these measures:
+
+```{r}
+## Show the the available model.based measures
+ls.model.based()
+
+## Extract all model.based measures
+land.iris <- mf.model.based(Species ~ ., iris, features="all")
+
+## Extract three model.based measures
+mf.model.based(Species ~ ., iris, features=c("nleave", "max.depth"))
+```
+Each one of these meta-features generate multiple values (by leaves and/or 
+nodes) and then it is post processed by the summary methods. See the 
+`post.processing` method for more details about it.
+
 ## Landmarking
 
 Landmarking measures are simple and fast algorithms, from which performance 
