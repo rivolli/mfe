@@ -1,10 +1,12 @@
 Package: mfe
 Type: Package
-Title: Meta-Features Extraction for Meta-Learning
+Title: Meta-Feature Extractor for Meta-Learning
 Version: 0.1.0
-Date: 2017-01-24
-Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", role=c("aut", "cre")),
-  person("Luis Paulo", "F. Garcia", email="lpgarcia@icmc.usp.br", role="aut"))
+Date: 2017-01-27
+Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
+  role=c("aut", "cre")), person("Luis Paulo", "F. Garcia", 
+  email="lpgarcia@icmc.usp.br", role="aut"), person("Andre", 
+  " C. P. L. F. de Carvalho", email="andre@icmc.usp.br", role="ths"))
 Description: The mfe package is designed to extract meta-features from data sets. 
   The meta-features can be understood as characterization measures able to 
   describe data sets to support recommendation systems based on meta-learning.

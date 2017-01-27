@@ -1,6 +1,6 @@
 ---
-title: "mfe: Meta-Features Extractor for Meta-Learning"
-author: "Adriano Rivolli and Luis Paulo F. Garcia"
+title: "mfe: Meta-Feature Extractor for Meta-Learning"
+author: "Adriano Rivolli, Luis Paulo F. Garcia and Andre C. P. L. F. de Carvalho"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -303,7 +303,7 @@ mf.landmarking(Species ~ ., iris, features="linear.discriminant",
                map="one.vs.all")
 
 ## Extract one landmarking measures using one.vs.one strategy
-mf.landmarking(Species ~ ., iris, features"linear.discriminant", 
+mf.landmarking(Species ~ ., iris, features="linear.discriminant", 
                map="one.vs.one")
 ```
 
