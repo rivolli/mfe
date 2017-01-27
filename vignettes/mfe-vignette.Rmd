@@ -242,14 +242,55 @@ parameter, as detailed in the section **Post Processing Methods**.
 ## Landmarking
 
 # Post Processing Methods
-To get all measures without post processing, use 
- `summary=non.aggregated` like this:
+Several meta-features generate multiple values and usually the `mean` is used to
+summary these values. In order to flexiblize it, the `mfe` uses the post 
+processing methods to deal with multiples meta-features values. From a set of 
+meta-feature values the post-processing summarizes the data using some 
+descriptive statistic (resulting in a single value) or a distribution (resulting
+ in multiples values).
+
+The post processing meethods are setted using the parameter `summary`. Diferents 
+methods can be used at the same time, for instance the default post processing 
+are `c("mean", "sd")`. Any R method, similar to `mean`, can be used, as 
+ilustrated in the following examples:
+```{r}
+## Apply several statistical measures as post processing
+mf.statistical(Species ~ ., iris, "correlation", 
+               summary=c("kurtosis", "max", "mean", "median", "min", "sd", 
+                         "skewness", "var"))
+
+## Apply quantile as post processing method
+mf.statistical(Species ~ ., iris, "correlation", summary="quantile")
+```
+
+Beyond these R default methods, two additional post processing methods are 
+available in the `mfe` package: `hist` and `non.aggregated`. The first computes 
+a histogram of the values and returns the frequencies of in each bins. The extra
+parameters `bins` can be used to define the number of values to be returned. T
+he parameters `min` and `max` are used to define the range of the data. The 
+second is a way to obtain all values from the measure. The following code 
+illustrate examples of the use of these post precessing methods:
 
 ```{r}
+## Apply histogram as post processing method
+mf.statistical(Species ~ ., iris, "correlation", summary="hist")
+
+## Apply histogram as post processing method and customize it
+mf.statistical(Species ~ ., iris, "correlation", 
+               summary="hist", bins=5, min=0, max=1)
+
 ## Extract all correlation values
-cor.iris <- mf.statistical(Species ~ ., iris, 
-                           features="correlation", summary="non.aggregated", 
-                           by.class=FALSE)
+mf.statistical(Species ~ ., iris, "correlation", summary="non.aggregated", 
+               by.class=FALSE)
+```
+
+It is also possible define an user's post processing method, like this:
+```{r}
+## Compute the absolute difference between the mean and the median 
+my.method <- function(x, ...) abs(mean(x) - median(x))
+
+## Using the user defined post processing method
+mf.statistical(Species ~ ., iris, "correlation", summary="my.method")
 ```
 
 # Summary
