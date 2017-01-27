@@ -260,7 +260,7 @@ mf.landmarking(Species ~ ., iris, features=c("naive.bayes", "nearest.neighbor"))
 
 The accuracy extraction of these measures without a cross validation step can 
 cause model overfitting in the data. Therefore the `mf.landmarking` function has
- the parammeter `folds` to define the number of `k`-fold cross-validation. The 
+ the parameter `folds` to define the number of `k`-fold cross-validation. The 
  following example show how to set this value:
 
 ```{r}
@@ -270,9 +270,9 @@ mf.landmarking(Species ~ ., iris, features="naive.bayes", folds=5)
 
 There are some measures interested to evaluate the linear separability 
 (`linear.discriminant`) and the attribute information (`decision.stumps`). For 
-thesse measures, multi-class problems need to be decomposed in binary 
+these measures, multi-class problems need to be decomposed in binary 
 classification problems. This package implemented two decomposition stragies: 
-`one.vs.all` and `one.vs.one` strategy. The following code show how to use the 
+`one.vs.all` and `one.vs.one`. The following code show how to use the 
 decomposition strategies:
 
 
