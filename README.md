@@ -77,5 +77,3 @@ To cite **mfe** in publications use: Rivolli, Adriano and Garcia, Luis P. F. (20
 
 
 To submit bugs and feature requests, report at [project issues](https://github.com/rivolli/mfe/issues).
-The **mfe** package is licensed under GPL v2.0. 
-
