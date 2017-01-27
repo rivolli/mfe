@@ -42,19 +42,18 @@ In the following sections we will briefly introduce how to use the **mfe**
 package to extract all the measures using stadard methods as well as to extract 
 specific measures using methods for each measure groups. Once the package is 
 loaded, the vignette is also available inside R with the command 
-"browseVignettes".
+`browseVignettes`.
 
 # Extracting meta-features
 
-The stadard way to extract meta-features is using the `metafeatures` methods. 
+The standard way to extract meta-features is using the `metafeatures` methods. 
 The method can be usage by a symbolic description of the model (formula) or by 
 a data frame. The parameters are the dataset and the group of measures to be 
-extracted. To extract all the measures, the parameter "group" needs to be set 
-as "all". For instance:
+extracted. To extract all the measures, the parameter `group` needs to be set 
+as `all`. For instance:
 
 ```{r}
 library(mfe)
-data("iris")
 
 ## Extract all measures using formula
 iris.info <- metafeatures(Species ~ ., iris, groups="all")
@@ -82,7 +81,7 @@ iris.info <- metafeatures(Species ~ ., iris, summary=c("min", "median", "max"))
 iris.info <- metafeatures(Species ~ ., iris, summary="quantile")
 ```
 
-## Extracting meta-features by group
+# Extracting meta-features by group
 
 To customize the measure extraction, is necessary to use specific methods for 
 each group of measures. For instance, `mf.general` and `mf.statistical` compute 
@@ -103,16 +102,10 @@ hist.iris <- mf.statistical(Species ~ ., iris,
                             features="correlation", summary="hist")
 ```
 
-Different from the `metafeatures` method, these methods return a list instead of
- a numeric vector. To get all measures without post processing, use 
- `summary=non.aggregated` like this:
-
-```{r}
-## Extract all correlation values
-cor.iris <- mf.statistical(Species ~ ., iris, 
-                           features="correlation", summary="non.aggregated", 
-                           by.class=FALSE)
-```
+Different from the `metafeatures` method, these methods receive a parameter 
+called `features`, to define which features is required, and return a list 
+instead of a numeric vector. In additional, some groups can be customized using
+additional arguments.
 
 There are six measure groups which can be either general information about the 
 dataset, statistical information, discriminant analysis measures, descriptors 
@@ -126,43 +119,86 @@ available groups:
 ls.metafeatures()
 ```
 
-### General
+## General
 
 These are the most simple measures for extracting general properties of the 
 datasets. For instance, `nattribute` and `nclasse` are the total number of 
 attributes in the dataset and the number of output values (classes) in the 
-dataset, respectively. To list the measures of these groups use `ls.general()`. 
-The folloing examples illustrate these measures:
-
+dataset, respectively. To list the measures of this group use `ls.general()`. 
+The following examples illustrate these measures:
 
 ```{r}
 ## Show the the available general measures
 ls.general()
 
 ## Extract all general measures
-general.iris <- mf.statistical(Species ~ ., iris, features="all")
+general.iris <- mf.general(Species ~ ., iris, features="all")
 
 ## Extract two general measures
-general.iris <- mf.statistical(Species ~ ., iris, 
-                               features=c("nattribute", "nclasse"))
+mf.general(Species ~ ., iris, features=c("nattribute", "nclasse"))
+```
+
+The general measures return a list named by the requested measures. The 
+`post.processing` methods are not applied in these measures since they return 
+simple values.
+
+## Statistical
+Statistical meta-features are the standard statistical measures to describe the 
+numerical properties of a distribution of data. As it requires only numerical 
+attributes, the categorical data are transformed to numerical. For instance, 
+`correlation` and `skewness` are the absolute correlation between each pair of 
+attributes and the skewness of the numeric attributes in the dataset, 
+respectively. To list the measures of this group use `ls.statistical()`. 
+The following examples illustrate these measures:
+
+```{r}
+## Show the the available general measures
+ls.statistical()
+
+## Extract all general measures
+stat.iris <- mf.statistical(Species ~ ., iris, features="all")
+
+## Extract two general measures
+mf.statistical(Species ~ ., iris, features=c("correlation", "skewness"))
 
 ```
 
-The general measures return  a list named by the requested measures. The 
-`post.processing` methodis not applied in these mreasures since they return 
-simple values.
+The statistical group requires an aditional parameter called `by.class`. The 
+default is `by.class=TRUE` which means that the meta-features are computed over 
+the instances separated by class. Otherwise, the measure is applied using the 
+whole dataset. The following example shows how to compute the correlation 
+between the attributes for the whole dataset:
+```{r}
+## Extract two general measures
+mf.statistical(Species ~ ., iris, features="correlation", by.class=FALSE)
+```
+Note that the values obtained are different from the previous since the 
+correlation between the attributes were computed over all the instances while
+in the previous, the correlation were computed using the instances of the same
+class.
 
-### Statistical
+The statistical measures return a list named by the requested measures. The 
+`post.processing` methods are applied in these measures since they return 
+multiple values. To define which them should be applied use the `summary` 
+parameter, as detailed in the section **Post Processing Methods**.
 
-### Discriminant
+## Discriminant
 
-### Information Theoretical
+## Information Theoretical
 
-### Model based
+## Model based
 
-### Landmarking
+## Landmarking
 
 # Post Processing Methods
+To get all measures without post processing, use 
+ `summary=non.aggregated` like this:
 
+```{r}
+## Extract all correlation values
+cor.iris <- mf.statistical(Species ~ ., iris, 
+                           features="correlation", summary="non.aggregated", 
+                           by.class=FALSE)
+```
 
 # Summary

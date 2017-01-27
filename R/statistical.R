@@ -1,8 +1,8 @@
 #' Statistical meta-features
 #'
 #' Statistical meta-features are the standard statistical measures to
-#' describe the numerical properties of a distribution of data. It is computed
-#' using just the numerical attributes.
+#' describe the numerical properties of a distribution of data. As it requires
+#' only numerical attributes, the categorical data are transformed to numerical.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes
