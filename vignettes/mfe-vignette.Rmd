@@ -152,13 +152,13 @@ respectively. To list the measures of this group use `ls.statistical()`.
 The following examples illustrate these measures:
 
 ```{r}
-## Show the the available general measures
+## Show the the available statistical measures
 ls.statistical()
 
-## Extract all general measures
+## Extract all statistical measures
 stat.iris <- mf.statistical(Species ~ ., iris, features="all")
 
-## Extract two general measures
+## Extract two statistical measures
 mf.statistical(Species ~ ., iris, features=c("correlation", "skewness"))
 
 ```
@@ -169,7 +169,7 @@ the instances separated by class. Otherwise, the measure is applied using the
 whole dataset. The following example shows how to compute the correlation 
 between the attributes for the whole dataset:
 ```{r}
-## Extract two general measures
+## Extract correlation using all instances together
 mf.statistical(Species ~ ., iris, features="correlation", by.class=FALSE)
 ```
 Note that the values obtained are different from the previous since the 
@@ -182,9 +182,60 @@ The statistical measures return a list named by the requested measures. The
 multiple values. To define which them should be applied use the `summary` 
 parameter, as detailed in the section **Post Processing Methods**.
 
+
 ## Discriminant
 
+Discriminant meta-features are computed using the discriminant analysis. As it 
+requires only numerical attributes, like statistical group, the categorical data 
+are transformed to numerical. For instance, `cancor` and `discfct` are the first
+ canonical discriminant correlations in the dataset and the number of 
+discriminant functions normalized by the number of classes, respectively. To 
+list the measures of this group use `ls.discriminant()`. The following examples 
+illustrate these measures:
+
+```{r}
+## Show the the available general measures
+ls.discriminant()
+
+## Extract all discriminant measures
+disc.iris <- mf.discriminant(Species ~ ., iris, features="all")
+
+## Extract two discriminant measures
+mf.discriminant(Species ~ ., iris, features=c("cancor", "discfct"))
+```
+
+The discriminant measures return a list named by the requested measures. Like
+general group, the `post.processing` methods are not applied in these measures 
+since they return simple values.
+
+
 ## Information Theoretical
+
+Information Theoretical meta-features are particularly appropriate to describe
+discrete (categorical) attributes, but they also fit continuous ones using a 
+discretization process. These measures are based on information theory. For 
+instance, `class.entropy` and `mutual.information` are the normalized entropy of 
+the class and the common information shared between each attribute and the class 
+in the dataset, respectively. To list the measures of this group use 
+`ls.infotheo()`. The following examples illustrate these measures:
+
+```{r}
+## Show the the available infotheo measures
+ls.infotheo()
+
+## Extract all infotheo measures
+inf.iris <- mf.infotheo(Species ~ ., iris, features="all")
+
+## Extract two infotheo measures
+mf.infotheo(Species ~ ., iris, 
+            features=c("class.entropy", "mutual.information"))
+
+```
+
+The infotheo measures return a list named by the requested measures. The 
+`post.processing` methods are applied in some measures since they return 
+multiple values. To define which them should be applied use the `summary` 
+parameter, as detailed in the section **Post Processing Methods**.
 
 ## Model based
 
