@@ -1,7 +1,7 @@
 ## Test environments
 * local Ubuntu install, R 3.3.2
 * local Debian install, R 3.3.2
-* Ubuntu on Travis CI, R 3.3.1
+* Ubuntu on Travis CI, R 3.3.2
 * win-builder (devel and release)
 
 ## R CMD check results
