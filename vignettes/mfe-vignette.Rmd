@@ -294,3 +294,13 @@ mf.statistical(Species ~ ., iris, "correlation", summary="my.method")
 ```
 
 # Summary
+In this paper the `mfe` package, aimed to extract meta-features from dataset, 
+has been introduced. The functions supplied by this package allow both their 
+use in MtL experiments as well as perform data analysis using characterization 
+measures able to describe datasets. Currently, six groups of meta-features can 
+be extracted for any classification dataset. These groups and features represent
+the standard and the state of the art characterization measures. 
+
+The `mfe` package was designed to be easily customized and extensible. The 
+development of the `mfe` package will continue in the near future by including 
+new meta-features, group of measures and supporting regression problems.
