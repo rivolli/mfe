@@ -5,7 +5,7 @@ The `mfe` package is designed to extract meta-features from datasets. The meta-f
 
 ## Measures
 
-The meta-features are designed to extract general properties of datasets and provide evidences about the performance of algorithms in MtL recomendation systems. These measures must be able to predict, with a low computational cost, the performance of these algorithms. The measures used in MtL can be divided into six groups:
+The meta-features are designed to extract general properties of datasets and provide evidences about the performance of algorithms in MtL recommendation systems. These measures must be able to predict, with a low computational cost, the performance of these algorithms. The measures used in MtL can be divided into six groups:
 
 * **General** (`general`) - General information related to the dataset, also known as simple measures, such as number of instances, attributes and classes.
 * **Statistical** (`statistical`) - Standard statistical measures to describe the numerical properties of a distribution of data.
@@ -40,7 +40,7 @@ library("mfe")
 
 ## Example of use
 
-The simplest way to extract meta-features is using the `metafeatures` method. The method can be usage by a symbolic description of the model or by a data frame. The parameters are the dataset and the group of measures to be extracted. To extract all the measures, the parameter "group" needs to be set as "all". For instance:
+The simplest way to extract meta-features is using the `metafeatures` method. The method can be used by a symbolic description of the model or by a data frame. The parameters are the dataset and the group of measures to be extracted. To extract all the measures, the parameter "group" needs to be set as "all". For instance:
 
 ```{r}
 library(mfe)
@@ -59,7 +59,7 @@ iris.info <- metafeatures(Species ~ ., iris, groups=c("general", "statistical", 
 ls.metafeatures()
 ```
 
-Several measures return more than one value. To agregate them, post processed methods can be used. It is possible to compute min, max, mean, median, kurtosis, standard deviation, among others (see the `post.processing` documentation for more details). The default methods are the `mean` and the `sd`. For instance:
+Several measures return more than one value. To aggregate them, post processed methods can be used. It is possible to compute min, max, mean, median, kurtosis, standard deviation, among others (see the `post.processing` documentation for more details). The default methods are the `mean` and the `sd`. For instance:
 
 ```{r}
 ## Compute all measures using min, median and max 
@@ -71,7 +71,7 @@ iris.info <- metafeatures(Species ~ ., iris, summary="quantile")
 
 ## Developer notes
 
-In the current version, the meta-feature extractor only support classification problems. In a near future we plan add clustering and regression measures and also support MtL evaluation measures. For more specific information on how to extract each group of measures, please refer to the functions documentation page and the examples contained therein. For a general overview of the **mfe** package, please look up the associated vignette.
+In the current version, the meta-feature extractor only support classification problems. In a near future we plan to add clustering and regression measures and also support MtL evaluation measures. For more specific information on how to extract each group of measures, please refer to the functions documentation page and the examples contained therein. For a general overview of the **mfe** package, please look up the associated vignette.
 
 To cite **mfe** in publications use: Rivolli, Adriano and Garcia, Luis P. F. (2017). mfe: Meta-Features Extractor for Meta-Learning. R package version 1.0.0. http://CRAN.R-project.org/package=mfe
 
