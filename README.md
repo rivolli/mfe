@@ -75,3 +75,7 @@ In the current version, the meta-feature extractor only support classification p
 
 To cite **mfe** in publications use: Rivolli, Adriano and Garcia, Luis P. F. (2017). mfe: Meta-Features Extractor for Meta-Learning. R package version 1.0.0. http://CRAN.R-project.org/package=mfe
 
+
+To submit bugs and feature requests, report at [project issues](https://github.com/rivolli/mfe/issues).
+The **mfe** package is licensed under GPL v2.0. 
+
