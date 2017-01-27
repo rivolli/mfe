@@ -33,9 +33,8 @@ It is possible to install the development version using:
 ```r
 if (!require("devtools")) {
     install.packages("devtools")
-    library("devtools")
 }
-install_github("rivolli/mfe")
+devtools::install_github("rivolli/mfe")
 library("mfe")
 ```
 
