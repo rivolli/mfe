@@ -196,8 +196,8 @@ branch.length <- function(model, ...) {
 
 nodes.per.level <- function(model, ...) {
   aux <- depth(model)[model$frame$var != "<leaf>"]
-  if(length(aux) == 1) {
-    return(c(aux, aux))
+  if(length(aux) <= 1) {
+    return(c(0, 0))
   }
   sapply(0:max(aux), function(d) {
     sum(aux == d)

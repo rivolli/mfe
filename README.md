@@ -1,7 +1,7 @@
-# mfe: Meta-Feature Extractor for Meta-Learning
+# mfe: Meta-Feature Extractor
 [![Travis-CI Build Status](https://travis-ci.org/rivolli/mfe.svg?branch=master)](https://travis-ci.org/rivolli/mfe)
 
-The `mfe` package is designed to extract meta-features from datasets. The meta-features can be understood as characterization measures able to describe datasets to support recommendation systems based on Meta-learning (MtL). The package contains the standard and the state of the art characterization measures with the goal to improve the MtL experiments and also guide the complexity dataset understanding.
+Extracts meta-features from datasets to support recommendation systems based on Meta-Learning (MtL). The meta-features, also called characterization measures, are able to describe datasets about the complexity and provide evidences  about the performance of algorithms. The package contains the standard and the state of the art characterization measures with the goal to improve the MtL experiments and also guide the complexity dataset understanding.
 
 ## Measures
 
@@ -73,7 +73,7 @@ iris.info <- metafeatures(Species ~ ., iris, summary="quantile")
 
 In the current version, the meta-feature extractor only support classification problems. In a near future we plan to add clustering and regression measures and also support MtL evaluation measures. For more specific information on how to extract each group of measures, please refer to the functions documentation page and the examples contained therein. For a general overview of the `mfe` package, please look up the associated vignette.
 
-To cite `mfe` in publications use: Rivolli, Adriano, Garcia, Luis P. F. and Carvalho, Andre c. P. L. F. (2017). mfe: Meta-Feature Extractor for Meta-Learning. R package version 0.1.0. http://CRAN.R-project.org/package=mfe
+To cite `mfe` in publications use: Rivolli, Adriano, Garcia, Luis P. F. and Carvalho, Andre c. P. L. F. (2017). mfe: Meta-Feature Extractor. R package version 0.1.0. http://CRAN.R-project.org/package=mfe
 
 
 To submit bugs and feature requests, report at [project issues](https://github.com/rivolli/mfe/issues).
