@@ -13,7 +13,7 @@ Description: Extracts meta-features from datasets to support recommendation
   and provide evidences  about the performance of algorithms. The package 
   contains the standard and the state of the art characterization measures with 
   the goal to improve the Meta-Learning experiments and also guide the 
-  complexity dataset understanding. These measures are described in the book:
+  complexity dataset understanding. These concepts are described in the book:
   Brazdil, P., Giraud-Carrier, C., Soares, C., Vilalta, R. (2009) 
   <10.1007/978-3-540-73263-1>
 URL: https://github.com/rivolli/mfe
