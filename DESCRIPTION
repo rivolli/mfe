@@ -7,15 +7,17 @@ Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br",
   role=c("aut", "cre")), person("Luis Paulo", "F. Garcia", 
   email="lpgarcia@icmc.usp.br", role="aut"), person("Andre", 
   " C. P. L. F. de Carvalho", email="andre@icmc.usp.br", role="ths"))
-Description: Extracts meta-features from datasets to support recommendation 
-  systems based on Meta-Learning. The meta-features, also called 
-  characterization measures, are able to describe datasets about the complexity 
-  and provide evidences  about the performance of algorithms. The package 
-  contains the standard and the state of the art characterization measures with 
-  the goal to improve the Meta-Learning experiments and also guide the 
-  complexity dataset understanding. These concepts are described in the book:
+Description: Extracts meta-features from datasets to support the design of 
+  recommendation systems based on Meta-Learning. The meta-features, also 
+  called characterization measures, are able to characterize the complexity of 
+  datasets and to provide estimates of algorithm performance. The package 
+  contains not only the standard characterization measures, but also more 
+  recent characterization measures. By making available a large set of 
+  meta-feature extraction functions, this package allows a comprehensive data 
+  characterization, a deep data exploration and a large number of 
+  Meta-Learning based data analysis. These concepts are described in the book: 
   Brazdil, P., Giraud-Carrier, C., Soares, C., Vilalta, R. (2009) 
-  <10.1007/978-3-540-73263-1>
+  <10.1007/978-3-540-73263-1>.
 URL: https://github.com/rivolli/mfe
 Depends:
     R (>= 3.3.1),
