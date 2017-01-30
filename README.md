@@ -50,7 +50,7 @@ data("iris")
 iris.info <- metafeatures(Species ~ ., iris, groups="all")
 
 ## Extract all measures using data frame
-iris.info <- metafeatures(iris[1:4], iris[,5], groups="all")
+iris.info <- metafeatures(iris[,1:4], iris[,5], groups="all")
 
 ## Extract general, statistical and information-theoretic measures
 iris.info <- metafeatures(Species ~ ., iris, groups=c("general", "statistical", "infotheo"))
