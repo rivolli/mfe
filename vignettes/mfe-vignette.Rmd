@@ -4,7 +4,7 @@ author: "Adriano Rivolli, Luis Paulo F. Garcia and Andre C. P. L. F. de Carvalho
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{mfe: Meta-Feature Extractor}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
