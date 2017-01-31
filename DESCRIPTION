@@ -17,7 +17,7 @@ Description: Extracts meta-features from datasets to support the design of
   characterization, a deep data exploration and a large number of 
   Meta-Learning based data analysis. These concepts are described in the book: 
   Brazdil, P., Giraud-Carrier, C., Soares, C., Vilalta, R. (2009) 
-  <10.1007/978-3-540-73263-1>.
+  <doi:10.1007/978-3-540-73263-1>.
 URL: https://github.com/rivolli/mfe
 Depends:
     R (>= 3.3.1),

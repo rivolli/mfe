@@ -23,6 +23,7 @@ This words are correct. The notes occur only in windows test.
 ## Resubmission
 This is a resubmission. In this version I have:
 
+* Fixing the doi reference
 * Re-write the description removing the package name on it and adding a reference 
   to an article describing what "meta-features" and/or "meta-learning" are.
 
