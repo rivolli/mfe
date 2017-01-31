@@ -6,7 +6,7 @@ Date: 2017-01-27
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
   role=c("aut", "cre")), person("Luis Paulo", "F. Garcia", 
   email="lpgarcia@icmc.usp.br", role="aut"), person("Andre", 
-  " C. P. L. F. de Carvalho", email="andre@icmc.usp.br", role="ths"))
+  "C. P. L. F. de Carvalho", email="andre@icmc.usp.br", role="ths"))
 Description: Extracts meta-features from datasets to support the design of 
   recommendation systems based on Meta-Learning. The meta-features, also 
   called characterization measures, are able to characterize the complexity of 
