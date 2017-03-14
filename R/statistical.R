@@ -15,6 +15,8 @@
 #' @param by.class A logical value indicating if the meta-features must be
 #'  computed for each group of samples belonging to different output classes.
 #'  (Default: TRUE)
+#' @param transform.attr A logical value indicating if the categorical
+#'  attributes should be transformed to numerical.
 #' @param ... Optional arguments to the summary methods.
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
@@ -90,6 +92,7 @@ mf.statistical <- function(...) {
 #' @export
 mf.statistical.default <- function(x, y, features="all",
                                    summary=c("mean", "sd"), by.class=TRUE,
+                                   transform.attr=TRUE,
                                    ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
@@ -108,13 +111,25 @@ mf.statistical.default <- function(x, y, features="all",
     features <- ls.statistical()
   }
   features <- match.arg(features, ls.statistical(), TRUE)
-  numdata <- replace.nominal.columns(x) #TODO control by user parameter
+
+  if(transform.attr) {
+    numdata <- replace.nominal.columns(x)
+  }else {
+    numcols <- sapply(x, is.numeric)
+    numdata <- x[numcols]
+    if(!any(numcols)) {
+      warning("Dataset does not contain numerical attributes")
+      return(sapply(features, function(f) NULL, simplify=FALSE))
+    }
+  }
 
   if(by.class) {
     measures <- lapply(unique(y), function(class) {
-      new.data <- numdata[y==class, ]
-      #Remove constant columns
-      new.data <- new.data[, apply(new.data, 2, stats::sd) != 0]
+      new.data <- numdata[y==class,, drop=FALSE]
+      if (nrow(new.data) > 1) {
+        #Remove constant columns
+        new.data <- new.data[, apply(new.data, 2, stats::sd) != 0]
+      }
 
       sapply(features, function(f) {
         eval(call(f, x=new.data))
