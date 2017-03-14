@@ -35,6 +35,7 @@ createFolds <- function(y, k) {
 
 validation <- function(y) {
   if(min(table(y)) == 1)
-    return(NA)
+    return(TRUE)
+  return(FALSE)
 }
 
