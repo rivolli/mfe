@@ -151,9 +151,8 @@ ls.landmarking <- function() {
 }
 
 accuracy <- function(pred, class) {
-  aux <- table(class, pred)
-  result <- sum(diag(aux)) / sum(aux)
-  return(result)
+  aux <- table(pred, class)
+  sum(diag(aux)) / sum(aux)
 }
 
 dt.importance <- function(x, y, test, ...) {
