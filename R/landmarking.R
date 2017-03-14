@@ -24,21 +24,29 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"decision.stumps"}{Represents the performance of a single node DT
-#'      model induced by the most informative attribute.}
-#'    \item{"elite.nearest.neighbor"}{Represents the performance of the Elite
-#'      1-Nearest Neighbor classifier.}
-#'    \item{"linear.discriminant"}{Represents the performance of the Linear
-#'      Discriminant classifier.}
-#'    \item{"naive.bayes"}{Represents the performance of the Naive Bayes
-#'      classifier.}
-#'    \item{"nearest.neighbor"}{Represents the performance of the 1-Nearest
-#'      Neighbor classifier.}
-#'    \item{"worst.node"}{Represents the performance of a single node DT
-#'      model induced by the less informative attribute.}
+#'    \item{"decision.stumps"}{Construct a single DT node model induced by the 
+#'      most informative attribute. The single split (parallel axis) in the data
+#'      has the main goal of establish the linear separability.}
+#'    \item{"elite.nearest.neighbor"}{Select the most informative attributes in 
+#'      the dataset using the information gain ratio to induce the 1-Nearest 
+#'      Neighbor. With the subset of informative attributes is expected that the
+#'      models induced by 1-Nearest Neighbor should be noise tolerant.}
+#'    \item{"linear.discriminant"}{Apply the Linear Discriminant classifier to 
+#'      construct a linear split (non parallel axis) in the data to establish 
+#'      the linear separability.
+#'    \item{"naive.bayes"}{Evaluate the performance of the Naive Bayes 
+#'      classifier. It assumes that the attributes are independent and each 
+#'      example belongs to a certain class based on the Bayes probability.}
+#'    \item{"nearest.neighbor"}{This measure evaluate the performance of the 
+#'      1-Nearest Neighbor classifier. It uses the euclidean distance of the 
+#'      nearest neighbor to determine how noisy is the data.}
+#'    \item{"worst.node"}{Construct a single DT node model induced by the 
+#'      less informative attribute. With the "decision.stumps" measure is 
+#'      possible to define a baseline value of linear separability for a 
+#'      dataset.}
 #'  }
 #' @return Each one of these meta-features generate multiple values (by fold
-#'  and/or attribute) and then it is post processed by the summary methods.
+#'  and/or binary dataset) and then it is post processed by the summary methods.
 #'  See the \link{post.processing} method for more details about it.
 #'
 #' @references
@@ -59,6 +67,9 @@
 #'
 #' ## Extract all meta-features with different summary methods
 #' mf.landmarking(Species ~ ., iris, summary=c("min", "median", "max"))
+#'
+#' ## Extract all meta-features one vs one decomposition strategy
+#' mf.landmarking(Species ~ ., iris, map="one.vs.one")
 #' @export
 mf.landmarking <- function(...) {
   UseMethod("mf.landmarking")
@@ -129,7 +140,7 @@ mf.landmarking.formula <- function(formula, data, features="all",
 
 #' List the Landmarking meta-features
 #'
-#' @return A list of Landmarking meta-features names
+#' @return A list of Landmarking meta-features names.
 #' @export
 #'
 #' @examples
@@ -140,9 +151,8 @@ ls.landmarking <- function() {
 }
 
 accuracy <- function(pred, class) {
-  aux <- table(class, pred)
-  result <- sum(diag(aux)) / sum(aux)
-  return(result)
+  aux <- table(pred, class)
+  sum(diag(aux)) / sum(aux)
 }
 
 dt.importance <- function(x, y, test, ...) {
@@ -204,6 +214,7 @@ worst.node <- function(x, y, split, ...) {
 
 nearest.neighbor <- function(x, y, split, ...) {
 
+  x <- replace.nominal.columns(x)
   aux <- sapply(split, function(test) {
     prediction <- class::knn(x[-test,], x[test,], y[-test], k=1)
     accuracy(prediction, y[test])
@@ -214,15 +225,16 @@ nearest.neighbor <- function(x, y, split, ...) {
 
 elite.nearest.neighbor <- function(x, y, split, ...) {
 
-    aux <- sapply(split, function(test) {
-      imp <- dt.importance(x, y, test)
-      att <- names(which(imp != 0))
-      if(all(imp == 0))
-        att <- colnames(x)
-      prediction <- class::knn(x[-test, att, drop=FALSE],
-        x[test, att, drop=FALSE], y[-test], k=1)
-      accuracy(prediction, y[test])
-    })
+  x <- replace.nominal.columns(x)
+  aux <- sapply(split, function(test) {
+    imp <- dt.importance(x, y, test)
+    att <- names(which(imp != 0))
+    if(all(imp == 0))
+      att <- colnames(x)
+    prediction <- class::knn(x[-test, att, drop=FALSE],
+      x[test, att, drop=FALSE], y[-test], k=1)
+    accuracy(prediction, y[test])
+  })
 
   return(aux)
 }

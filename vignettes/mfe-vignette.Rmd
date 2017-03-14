@@ -1,6 +1,6 @@
 ---
 title: "mfe: Meta-Feature Extractor"
-author: "Adriano Rivolli, Luis Paulo F. Garcia and Andre C. P. L. F. de Carvalho"
+author: "Adriano Rivolli, Luis P. F. Garcia and Andre C. P. L. F. de Carvalho"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
