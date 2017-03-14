@@ -30,7 +30,7 @@
 #'    \item{"elite.nearest.neighbor"}{Select the most informative attributes in 
 #'      the dataset using the information gain ratio to induce the 1-Nearest 
 #'      Neighbor. With the subset of informative attributes is expected that the
-#'      models induced by 1-NN be more accurate models.}
+#'      models induced by 1-Nearest Neighbor should be noise tolerant.}
 #'    \item{"linear.discriminant"}{Apply the Linear Discriminant classifier to 
 #'      construct a linear split (non parallel axis) in the data to establish 
 #'      the linear separability.
