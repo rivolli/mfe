@@ -74,6 +74,9 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
     y <- y[, 1]
   }
   y <- as.factor(y)
+  if (min(table(y)) < 2) {
+    stop("number of examples in the minority class should be >= 2")
+  }
 
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")

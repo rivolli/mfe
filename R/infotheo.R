@@ -83,6 +83,9 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
     y <- y[, 1]
   }
   y <- as.factor(y)
+  if (min(table(y)) < 2) {
+    stop("number of examples in the minority class should be >= 2")
+  }
 
   if(nrow(x) != length(y)){
     stop("x and y must have same number of rows")
@@ -95,7 +98,7 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
 
   catdata <- replace.numeric.columns(x) #TODO control by user paramete
   #Remove constant columns
-  catdata <- catdata[, apply(catdata, 2, stats::sd) != 0]
+  catdata <- catdata[, sapply(catdata, nlevels) > 1, drop=FALSE]
 
   #Pre processed data
   extra <- list(

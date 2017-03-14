@@ -1,9 +1,9 @@
 #' Landmarking Meta-features
 #'
-#' Landmarking measures are simple and fast algorithms, from which performance 
-#' characteristics can be extracted. The measures use k-fold cross-validation 
-#' and the evaluation measure is accuracy. For multi-class classification 
-#' problems, a decomposition strategy is applied.  
+#' Landmarking measures are simple and fast algorithms, from which performance
+#' characteristics can be extracted. The measures use k-fold cross-validation
+#' and the evaluation measure is accuracy. For multi-class classification
+#' problems, a decomposition strategy is applied.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes
@@ -12,8 +12,8 @@
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
-#' @param map A list of decomposition strategies for multi-class classification 
-#'  problems. The options are: \code{"one.vs.all"} and \code{"one.vs.one"} 
+#' @param map A list of decomposition strategies for multi-class classification
+#'  problems. The options are: \code{"one.vs.all"} and \code{"one.vs.one"}
 #'  strategy.
 #' @param folds The number of k equal size subsamples in k-fold
 #'  cross-validation.
