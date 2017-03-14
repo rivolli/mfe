@@ -215,6 +215,7 @@ worst.node <- function(x, y, split, ...) {
 
 nearest.neighbor <- function(x, y, split, ...) {
 
+  x <- replace.nominal.columns(x)
   aux <- sapply(split, function(test) {
     prediction <- class::knn(x[-test,], x[test,], y[-test], k=1)
     accuracy(prediction, y[test])
@@ -225,15 +226,16 @@ nearest.neighbor <- function(x, y, split, ...) {
 
 elite.nearest.neighbor <- function(x, y, split, ...) {
 
-    aux <- sapply(split, function(test) {
-      imp <- dt.importance(x, y, test)
-      att <- names(which(imp != 0))
-      if(all(imp == 0))
-        att <- colnames(x)
-      prediction <- class::knn(x[-test, att, drop=FALSE],
-        x[test, att, drop=FALSE], y[-test], k=1)
-      accuracy(prediction, y[test])
-    })
+  x <- replace.nominal.columns(x)
+  aux <- sapply(split, function(test) {
+    imp <- dt.importance(x, y, test)
+    att <- names(which(imp != 0))
+    if(all(imp == 0))
+      att <- colnames(x)
+    prediction <- class::knn(x[-test, att, drop=FALSE],
+      x[test, att, drop=FALSE], y[-test], k=1)
+    accuracy(prediction, y[test])
+  })
 
   return(aux)
 }
