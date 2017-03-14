@@ -14,14 +14,6 @@ replace.numeric.columns <- function(x) {
 
 createFolds <- function(y, k) {
 
-  if(!is.factor(y)) {
-    stop("y must be factor")
-  }
-
-  if(k < 1L) {
-    stop("k argument must be a integer >= 1")
-  }
-
   if(k > min(table(y))) {
     k <- min(table(y))
     warning("k argument must be <= the number of examples in the miniroty
@@ -40,3 +32,9 @@ createFolds <- function(y, k) {
 
   return(folds)
 }
+
+validation <- function(y) {
+  if(min(table(y)) == 1)
+    return(NA)
+}
+
