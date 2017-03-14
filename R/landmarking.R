@@ -1,7 +1,9 @@
 #' Landmarking Meta-features
 #'
-#' Landmarking meta-features include the performance of some simple and
-#' efficient learning algorithms.
+#' Landmarking measures are simple and fast algorithms, from which performance 
+#' characteristics can be extracted. The measures use k-fold cross-validation 
+#' and the evaluation measure is accuracy. For multi-class classification 
+#' problems, a decomposition strategy is applied.  
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes
@@ -10,8 +12,9 @@
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
-#' @param map A list of decomposition strategies for multi-class problems. The
-#'  options are \code{"one.vs.all"} and \code{"one.vs.one"} strategy.
+#' @param map A list of decomposition strategies for multi-class classification 
+#'  problems. The options are: \code{"one.vs.all"} and \code{"one.vs.one"} 
+#'  strategy.
 #' @param folds The number of k equal size subsamples in k-fold
 #'  cross-validation.
 #' @param ... Optional arguments to the summary methods.
@@ -76,15 +79,15 @@ mf.landmarking.default <- function(x, y, features="all",
   }
   y <- as.factor(y)
 
+  if(min(table(y)) < 2) {
+    stop("number of examples in the minority class should be >= 2")
+  }
+
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
 
   map <- match.arg(map)
-  if(folds <= 1L | folds > nrow(x)) {
-    stop("folds argument must be a integer > 1 and <= nrow(data)")
-  }
-
   if(features[1] == "all") {
     features <- ls.landmarking()
   }
@@ -92,7 +95,7 @@ mf.landmarking.default <- function(x, y, features="all",
 
   data <- eval(call(map, x, y))
   split <- lapply(data, function(i) {
-    createFolds(i[[2]], k=folds)
+    createFolds(i[[2]], folds=folds)
   })
 
   sapply(features, function(f) {
@@ -250,3 +253,4 @@ linear.discriminant <- function(x, y, split, ...) {
 
   return(aux)
 }
+
