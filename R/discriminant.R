@@ -11,6 +11,8 @@
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
+#' @param transform.attr A logical value indicating if the categorical
+#'  attributes should be transformed to numerical.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
@@ -65,7 +67,8 @@ mf.discriminant <- function(...) {
 
 #' @rdname mf.discriminant
 #' @export
-mf.discriminant.default <- function(x, y, features="all", ...) {
+mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
+                                    ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -87,7 +90,15 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
   }
   features <- match.arg(features, ls.discriminant(), TRUE)
 
-  numdata <- replace.nominal.columns(x) #TODO control by user parameter
+  if(transform.attr) {
+    numdata <- replace.nominal.columns(x)
+  }else {
+    numcols <- sapply(x, is.numeric)
+    numdata <- x[numcols]
+    if(!any(numcols)) {
+      stop("dataset does not contain numerical attributes")
+    }
+  }
   y.num <- replace.nominal.columns(as.data.frame(y))
   x.cov <- stats::cov(numdata)
 
@@ -109,7 +120,8 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
 
 #' @rdname mf.discriminant
 #' @export
-mf.discriminant.formula <- function(formula, data, features="all", ...) {
+mf.discriminant.formula <- function(formula, data, features="all",
+                                    transform.attr=TRUE, ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -121,7 +133,8 @@ mf.discriminant.formula <- function(formula, data, features="all", ...) {
   modFrame <- stats::model.frame(formula,data)
   attr(modFrame, "terms") <- NULL
 
-  mf.discriminant.default(modFrame[, -1], modFrame[, 1], features, ...)
+  mf.discriminant.default(modFrame[, -1], modFrame[, 1], features,
+                          transform.attr, ...)
 }
 
 #' List the discriminant meta-features

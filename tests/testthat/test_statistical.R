@@ -84,10 +84,8 @@ test_that("transformation attributes", {
    expect_error(mf.statistical(class ~ ., categdata, transform=FALSE),
                   "dataset does not contain numerical attributes")
 
-   set.seed(1)
    val1 <- mf.statistical(class ~ ., categdata, transform=TRUE)
    bothdata <- cbind(categdata, replace.nominal.columns(categdata[,1:3]))
-   set.seed(1)
    val2 <- mf.statistical(class ~ ., bothdata, transform=FALSE)
    expect_equal(val1, val2)
 })
