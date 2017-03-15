@@ -15,6 +15,8 @@
 #' @param by.class A logical value indicating if the meta-features must be
 #'  computed for each group of samples belonging to different output classes.
 #'  (Default: TRUE)
+#' @param transform.attr A logical value indicating if the categorical
+#'  attributes should be transformed to numerical.
 #' @param ... Optional arguments to the summary methods.
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
@@ -90,7 +92,7 @@ mf.statistical <- function(...) {
 #' @export
 mf.statistical.default <- function(x, y, features="all",
                                    summary=c("mean", "sd"), by.class=TRUE,
-                                   ...) {
+                                   transform.attr=TRUE, ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -111,7 +113,16 @@ mf.statistical.default <- function(x, y, features="all",
     features <- ls.statistical()
   }
   features <- match.arg(features, ls.statistical(), TRUE)
-  numdata <- replace.nominal.columns(x) #TODO control by user parameter
+
+  if(transform.attr) {
+    numdata <- replace.nominal.columns(x)
+  }else {
+    numcols <- sapply(x, is.numeric)
+    numdata <- x[numcols]
+    if(!any(numcols)) {
+      stop("dataset does not contain numerical attributes")
+    }
+  }
 
   if(by.class) {
     measures <- lapply(unique(y), function(class) {
@@ -141,8 +152,8 @@ mf.statistical.default <- function(x, y, features="all",
 #' @rdname mf.statistical
 #' @export
 mf.statistical.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"),
-                                   by.class=TRUE, ...) {
+                                   summary=c("mean", "sd"), by.class=TRUE,
+                                   transform.attr=TRUE, ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -155,7 +166,7 @@ mf.statistical.formula <- function(formula, data, features="all",
   attr(modFrame, "terms") <- NULL
 
   mf.statistical.default(modFrame[, -1], modFrame[, 1], features, summary,
-                         by.class, ...)
+                         by.class, transform.attr, ...)
 }
 
 #' List the statistical meta-features
@@ -194,7 +205,7 @@ covariance <- function(x, ...) {
 }
 
 discreteness.degree <- function(x, ...) {
-  sapply(x, function(col) mean(table(col)))
+  apply(x, 2, function(col) mean(table(col)))
 }
 
 geometric.mean <- function(x, ...) {
@@ -210,7 +221,7 @@ geometric.mean <- function(x, ...) {
 }
 
 harmonic.mean <- function(x, ...) {
-  sapply(x, function(col) length(col) / sum(1/col))
+  apply(x, 2, function(col) length(col) / sum(1/col))
 }
 
 iqr <- function(x, ...) {
