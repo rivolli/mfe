@@ -79,7 +79,7 @@ test_that("mf.statistical.strange.things", {
   #TODO expect_silent(mf.statistical(class ~ ., rmfdata))
 })
 
-test_that("transformation attributes", {
+test_that("statistical transformation attributes", {
    categdata <- replace.numeric.columns(rmfdata)
    expect_error(mf.statistical(class ~ ., categdata, transform=FALSE),
                   "dataset does not contain numerical attributes")

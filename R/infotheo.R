@@ -14,6 +14,8 @@
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
+#' @param transform.attr A logical value indicating if the numerical
+#'  attributes should be transformed to categorical.
 #' @details
 #'  TODO describe discretization method
 #'  The following features are allowed for this method:
@@ -74,7 +76,7 @@ mf.infotheo <- function(...) {
 #' @rdname mf.infotheo
 #' @export
 mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
-                                ...) {
+                                transform.attr=TRUE, ...) {
   if(!is.data.frame(x)){
     stop("data argument must be a data.frame")
   }
@@ -96,7 +98,15 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
   }
   features <- match.arg(features, ls.infotheo(), TRUE)
 
-  catdata <- replace.numeric.columns(x) #TODO control by user paramete
+  if(transform.attr) {
+    catdata <- replace.numeric.columns(x)
+  }else {
+    numcols <- sapply(x, is.numeric)
+    catdata <- x[!numcols]
+    if(all(numcols)) {
+      stop("dataset does not contain categorical attributes")
+    }
+  }
   #Remove constant columns
   catdata <- catdata[, sapply(catdata, nlevels) > 1, drop=FALSE]
 
@@ -118,7 +128,8 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
 #' @rdname mf.infotheo
 #' @export
 mf.infotheo.formula <- function(formula, data, features="all",
-                                summary=c("mean", "sd"), ...) {
+                                summary=c("mean", "sd"), transform.attr=TRUE,
+                                ...) {
   if(!inherits(formula, "formula")){
     stop("method is only for formula datas")
   }
@@ -127,10 +138,11 @@ mf.infotheo.formula <- function(formula, data, features="all",
     stop("data argument must be a data.frame")
   }
 
-  modFrame <- stats::model.frame(formula,data)
+  modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.infotheo.default(modFrame[, -1], modFrame[, 1], features, summary, ...)
+  mf.infotheo.default(modFrame[, -1], modFrame[, 1], features, summary,
+                      transform.attr, ...)
 }
 
 #' List the information theoretical meta-features

@@ -29,7 +29,7 @@ test_that("mf.discriminant.result", {
   expect_named(one, ls.discriminant()[1])
 })
 
-test_that("transformation attributes", {
+test_that("discriminant transformation attributes", {
   categdata <- replace.numeric.columns(rmfdata)
   expect_error(mf.discriminant(class ~ ., categdata, transform=FALSE),
                "dataset does not contain numerical attributes")

@@ -50,3 +50,18 @@ test_that("mf.infotheo.errors",{
                "method is only for formula datas")
   expect_error(mf.infotheo(class ~ ., rmfdata, features=c("abc", "def")))
 })
+
+
+test_that("infotheo transformation attributes", {
+  numdata <- as.data.frame(
+    replace.nominal.columns(replace.numeric.columns(rmfdata[, -ncol(rmfdata)]))
+  )
+  expect_error(mf.infotheo(class ~ ., cbind(numdata, class=rmfdata$class),
+                           transform=FALSE),
+               "dataset does not contain categorical attributes")
+
+  val1 <- mf.infotheo(class ~ ., cbind(numdata, class=rmfdata$class), transform=TRUE)
+  bothdata <- cbind(numdata, e=replace.numeric.columns(numdata), class=rmfdata$class)
+  val2 <- mf.infotheo(class ~ ., bothdata, transform=FALSE)
+  expect_equal(val1, val2)
+})
