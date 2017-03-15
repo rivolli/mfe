@@ -90,15 +90,8 @@ mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
   }
   features <- match.arg(features, ls.discriminant(), TRUE)
 
-  if(transform.attr) {
-    numdata <- replace.nominal.columns(x)
-  }else {
-    numcols <- sapply(x, is.numeric)
-    numdata <- x[numcols]
-    if(!any(numcols)) {
-      stop("dataset does not contain numerical attributes")
-    }
-  }
+  numdata <- validate.and.replace.nominal.attr(x, transform.attr)
+
   y.num <- replace.nominal.columns(as.data.frame(y))
   x.cov <- stats::cov(numdata)
 

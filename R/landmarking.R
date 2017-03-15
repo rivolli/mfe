@@ -217,17 +217,7 @@ worst.node <- function(x, y, split, ...) {
 
 nearest.neighbor <- function(x, y, split, transform.attr=TRUE, ...) {
 
-  if(transform.attr) {
-    x <- replace.nominal.columns(x)
-  }else {
-    numcols <- sapply(x, is.numeric)
-    x <- x[numcols]
-    if(!any(numcols)) {
-      stop("dataset does not contain numerical attributes")
-    }
-    x <- replace.nominal.columns(x)
-  }
-
+  x <- validate.and.replace.nominal.attr(x, transform.attr)
   aux <- sapply(split, function(test) {
     data <- data.frame(Class=y, x)
     prediction <- kknn::kknn(Class~., data[-test,], data[test,-1], k=1)
@@ -239,17 +229,7 @@ nearest.neighbor <- function(x, y, split, transform.attr=TRUE, ...) {
 
 elite.nearest.neighbor <- function(x, y, split, transform.attr=TRUE, ...) {
 
-  if(transform.attr) {
-    x <- replace.nominal.columns(x)
-  }else {
-    numcols <- sapply(x, is.numeric)
-    x <- x[numcols]
-    if(!any(numcols)) {
-      stop("dataset does not contain numerical attributes")
-    }
-    x <- replace.nominal.columns(x)
-  }
-
+  x <- validate.and.replace.nominal.attr(x, transform.attr)
   aux <- sapply(split, function(test) {
     imp <- dt.importance(x, y, test)
     att <- names(which(imp != 0))
@@ -278,17 +258,7 @@ naive.bayes <- function(x, y, split, ...) {
 
 linear.discriminant <- function(x, y, split, transform.attr=TRUE, ...) {
 
-  if(transform.attr) {
-    x <- replace.nominal.columns(x)
-  }else {
-    numcols <- sapply(x, is.numeric)
-    x <- x[numcols]
-    if(!any(numcols)) {
-      stop("dataset does not contain numerical attributes")
-    }
-    x <- replace.nominal.columns(x)
-  }
-
+  x <- validate.and.replace.nominal.attr(x, transform.attr)
   aux <- sapply(split, function(test) {
     tryCatch({
       model <- MASS::lda(x[-test,], grouping=y[-test])

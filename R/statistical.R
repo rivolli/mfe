@@ -114,15 +114,7 @@ mf.statistical.default <- function(x, y, features="all",
   }
   features <- match.arg(features, ls.statistical(), TRUE)
 
-  if(transform.attr) {
-    numdata <- replace.nominal.columns(x)
-  }else {
-    numcols <- sapply(x, is.numeric)
-    numdata <- x[numcols]
-    if(!any(numcols)) {
-      stop("dataset does not contain numerical attributes")
-    }
-  }
+  numdata <- validate.and.replace.nominal.attr(x, transform.attr)
 
   if(by.class) {
     measures <- lapply(unique(y), function(class) {

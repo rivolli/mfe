@@ -98,15 +98,8 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
   }
   features <- match.arg(features, ls.infotheo(), TRUE)
 
-  if(transform.attr) {
-    catdata <- replace.numeric.columns(x)
-  }else {
-    numcols <- sapply(x, is.numeric)
-    catdata <- x[!numcols]
-    if(all(numcols)) {
-      stop("dataset does not contain categorical attributes")
-    }
-  }
+  catdata <- validate.and.replace.numeric.attr(x, transform.attr)
+
   #Remove constant columns
   catdata <- catdata[, sapply(catdata, nlevels) > 1, drop=FALSE]
 
