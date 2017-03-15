@@ -1,4 +1,4 @@
-# Version 0.1.1 [current]
+# Version 0.1.1 [development]
 
 ### Minor changes
 * Add `transform.attr` parameter to control parameter transformations
@@ -6,8 +6,9 @@
 ### Bugfixes
 * Specific errors about minority class with an unique instance
 * Change class to kknn pakcage in landmarking 1nn and eliteNN
+* Some measures fixes and improvements
 
-# First release of **mfe**:
+# First release of **mfe** [current]:
 
 * General meta-features
 * Statistical meta-features

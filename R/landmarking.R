@@ -35,7 +35,7 @@
 #'      models induced by 1-Nearest Neighbor should be noise tolerant.}
 #'    \item{"linear.discriminant"}{Apply the Linear Discriminant classifier to
 #'      construct a linear split (non parallel axis) in the data to establish
-#'      the linear separability.
+#'      the linear separability.}
 #'    \item{"naive.bayes"}{Evaluate the performance of the Naive Bayes
 #'      classifier. It assumes that the attributes are independent and each
 #'      example belongs to a certain class based on the Bayes probability.}

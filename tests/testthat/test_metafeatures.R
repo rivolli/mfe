@@ -89,4 +89,16 @@ test_that("metafeatures.errors",{
   expect_error(metafeatures.formula(iris[1:4], iris[5]),
                "method is only for formula datas")
   expect_error(metafeatures(Species ~ ., iris, groups=c("abc", "xdef")))
+  expect_error(metafeatures(Species ~ ., iris, transform.attr=FALSE),
+               "dataset does not contain categorical attributes")
+  expect_error(metafeatures(Species ~ ., replace.numeric.columns(iris),
+                            transform.attr=FALSE),
+               "dataset does not contain numerical attributes")
+})
+
+test_that("metafeatures.transform.attr",{
+  extra <- cbind(i=iris[, 1:4], replace.numeric.columns(iris))
+  f1 <- metafeatures(Species ~ ., extra, transform.attr=FALSE)
+  expect_warning(f2 <- metafeatures(Species ~ ., extra, transform.attr=TRUE))
+  expect_equal(names(f1), names(f2))
 })

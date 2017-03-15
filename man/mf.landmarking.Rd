@@ -55,6 +55,31 @@ characteristics can be extracted. The measures use k-fold cross-validation
 and the evaluation measure is accuracy. For multi-class classification
 problems, a decomposition strategy is applied.
 }
+\details{
+The following features are allowed for this method:
+ \describe{
+   \item{"decision.stumps"}{Construct a single DT node model induced by the
+     most informative attribute. The single split (parallel axis) in the data
+     has the main goal of establish the linear separability.}
+   \item{"elite.nearest.neighbor"}{Select the most informative attributes in
+     the dataset using the information gain ratio to induce the 1-Nearest
+     Neighbor. With the subset of informative attributes is expected that the
+     models induced by 1-Nearest Neighbor should be noise tolerant.}
+   \item{"linear.discriminant"}{Apply the Linear Discriminant classifier to
+     construct a linear split (non parallel axis) in the data to establish
+     the linear separability.}
+   \item{"naive.bayes"}{Evaluate the performance of the Naive Bayes
+     classifier. It assumes that the attributes are independent and each
+     example belongs to a certain class based on the Bayes probability.}
+   \item{"nearest.neighbor"}{This measure evaluate the performance of the
+     1-Nearest Neighbor classifier. It uses the euclidean distance of the
+     nearest neighbor to determine how noisy is the data.}
+   \item{"worst.node"}{Construct a single DT node model induced by the
+     less informative attribute. With the "decision.stumps" measure is
+     possible to define a baseline value of linear separability for a
+     dataset.}
+ }
+}
 \examples{
 ## Extract all meta-features using formula
 mf.landmarking(Species ~ ., iris)
