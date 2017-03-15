@@ -41,3 +41,17 @@ test_that("mf.landmarking.errors",{
    expect_error(mf.landmarking(class ~ ., rmfdata, map="abc"))
    expect_error(mf.landmarking(class ~ ., rmfdata, folds=0))
 })
+
+test_that("landmarking transformation attributes", {
+  categdata <- replace.numeric.columns(rmfdata)
+  expect_error(mf.landmarking(class ~ ., categdata, transform=FALSE),
+               "dataset does not contain numerical attributes")
+
+  set.seed(1)
+  expect_warning(val1 <- mf.landmarking(class ~ ., categdata, transform=TRUE))
+  bothdata <- cbind(categdata, replace.nominal.columns(categdata[,1:4]))
+  set.seed(1)
+  expect_warning(val2 <- mf.landmarking(class ~ ., bothdata, transform=FALSE))
+  measures <- c("elite.nearest.neighbor", "nearest.neighbor", "linear.discriminant")
+  expect_equal(val1[measures], val2[measures])
+})

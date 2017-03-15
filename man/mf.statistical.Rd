@@ -9,10 +9,10 @@
 mf.statistical(...)
 
 \method{mf.statistical}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), by.class = TRUE, ...)
+  "sd"), by.class = TRUE, transform.attr = TRUE, ...)
 
 \method{mf.statistical}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), by.class = TRUE, ...)
+  summary = c("mean", "sd"), by.class = TRUE, transform.attr = TRUE, ...)
 }
 \arguments{
 \item{...}{Optional arguments to the summary methods.}
@@ -31,6 +31,9 @@ functions. See \link{post.processing} method to more information. (Default:
 \item{by.class}{A logical value indicating if the meta-features must be
 computed for each group of samples belonging to different output classes.
 (Default: TRUE)}
+
+\item{transform.attr}{A logical value indicating if the categorical
+attributes should be transformed to numerical.}
 
 \item{formula}{A formula to define the class column.}
 

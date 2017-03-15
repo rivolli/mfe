@@ -8,9 +8,11 @@
 \usage{
 mf.discriminant(...)
 
-\method{mf.discriminant}{default}(x, y, features = "all", ...)
+\method{mf.discriminant}{default}(x, y, features = "all",
+  transform.attr = TRUE, ...)
 
-\method{mf.discriminant}{formula}(formula, data, features = "all", ...)
+\method{mf.discriminant}{formula}(formula, data, features = "all",
+  transform.attr = TRUE, ...)
 }
 \arguments{
 \item{...}{Not used.}
@@ -20,6 +22,9 @@ mf.discriminant(...)
 \item{y}{a factor response vector with one label for each row/component of x.}
 
 \item{features}{A list of features names or \code{"all"} to include all them.}
+
+\item{transform.attr}{A logical value indicating if the categorical
+attributes should be transformed to numerical.}
 
 \item{formula}{A formula to define the class column.}
 

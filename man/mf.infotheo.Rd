@@ -9,10 +9,10 @@
 mf.infotheo(...)
 
 \method{mf.infotheo}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), ...)
+  "sd"), transform.attr = TRUE, ...)
 
 \method{mf.infotheo}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), ...)
+  summary = c("mean", "sd"), transform.attr = TRUE, ...)
 }
 \arguments{
 \item{...}{Optional arguments to the summary methods.}
@@ -26,6 +26,9 @@ mf.infotheo(...)
 \item{summary}{A list of methods to summarize the results as post-processing
 functions. See \link{post.processing} method to more information. (Default:
 \code{c("mean", "sd")})}
+
+\item{transform.attr}{A logical value indicating if the numerical
+attributes should be transformed to categorical.}
 
 \item{formula}{A formula to define the class column.}
 

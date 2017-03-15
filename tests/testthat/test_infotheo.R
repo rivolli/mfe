@@ -51,7 +51,6 @@ test_that("mf.infotheo.errors",{
   expect_error(mf.infotheo(class ~ ., rmfdata, features=c("abc", "def")))
 })
 
-
 test_that("infotheo transformation attributes", {
   numdata <- as.data.frame(
     replace.nominal.columns(replace.numeric.columns(rmfdata[, -ncol(rmfdata)]))

@@ -21,6 +21,8 @@
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class.
 #'  The details section describes the valid values for this group.
+#' @param transform.attr A logical value indicating if the categorical
+#'  attributes should be transformed to numerical.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
@@ -80,7 +82,7 @@ mf.landmarking <- function(...) {
 mf.landmarking.default <- function(x, y, features="all",
                                    summary=c("mean", "sd"),
                                    map=c("one.vs.all", "one.vs.one"), folds=10,
-                                   ...) {
+                                   transform.attr=TRUE, ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -111,7 +113,8 @@ mf.landmarking.default <- function(x, y, features="all",
 
   sapply(features, function(f) {
     measure <- mapply(function(data, split) {
-      eval(call(f, x=data[[1]], y=data[[2]], split=split))
+      eval(call(f, x=data[[1]], y=data[[2]], split=split,
+                transform.attr=transform.attr))
     }, data=data, split=split)
     post.processing(measure, summary)
   }, simplify=FALSE)
@@ -122,7 +125,7 @@ mf.landmarking.default <- function(x, y, features="all",
 mf.landmarking.formula <- function(formula, data, features="all",
                                    summary=c("mean", "sd"),
                                    map=c("one.vs.all", "one.vs.one"), folds=10,
-                                   ...) {
+                                   transform.attr=TRUE, ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -135,7 +138,7 @@ mf.landmarking.formula <- function(formula, data, features="all",
   attr(modFrame, "terms") <- NULL
 
   mf.landmarking.default(modFrame[, -1], modFrame[, 1], features, summary, map,
-                         folds, ...)
+                         folds, transform.attr, ...)
 }
 
 #' List the Landmarking meta-features
@@ -212,18 +215,40 @@ worst.node <- function(x, y, split, ...) {
   return(aux)
 }
 
-nearest.neighbor <- function(x, y, split, ...) {
+nearest.neighbor <- function(x, y, split, transform.attr=TRUE, ...) {
+
+  if(transform.attr) {
+    x <- replace.nominal.columns(x)
+  }else {
+    numcols <- sapply(x, is.numeric)
+    x <- x[numcols]
+    if(!any(numcols)) {
+      stop("dataset does not contain numerical attributes")
+    }
+    x <- replace.nominal.columns(x)
+  }
 
   aux <- sapply(split, function(test) {
-    data <- cbind(x, Class=y)
-    prediction <- kknn::kknn(Class~., data[-test,], x[test,], k=1)
+    data <- data.frame(Class=y, x)
+    prediction <- kknn::kknn(Class~., data[-test,], data[test,-1], k=1)
     accuracy(prediction$fitted.values, y[test])
   })
 
   return(aux)
 }
 
-elite.nearest.neighbor <- function(x, y, split, ...) {
+elite.nearest.neighbor <- function(x, y, split, transform.attr=TRUE, ...) {
+
+  if(transform.attr) {
+    x <- replace.nominal.columns(x)
+  }else {
+    numcols <- sapply(x, is.numeric)
+    x <- x[numcols]
+    if(!any(numcols)) {
+      stop("dataset does not contain numerical attributes")
+    }
+    x <- replace.nominal.columns(x)
+  }
 
   aux <- sapply(split, function(test) {
     imp <- dt.importance(x, y, test)
@@ -231,9 +256,9 @@ elite.nearest.neighbor <- function(x, y, split, ...) {
     if(all(imp == 0))
       att <- colnames(x)
 
-    data <- cbind(x[, att, drop=FALSE], Class=y)
+    data <- data.frame(Class=y, x[, att, drop=FALSE])
     prediction <- kknn::kknn(Class ~ ., data[-test,],
-                             x[test, att, drop=FALSE], k=1)
+                             data[test, att, drop=FALSE], k=1)
     accuracy(prediction$fitted.values, y[test])
   })
 
@@ -251,9 +276,19 @@ naive.bayes <- function(x, y, split, ...) {
   return(aux)
 }
 
-linear.discriminant <- function(x, y, split, ...) {
+linear.discriminant <- function(x, y, split, transform.attr=TRUE, ...) {
 
-  x <- replace.nominal.columns(x)
+  if(transform.attr) {
+    x <- replace.nominal.columns(x)
+  }else {
+    numcols <- sapply(x, is.numeric)
+    x <- x[numcols]
+    if(!any(numcols)) {
+      stop("dataset does not contain numerical attributes")
+    }
+    x <- replace.nominal.columns(x)
+  }
+
   aux <- sapply(split, function(test) {
     tryCatch({
       model <- MASS::lda(x[-test,], grouping=y[-test])

@@ -9,11 +9,12 @@
 mf.landmarking(...)
 
 \method{mf.landmarking}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), map = c("one.vs.all", "one.vs.one"), folds = 10, ...)
+  "sd"), map = c("one.vs.all", "one.vs.one"), folds = 10,
+  transform.attr = TRUE, ...)
 
 \method{mf.landmarking}{formula}(formula, data, features = "all",
   summary = c("mean", "sd"), map = c("one.vs.all", "one.vs.one"),
-  folds = 10, ...)
+  folds = 10, transform.attr = TRUE, ...)
 }
 \arguments{
 \item{...}{Optional arguments to the summary methods.}
@@ -28,11 +29,15 @@ mf.landmarking(...)
 functions. See \link{post.processing} method to more information. (Default:
 \code{c("mean", "sd")})}
 
-\item{map}{A list of decomposition strategies for multi-class problems. The
-options are \code{"one.vs.all"} and \code{"one.vs.one"} strategy.}
+\item{map}{A list of decomposition strategies for multi-class classification
+problems. The options are: \code{"one.vs.all"} and \code{"one.vs.one"}
+strategy.}
 
 \item{folds}{The number of k equal size subsamples in k-fold
 cross-validation.}
+
+\item{transform.attr}{A logical value indicating if the categorical
+attributes should be transformed to numerical.}
 
 \item{formula}{A formula to define the class column.}
 
@@ -41,29 +46,14 @@ The details section describes the valid values for this group.}
 }
 \value{
 Each one of these meta-features generate multiple values (by fold
- and/or attribute) and then it is post processed by the summary methods.
+ and/or binary dataset) and then it is post processed by the summary methods.
  See the \link{post.processing} method for more details about it.
 }
 \description{
-Landmarking meta-features include the performance of some simple and
-efficient learning algorithms.
-}
-\details{
-The following features are allowed for this method:
- \describe{
-   \item{"decision.stumps"}{Represents the performance of a single node DT
-     model induced by the most informative attribute.}
-   \item{"elite.nearest.neighbor"}{Represents the performance of the Elite
-     1-Nearest Neighbor classifier.}
-   \item{"linear.discriminant"}{Represents the performance of the Linear
-     Discriminant classifier.}
-   \item{"naive.bayes"}{Represents the performance of the Naive Bayes
-     classifier.}
-   \item{"nearest.neighbor"}{Represents the performance of the 1-Nearest
-     Neighbor classifier.}
-   \item{"worst.node"}{Represents the performance of a single node DT
-     model induced by the less informative attribute.}
- }
+Landmarking measures are simple and fast algorithms, from which performance
+characteristics can be extracted. The measures use k-fold cross-validation
+and the evaluation measure is accuracy. For multi-class classification
+problems, a decomposition strategy is applied.
 }
 \examples{
 ## Extract all meta-features using formula
@@ -78,6 +68,9 @@ mf.landmarking(Species ~ ., iris, features=c("decision.stumps",
 
 ## Extract all meta-features with different summary methods
 mf.landmarking(Species ~ ., iris, summary=c("min", "median", "max"))
+
+## Extract all meta-features one vs one decomposition strategy
+mf.landmarking(Species ~ ., iris, map="one.vs.one")
 }
 \references{
 Pfahringer, B., Bensusan, H., &  Giraud-Carrier, C. G. (2000). Meta-Learning

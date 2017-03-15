@@ -7,7 +7,7 @@
 ls.landmarking()
 }
 \value{
-A list of Landmarking meta-features names
+A list of Landmarking meta-features names.
 }
 \description{
 List the Landmarking meta-features
