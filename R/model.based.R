@@ -102,12 +102,12 @@ mf.model.based.formula <- function(formula, data, features="all",
     stop("data argument must be a data.frame")
   }
 
-  if(min(table(data$Class)) < 2) {
-    stop("number of examples in the minority class should be >= 2")
-  }
-
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame,"terms") <- NULL
+
+  if(min(table(modFrame[,1])) < 2) {
+    stop("number of examples in the minority class should be >= 2")
+  }
 
   if(features[1] == "all") {
     features <- ls.model.based()

@@ -15,7 +15,7 @@ replace.numeric.columns <- function(x) {
 createFolds <- function(y, folds) {
 
   if(folds <= 1L | folds > min(table(y))) {
-    stop("folds argument must be a integer > 1 and <= the number of examples in 
+    stop("folds argument must be an integer > 1 and <= the number of examples in
       the minority class")
   }
 

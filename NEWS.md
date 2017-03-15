@@ -2,6 +2,7 @@
 
 ### Bugfixes
 * Specific errors about minority class with an unique instance
+* Change class to kknn pakcage in landmarking 1nn and eliteNN
 
 # First release of **mfe**:
 

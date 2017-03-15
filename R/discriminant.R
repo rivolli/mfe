@@ -90,16 +90,20 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
   numdata <- replace.nominal.columns(x) #TODO control by user parameter
   y.num <- replace.nominal.columns(as.data.frame(y))
   x.cov <- stats::cov(numdata)
+
   extra <- list(
     y.num = y.num,
-    cancor = stats::cancor(numdata, y.num),
+    cancor = tryCatch(stats::cancor(numdata, y.num), error=function (e){
+      warning(e)
+      list(cor=c())
+    }),
     x.cov = x.cov,
     eigenvalues = base::eigen(x.cov)
   )
 
   sapply(features, function(f) {
     measure <- eval(call(f, x=numdata, y=y, extra=extra))
-    post.processing(measure, summary, ...)
+    post.processing(measure, "non.aggregated", ...)
   }, simplify=FALSE)
 }
 
@@ -133,7 +137,7 @@ ls.discriminant <- function() {
 }
 
 cancor <- function(x, y, extra, ...) {
-  extra$cancor$cor[1]
+  ifelse(length(extra$cancor$cor)>0, extra$cancor$cor[1], NA)
 }
 
 center.of.gravity <- function(x, y, ...) {

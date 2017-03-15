@@ -1,7 +1,7 @@
 Package: mfe
 Type: Package
 Title: Meta-Feature Extractor
-Version: 0.1.1.9003
+Version: 0.1.1.9004
 Date: 2017-01-27
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
   role=c("aut", "cre")), person("Luis Paulo", "F. Garcia", 
@@ -22,9 +22,9 @@ Depends:
     R (>= 3.3.1),
 Imports:
     C50,
-    class,
     e1071,
     infotheo,
+    kknn,
     MASS,
     rpart,
     stats,

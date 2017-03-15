@@ -90,11 +90,3 @@ test_that("metafeatures.errors",{
                "method is only for formula datas")
   expect_error(metafeatures(Species ~ ., iris, groups=c("abc", "xdef")))
 })
-
-test_that("metafeatures bug reports", {
-  data <- read.table("../datasets/agaricus-lepiota.data", sep=",", na.string="?")
-  colnames(data)[ncol(data)] <- "target"
-  set.seed(1)
-  i.training.set <- sample(1:nrow(data), 0.7 * nrow(data))
-  res <- metafeatures(target ~ ., data[i.training.set,])
-})
