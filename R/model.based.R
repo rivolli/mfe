@@ -84,6 +84,7 @@ mf.model.based.default <- function(x, y, features="all",
   if(nrow(x) != nrow(y)) {
     stop("x and y must have same number of rows")
   }
+  colnames(x) <- make.names(colnames(x))
 
   data <- cbind(Class=y, x)
   formula <- stats::as.formula(paste(colnames(data[1]), "~."))

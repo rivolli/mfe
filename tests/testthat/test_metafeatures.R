@@ -102,3 +102,9 @@ test_that("metafeatures.transform.attr",{
   expect_warning(f2 <- metafeatures(Species ~ ., extra, transform.attr=TRUE))
   expect_equal(names(f1), names(f2))
 })
+
+test_that("metafeatures.weird.attrnames",{
+  aux <- iris
+  colnames(aux)[1:4] <- c("0","0123","-",".abc")
+  res <- metafeatures(aux[,1:4], aux$Species)
+})

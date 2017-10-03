@@ -89,6 +89,7 @@ mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
     features <- ls.discriminant()
   }
   features <- match.arg(features, ls.discriminant(), TRUE)
+  colnames(x) <- make.names(colnames(x))
 
   numdata <- validate.and.replace.nominal.attr(x, transform.attr)
 

@@ -105,6 +105,7 @@ mf.landmarking.default <- function(x, y, features="all",
     features <- ls.landmarking()
   }
   features <- match.arg(features, ls.landmarking(), TRUE)
+  colnames(x) <- make.names(colnames(x))
 
   data <- eval(call(map, x, y))
   split <- lapply(data, function(i) {

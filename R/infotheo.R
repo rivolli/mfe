@@ -97,6 +97,7 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
     features <- ls.infotheo()
   }
   features <- match.arg(features, ls.infotheo(), TRUE)
+  colnames(x) <- make.names(colnames(x))
 
   catdata <- validate.and.replace.numeric.attr(x, transform.attr)
 

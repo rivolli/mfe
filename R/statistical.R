@@ -113,6 +113,7 @@ mf.statistical.default <- function(x, y, features="all",
     features <- ls.statistical()
   }
   features <- match.arg(features, ls.statistical(), TRUE)
+  colnames(x) <- make.names(colnames(x))
 
   numdata <- validate.and.replace.nominal.attr(x, transform.attr)
 

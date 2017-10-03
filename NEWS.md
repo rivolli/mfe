@@ -8,6 +8,7 @@
 * Change class to kknn package in landmarking 1nn and eliteNN
 * Some measures fixes and improvements
 * Fix harmonic and geometric mean
+* Support datasets that have columns named with numbers 
 
 # First release of **mfe** [current]:
 
