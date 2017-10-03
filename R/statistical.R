@@ -201,19 +201,20 @@ discreteness.degree <- function(x, ...) {
 }
 
 geometric.mean <- function(x, ...) {
-  #TODO http://r.789695.n4.nabble.com/
-  #geometric-mean-to-handle-large-number-and-negative-values-td885574.html
-  apply(x, 2, function(col) {
-    if(all(col > 0)) {
-      exp(mean(log(col)))
-    } else {
-      0
-    }
+  res1 <- apply(x, 2, prod)^(1/nrow(x))
+
+  x[x < 1] <- NA
+  res2 <- apply(x, 2, function(col) {
+    exp(mean(log(col)))
   })
+
+  coalesce(res1, res2)
 }
 
 harmonic.mean <- function(x, ...) {
-  apply(x, 2, function(col) length(col) / sum(1/col))
+  res <- apply(x, 2, function(col) length(col) / sum(1/col))
+  res[!is.finite(res)] <- NA
+  res
 }
 
 iqr <- function(x, ...) {

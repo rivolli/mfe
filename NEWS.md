@@ -5,8 +5,9 @@
 
 ### Bugfixes
 * Specific errors about minority class with an unique instance
-* Change class to kknn pakcage in landmarking 1nn and eliteNN
+* Change class to kknn package in landmarking 1nn and eliteNN
 * Some measures fixes and improvements
+* Fix harmonic and geometric mean
 
 # First release of **mfe** [current]:
 
