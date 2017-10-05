@@ -81,11 +81,11 @@ post.processing <- function(measure, summary=c("mean", "sd"), ...) {
     do.call(s, list(measure, ...))
   }, simplify=FALSE)
 
-  non.aggregated <- function (x, ...) {
-    x
-  }
-
   unlist(res)
+}
+
+non.aggregated <- function (x, ...) {
+  x
 }
 
 hist <- function(x, bins=10, min=base::min(x), max=base::max(x), ...){
