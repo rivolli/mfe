@@ -79,17 +79,6 @@ test_that("mf.statistical.strange.things", {
   #TODO expect_silent(mf.statistical(class ~ ., rmfdata))
 })
 
-test_that("statistical transformation attributes", {
-   categdata <- replace.numeric.columns(rmfdata)
-   expect_error(mf.statistical(class ~ ., categdata, transform=FALSE),
-                  "dataset does not contain numerical attributes")
-
-   val1 <- mf.statistical(class ~ ., categdata, transform=TRUE)
-   bothdata <- cbind(categdata, replace.nominal.columns(categdata[,1:3]))
-   val2 <- mf.statistical(class ~ ., bothdata, transform=FALSE)
-   expect_equal(val1, val2)
-})
-
 test_that("statistical bug fixes", {
   data <- read.table("../datasets/abalone.data", sep=",", na.string="?")
   colnames(data)[ncol(data)] <- "target"
