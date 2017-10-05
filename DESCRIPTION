@@ -36,5 +36,5 @@ Suggests:
 License: GPL | file LICENSE
 LazyData: true
 BugReports: https://github.com/rivolli/mfe/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 VignetteBuilder: knitr
