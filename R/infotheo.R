@@ -1,7 +1,8 @@
 #' Information-theoretic meta-features
 #'
 #' Information-theoretic meta-features are particularly appropriate to describe
-#' discrete (categorical) attributes, but they also fit continuous ones.
+#' discrete (categorical) attributes, but they also fit continuous ones so a 
+#' discretization is required.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
@@ -75,40 +76,41 @@ mf.infotheo <- function(...) {
 #' @export
 mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
                                 ...) {
-  if(!is.data.frame(x)){
+  if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
 
-  if(is.data.frame(y)){
+  if(is.data.frame(y)) {
     y <- y[, 1]
   }
   y <- as.factor(y)
-  if (min(table(y)) < 2) {
+
+  if(min(table(y)) < 2) {
     stop("number of examples in the minority class should be >= 2")
   }
 
-  if(nrow(x) != length(y)){
+  if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
 
-  if(features[1] == "all"){
+  if(features[1] == "all") {
     features <- ls.infotheo()
   }
   features <- match.arg(features, ls.infotheo(), TRUE)
 
-  catdata <- categorize(x)
-  catdata <- catdata[, sapply(catdata, nlevels) > 1, drop=FALSE]
+  x.dis <- categorize(x)
+  x.dis <- x.dis[, sapply(x.dis, nlevels) > 1, drop=FALSE]
 
   extra <- list(
     y.entropy = entropy(y),
     y.log = base::log2(nlevels(y)),
-    x.entropy = sapply(catdata, entropy),
-    x.log = sapply(sapply(catdata, nlevels), base::log2),
-    mutinf = sapply(catdata, mutinf, y=y)
+    x.entropy = sapply(x.dis, entropy),
+    x.log = sapply(sapply(x.dis, nlevels), base::log2),
+    mutinf = sapply(x.dis, mutinf, y=y)
   )
 
-  sapply(features, function(f){
-    measure <- eval(call(f, x=catdata, y=y, extra=extra))
+  sapply(features, function(f) {
+    measure <- eval(call(f, x=x.dis, y=y, extra=extra))
     post.processing(measure, summary, ...)
   }, simplify=FALSE)
 }
@@ -117,11 +119,11 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
 #' @export
 mf.infotheo.formula <- function(formula, data, features="all", 
                                 summary=c("mean", "sd"), ...) {
-  if(!inherits(formula, "formula")){
+  if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
 
-  if(!is.data.frame(data)){
+  if(!is.data.frame(data)) {
     stop("data argument must be a data.frame")
   }
 
