@@ -77,15 +77,17 @@ mf.model.based.default <- function(x, y, features="all",
     stop("data argument must be a data.frame")
   }
 
-  y <- as.data.frame(y)
+  if(is.data.frame(y)) {
+    y <- y[, 1]
+  }
+  y <- as.factor(y)
 
-  if(nrow(x) != nrow(y)) {
+  if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
 
-  data <- cbind(Class=y, x)
-  formula <- stats::as.formula(paste(colnames(data[1]), "~."))
-  mf.model.based.formula(formula, data, features, summary, ...)
+  data <- cbind(class=y, x)
+  mf.model.based.formula(stats::formula(data), data, features, summary, ...)
 }
 
 #' @rdname mf.model.based
