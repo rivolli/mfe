@@ -19,7 +19,7 @@ metafeatures(...)
 
 \item{x}{A data.frame contained only the input attributes.}
 
-\item{y}{a factor response vector with one label for each row/component of x.}
+\item{y}{A factor response vector with one label for each row/component of x.}
 
 \item{groups}{A list of meta-features groups or \code{"all"} to include all
 them. The details section describes the valid values for this parameter.}

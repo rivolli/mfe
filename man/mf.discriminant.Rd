@@ -17,7 +17,7 @@ mf.discriminant(...)
 
 \item{x}{A data.frame contained only the input attributes.}
 
-\item{y}{a factor response vector with one label for each row/component of x.}
+\item{y}{A factor response vector with one label for each row/component of x.}
 
 \item{features}{A list of features names or \code{"all"} to include all them.}
 
