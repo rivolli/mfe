@@ -1,20 +1,18 @@
 replace.nominal.columns <- function(x) {
   att <- paste(colnames(x), collapse="+")
-  x <- stats::model.matrix(stats::formula(paste("~ 0 +", att, sep=" ")), x)
-  return(x)
+  stats::model.matrix(stats::formula(paste("~ 0 +", att, sep=" ")), x)
 }
 
 replace.numeric.columns <- function(x) {
-  numcols <- sapply(x, is.numeric)
-  #TODO trocar pelo histograma
-  x <- cbind(x[!numcols], infotheo::discretize(x[numcols]))[colnames(x)]
+  att <- sapply(x, is.numeric)
+  x <- cbind(x[!att], infotheo::discretize(x[att]))[colnames(x)]
   as.data.frame(sapply(x, as.factor))
 }
 
 validate.and.replace.nominal.attr <- function(x, transform.attr) {
   if(transform.attr) {
     numdata <- replace.nominal.columns(x)
-  }else {
+  } else {
     numcols <- sapply(x, is.numeric)
     numdata <- x[numcols]
     if(!any(numcols)) {
@@ -28,7 +26,7 @@ validate.and.replace.nominal.attr <- function(x, transform.attr) {
 validate.and.replace.numeric.attr <- function(x, transform.attr) {
   if(transform.attr) {
     catdata <- replace.numeric.columns(x)
-  }else {
+  } else {
     numcols <- sapply(x, is.numeric)
     catdata <- x[!numcols]
     if(all(numcols)) {
@@ -58,4 +56,3 @@ createFolds <- function(y, folds) {
 
   return(folds)
 }
-
