@@ -1,7 +1,8 @@
 #' Discriminant meta-features
 #'
-#' Discriminant meta-features are computed using the discriminant analysis. It
-#' is computed using just the numerical attributes.
+#' Discriminant meta-features are computed using the discriminant analysis 
+#' algorithm. It is computed using just the numerical attributes so a 
+#' binarization on the data is required.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
@@ -74,7 +75,8 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
     y <- y[, 1]
   }
   y <- as.factor(y)
-  if (min(table(y)) < 2) {
+
+  if(min(table(y)) < 2) {
     stop("number of examples in the minority class should be >= 2")
   }
 
@@ -87,16 +89,17 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
   }
   features <- match.arg(features, ls.discriminant(), TRUE)
 
-  numdata <- binarize(x)
-
+  x.num <- binarize(x)
   y.num <- binarize(as.data.frame(y))
-  x.cov <- stats::cov(numdata)
+  x.cov <- stats::cov(x.num)
 
   extra <- list(
     y.num = y.num,
-    cancor = tryCatch(stats::cancor(numdata, y.num), error=function (e){
-      warning(e)
-      list(cor=c())
+    cancor = tryCatch(
+        stats::cancor(x.num, y.num),
+      error=function(e) {
+        warning(e)
+        list(cor=c())
     }),
     x.cov = x.cov,
     eigenvalues = base::eigen(x.cov)
@@ -119,7 +122,7 @@ mf.discriminant.formula <- function(formula, data, features="all", ...) {
     stop("data argument must be a data.frame")
   }
 
-  modFrame <- stats::model.frame(formula,data)
+  modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
   mf.discriminant.default(modFrame[, -1], modFrame[, 1], features, ...)
