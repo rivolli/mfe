@@ -6,7 +6,7 @@
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
-#' @param y a factor response vector with one label for each row/component of x.
+#' @param y A factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
@@ -193,17 +193,20 @@ discreteness.degree <- function(x, ...) {
 }
 
 geometric.mean <- function(x, ...) {
-  apply(x, 2, function(col) {
-    if(all(col > 0)) {
-      exp(mean(log(col)))
-    } else {
-      0
-    }
+  res1 <- apply(x, 2, prod)^(1/nrow(x))
+
+  x[x < 1] <- NA
+  res2 <- apply(x, 2, function(col) {
+    exp(mean(log(col)))
   })
+
+  coalesce(res1, res2)
 }
 
 harmonic.mean <- function(x, ...) {
-  apply(x, 2, function(col) length(col) / sum(1/col))
+  res <- apply(x, 2, function(col) length(col) / sum(1/col))
+  res[!is.finite(res)] <- NA
+  res
 }
 
 iqr <- function(x, ...) {
