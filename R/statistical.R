@@ -112,6 +112,8 @@ mf.statistical.default <- function(x, y, features="all",
   }
   features <- match.arg(features, ls.statistical(), TRUE)
 
+  colnames(x) <- make.names(colnames(x))
+
   numdata <- binarize(x)
 
   if(by.class) {

@@ -96,6 +96,8 @@ mf.landmarking.default <- function(x, y, features="all",
   }
   features <- match.arg(features, ls.landmarking(), TRUE)
 
+  colnames(x) <- make.names(colnames(x))
+
   test <- createFolds(y, folds=folds)
 
   sapply(features, function(f) {

@@ -98,6 +98,8 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
   }
   features <- match.arg(features, ls.infotheo(), TRUE)
 
+  colnames(x) <- make.names(colnames(x))
+
   x.dis <- categorize(x)
   x.dis <- x.dis[, sapply(x.dis, nlevels) > 1, drop=FALSE]
 

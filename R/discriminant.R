@@ -89,6 +89,8 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
   }
   features <- match.arg(features, ls.discriminant(), TRUE)
 
+  colnames(x) <- make.names(colnames(x))
+
   x.num <- binarize(x)
   y.num <- binarize(as.data.frame(y))
   x.cov <- stats::cov(x.num)
