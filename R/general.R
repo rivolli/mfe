@@ -1,7 +1,7 @@
 #' General meta-features
 #'
-#' General meta-features include general information related to the dataset at
-#' hand. It is also known as simple measures.
+#' General meta-features include general information related to the dataset. It 
+#' is also known as simple measures.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
