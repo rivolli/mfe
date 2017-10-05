@@ -30,8 +30,9 @@ The details section describes the valid values for this group.}
 A list named by the requested meta-features.
 }
 \description{
-Discriminant meta-features are computed using the discriminant analysis. It
-is computed using just the numerical attributes.
+Discriminant meta-features are computed using the discriminant analysis 
+algorithm. It is computed using just the numerical attributes so a 
+binarization on the data is required.
 }
 \details{
 The following features are allowed for this method:

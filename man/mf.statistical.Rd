@@ -40,9 +40,9 @@ The details section describes the valid values for this group.}
 A list named by the requested meta-features.
 }
 \description{
-Statistical meta-features are the standard statistical measures to
-describe the numerical properties of a distribution of data. As it requires
-only numerical attributes, the categorical data are transformed to numerical.
+Statistical meta-features are the standard statistical measures to describe 
+the numerical properties of a distribution of data. As it requires only 
+numerical attributes, the categorical data are transformed to numerical.
 }
 \details{
 The following features are allowed for this method:

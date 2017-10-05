@@ -30,8 +30,8 @@ The details section describes the valid values for this group.}
 A list named by the requested meta-features.
 }
 \description{
-General meta-features include general information related to the dataset at
-hand. It is also known as simple measures.
+General meta-features include general information related to the dataset. It 
+is also known as simple measures.
 }
 \details{
 The following features are allowed for this method:

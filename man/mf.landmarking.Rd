@@ -42,9 +42,8 @@ Each one of these meta-features generate multiple values (by fold
 }
 \description{
 Landmarking measures are simple and fast algorithms, from which performance
-characteristics can be extracted. The measures use k-fold cross-validation
-and the evaluation measure is accuracy. For multi-class classification
-problems, a decomposition strategy is applied.
+can be extracted. The measures use k-fold cross-validation and the evaluation 
+measure is accuracy.
 }
 \details{
 The following features are allowed for this method:
