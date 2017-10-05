@@ -6,7 +6,7 @@
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
-#' @param y a factor response vector with one label for each row/component of x.
+#' @param y A factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
