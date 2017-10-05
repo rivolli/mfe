@@ -15,4 +15,3 @@ List the Landmarking meta-features
 \examples{
 ls.landmarking()
 }
-

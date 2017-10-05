@@ -15,4 +15,3 @@ List the general meta-features
 \examples{
 ls.general()
 }
-

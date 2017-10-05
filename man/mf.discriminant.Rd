@@ -8,23 +8,18 @@
 \usage{
 mf.discriminant(...)
 
-\method{mf.discriminant}{default}(x, y, features = "all",
-  transform.attr = TRUE, ...)
+\method{mf.discriminant}{default}(x, y, features = "all", ...)
 
-\method{mf.discriminant}{formula}(formula, data, features = "all",
-  transform.attr = TRUE, ...)
+\method{mf.discriminant}{formula}(formula, data, features = "all", ...)
 }
 \arguments{
 \item{...}{Not used.}
 
-\item{x}{A data.frame contained only the input attributes}
+\item{x}{A data.frame contained only the input attributes.}
 
 \item{y}{a factor response vector with one label for each row/component of x.}
 
 \item{features}{A list of features names or \code{"all"} to include all them.}
-
-\item{transform.attr}{A logical value indicating if the categorical
-attributes should be transformed to numerical.}
 
 \item{formula}{A formula to define the class column.}
 
@@ -86,9 +81,8 @@ Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).
    classification. Applied Soft Computing, 6(2), 119-138.
 }
 \seealso{
-Other meta.features: \code{\link{mf.general}},
+Other meta-features: \code{\link{mf.general}},
   \code{\link{mf.infotheo}}, \code{\link{mf.landmarking}},
   \code{\link{mf.model.based}},
   \code{\link{mf.statistical}}
 }
-

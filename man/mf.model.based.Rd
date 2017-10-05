@@ -15,11 +15,11 @@ mf.model.based(...)
   summary = c("mean", "sd"), ...)
 }
 \arguments{
-\item{...}{Optional arguments to the summary methods.}
+\item{...}{Not used.}
 
-\item{x}{A data.frame contained only the input attributes}
+\item{x}{A data.frame contained only the input attributes.}
 
-\item{y}{A factor response vector with one label for each row/component of x.}
+\item{y}{a factor response vector with one label for each row/component of x.}
 
 \item{features}{A list of features names or \code{"all"} to include all them.}
 
@@ -29,7 +29,7 @@ functions. See \link{post.processing} method to more information. (Default:
 
 \item{formula}{A formula to define the class column.}
 
-\item{data}{A data.frame dataset contained the input attributes and class.
+\item{data}{A data.frame dataset contained the input attributes and class
 The details section describes the valid values for this group.}
 }
 \value{
@@ -45,28 +45,26 @@ induced from a dataset.
 \details{
 The following features are allowed for this method:
  \describe{
-   \item{"average.leaf.corrobation"}{Represents the.number of examples that
-     belong to each leaf in the DT model divided by the number of examples in
-     the dataset.}
-   \item{"branch.length"}{Represents the.size of each leaf in the DT model.}
-   \item{"depth"}{Represents the size of each path in the DT model.}
-   \item{"homogeneity"}{Represents the number of leaves divided by the
-     strutural shape of the DT model.}
-   \item{"max.depth"}{Represents the size of the longest path of the DT
-     model.}
-   \item{"nleave"}{Represents the number of leaves of the DT model.}
-   \item{"nnode"}{Represents the number of nodes in the DT model.}
+   \item{"average.leaf.corrobation"}{This measure calculate the proportion of  
+     examples that belong to each leaf of the DT model.}
+   \item{"branch.length"}{Is the length of each leaf of the DT model.}
+   \item{"depth"}{Is the depth of each path and leaf of the DT model.}
+   \item{"homogeneity"}{Is the number of leaves divided by the strutural 
+     shape of the DT model.}
+   \item{"max.depth"}{Is the maximum depth of the DT model.}
+   \item{"nleave"}{Is the number of leaves of the DT model.}
+   \item{"nnode"}{Is the number of nodes in the DT model.}
    \item{"nodes.per.attribute"}{Represents the number of nodes in the DT
      model divided by the number of predictive attributes.}
-   \item{"nodes.per.instance"}{Represents the number of leaves in the DT
-     model divided by the number of examples in the dataset.}
-   \item{"nodes.level"}{Represents the number of nodes per level.}
-   \item{"repeated.nodes"}{Represents the number of repeated attributes that
-     appear in the DT model.}
-   \item{"shape"}{Represents the probability of arrive in each leaf given a
-     random walk. We call this as the strutural shape of the DT model.}
-   \item{"variable.importance"}{Represents the variable importance calculated
-     by Gini index to construct the DT model.}
+   \item{"nodes.per.instance"}{Represents the number of nodes in the DT model 
+     divided by the number of examples in the dataset.}
+   \item{"nodes.per.level"}{Is the number of nodes per level of the DT model.}
+   \item{"repeated.nodes"}{This measure calculate the number of repeated 
+     attributes that appear in the DT model.}
+   \item{"shape"}{Is the probability of arrive in each leaf given a random 
+     walk. We call this as the strutural shape of the DT model.}
+   \item{"variable.importance"}{Calculate the variable importance using the  
+     Gini index to estimate the amout of information used in the DT model.}
  }
 }
 \examples{
@@ -92,9 +90,8 @@ Bensusan, H., Giraud-Carrier, C. G., & Kennedy, C. J. (2000). A Higher-order
  Conference on Discovery Science (Vol 2534, pp. 141-152)
 }
 \seealso{
-Other meta.features: \code{\link{mf.discriminant}},
+Other meta-features: \code{\link{mf.discriminant}},
   \code{\link{mf.general}}, \code{\link{mf.infotheo}},
   \code{\link{mf.landmarking}},
   \code{\link{mf.statistical}}
 }
-

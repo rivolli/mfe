@@ -13,9 +13,9 @@ mf.general(...)
 \method{mf.general}{formula}(formula, data, features = "all", ...)
 }
 \arguments{
-\item{...}{Not used}
+\item{...}{Not used.}
 
-\item{x}{A data.frame contained only the input attributes}
+\item{x}{A data.frame contained only the input attributes.}
 
 \item{y}{a factor response vector with one label for each row/component of x.}
 
@@ -90,9 +90,8 @@ Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).
    Intelligence (Vol. 3558, pp. 457-468).
 }
 \seealso{
-Other meta.features: \code{\link{mf.discriminant}},
+Other meta-features: \code{\link{mf.discriminant}},
   \code{\link{mf.infotheo}}, \code{\link{mf.landmarking}},
   \code{\link{mf.model.based}},
   \code{\link{mf.statistical}}
 }
-

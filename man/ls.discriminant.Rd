@@ -15,4 +15,3 @@ List the discriminant meta-features
 \examples{
 ls.discriminant()
 }
-

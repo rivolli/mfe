@@ -9,15 +9,15 @@
 mf.infotheo(...)
 
 \method{mf.infotheo}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), transform.attr = TRUE, ...)
+  "sd"), ...)
 
 \method{mf.infotheo}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), transform.attr = TRUE, ...)
+  summary = c("mean", "sd"), ...)
 }
 \arguments{
-\item{...}{Optional arguments to the summary methods.}
+\item{...}{Not used.}
 
-\item{x}{A data.frame contained only the input attributes}
+\item{x}{A data.frame contained only the input attributes.}
 
 \item{y}{a factor response vector with one label for each row/component of x.}
 
@@ -26,9 +26,6 @@ mf.infotheo(...)
 \item{summary}{A list of methods to summarize the results as post-processing
 functions. See \link{post.processing} method to more information. (Default:
 \code{c("mean", "sd")})}
-
-\item{transform.attr}{A logical value indicating if the numerical
-attributes should be transformed to categorical.}
 
 \item{formula}{A formula to define the class column.}
 
@@ -95,9 +92,8 @@ Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).
    Intelligence (Vol. 3558, pp. 457-468).
 }
 \seealso{
-Other meta.features: \code{\link{mf.discriminant}},
+Other meta-features: \code{\link{mf.discriminant}},
   \code{\link{mf.general}}, \code{\link{mf.landmarking}},
   \code{\link{mf.model.based}},
   \code{\link{mf.statistical}}
 }
-

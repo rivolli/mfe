@@ -15,4 +15,3 @@ List the statistical meta-features
 \examples{
 ls.statistical()
 }
-

@@ -15,12 +15,11 @@ metafeatures(...)
   summary = c("mean", "sd"), ...)
 }
 \arguments{
-\item{...}{Optional arguments to the summary methods.
-#' @param formula A formula to define the class column.}
+\item{...}{Optional arguments to the summary methods.}
 
 \item{x}{A data.frame contained only the input attributes.}
 
-\item{y}{A factor response vector with one label for each row/component of x.}
+\item{y}{a factor response vector with one label for each row/component of x.}
 
 \item{groups}{A list of meta-features groups or \code{"all"} to include all
 them. The details section describes the valid values for this parameter.}
@@ -68,4 +67,3 @@ metafeatures(iris[1:4], iris[5], c("general", "statistical", "infotheo"))
 ## Use another summary methods
 metafeatures(Species ~ ., iris, summary=c("min", "median", "max"))
 }
-
