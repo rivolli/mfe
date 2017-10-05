@@ -64,7 +64,6 @@ post.processing <- function(measure, summary=c("mean", "sd"), ...) {
     return(measure)
   }
 
-  #Internal methods to do not override the originals
   skewness <- function(x, na.rm=FALSE, type=3, ...) {
     e1071::skewness(x, na.rm, type)
   }
@@ -82,11 +81,11 @@ post.processing <- function(measure, summary=c("mean", "sd"), ...) {
     do.call(s, list(measure, ...))
   }, simplify=FALSE)
 
-  unlist(res)
-}
+  non.aggregated <- function (x, ...) {
+    x
+  }
 
-non.aggregated <- function (x, ...) {
-  x
+  unlist(res)
 }
 
 hist <- function(x, bins=10, min=base::min(x), max=base::max(x), ...){
