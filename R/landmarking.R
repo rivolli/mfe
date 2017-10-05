@@ -6,20 +6,18 @@
 #' problems, a decomposition strategy is applied.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
-#' @param y A factor response vector with one label for each row/component of x.
+#' @param x A data.frame contained only the input attributes.
+#' @param y a factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
+#' @param formula A formula to define the class column.
+#' @param data A data.frame dataset contained the input attributes and class
+#'  The details section describes the valid values for this group.
 #' @param folds The number of k equal size subsamples in k-fold
 #'  cross-validation.
-#' @param ... Optional arguments to the summary methods.
-#' @param formula A formula to define the class column.
-#' @param data A data.frame dataset contained the input attributes and class.
-#'  The details section describes the valid values for this group.
-#' @param transform.attr A logical value indicating if the categorical
-#'  attributes should be transformed to numerical.
+#' @param ... Not used.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
@@ -39,10 +37,9 @@
 #'    \item{"nearest.neighbor"}{This measure evaluate the performance of the
 #'      1-Nearest Neighbor classifier. It uses the euclidean distance of the
 #'      nearest neighbor to determine how noisy is the data.}
-#'    \item{"worst.node"}{Construct a single DT node model induced by the
-#'      less informative attribute. With the "decision.stumps" measure is
-#'      possible to define a baseline value of linear separability for a
-#'      dataset.}
+#'    \item{"worst.node"}{Construct a single DT node model induced by the less 
+#'      informative attribute. With the "decision.stumps" measure is possible to
+#'      define a baseline value of linear separability for dataset.}
 #'  }
 #' @return Each one of these meta-features generate multiple values (by fold
 #'  and/or binary dataset) and then it is post processed by the summary methods.
@@ -77,8 +74,7 @@ mf.landmarking <- function(...) {
 #' @rdname mf.landmarking
 #' @export
 mf.landmarking.default <- function(x, y, features="all",
-                                   summary=c("mean", "sd"), folds=10,
-                                   transform.attr=TRUE, ...) {
+                                   summary=c("mean", "sd"), folds=10, ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -114,8 +110,7 @@ mf.landmarking.default <- function(x, y, features="all",
 #' @rdname mf.landmarking
 #' @export
 mf.landmarking.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"), folds=10,
-                                   transform.attr=TRUE, ...) {
+                                   summary=c("mean", "sd"), folds=10, ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -128,7 +123,7 @@ mf.landmarking.formula <- function(formula, data, features="all",
   attr(modFrame, "terms") <- NULL
 
   mf.landmarking.default(modFrame[, -1], modFrame[, 1], features, summary, 
-                         folds, transform.attr, ...)
+                         folds, ...)
 }
 
 #' List the Landmarking meta-features
@@ -171,16 +166,15 @@ worst.node <- function(x, y, test, ...) {
   accuracy(prediction, y[test])
 }
 
-nearest.neighbor <- function(x, y, test, transform.attr=TRUE, ...) {
-  x <- validate.and.replace.nominal.attr(x, transform.attr)
+nearest.neighbor <- function(x, y, test, ...) {
+  x <- binarize(x)
   data <- data.frame(class=y, x)
   prediction <- kknn::kknn(class ~. , data[-test,], data[test,-1], k=1)
   accuracy(prediction$fitted.values, y[test])
 }
 
-elite.nearest.neighbor <- function(x, y, test, transform.attr=TRUE, ...) {
-
-  x <- validate.and.replace.nominal.attr(x, transform.attr)
+elite.nearest.neighbor <- function(x, y, test, ...) {
+  x <- binarize(x)
   imp <- dt.importance(x, y, test)
   att <- names(which(imp != 0))
   if(all(imp == 0))
@@ -206,4 +200,3 @@ linear.discriminant <- function(x, y, test, ...) {
     return(0)
   })
 }
-

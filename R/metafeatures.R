@@ -4,17 +4,16 @@
 #' specific parameters for each group, use the specific characterization method.
 #'
 #' @param x A data.frame contained only the input attributes.
-#' @param y A factor response vector with one label for each row/component of x.
+#' @param y a factor response vector with one label for each row/component of x.
 #' @param groups A list of meta-features groups or \code{"all"} to include all
 #'  them. The details section describes the valid values for this parameter.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
-#' @param ... Optional arguments to the summary methods.
-#' #' @param formula A formula to define the class column.
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
+#' @param ... Optional arguments to the summary methods.
 #' @details
 #'  The following groups are allowed for this method:
 #'  \describe{

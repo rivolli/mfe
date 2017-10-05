@@ -4,15 +4,13 @@
 #' is computed using just the numerical attributes.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
+#' @param x A data.frame contained only the input attributes.
 #' @param y a factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
-#' @param ... Not used.
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
-#' @param transform.attr A logical value indicating if the categorical
-#'  attributes should be transformed to numerical.
+#' @param ... Not used.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
@@ -67,8 +65,7 @@ mf.discriminant <- function(...) {
 
 #' @rdname mf.discriminant
 #' @export
-mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
-                                    ...) {
+mf.discriminant.default <- function(x, y, features="all", ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -90,9 +87,9 @@ mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
   }
   features <- match.arg(features, ls.discriminant(), TRUE)
 
-  numdata <- validate.and.replace.nominal.attr(x, transform.attr)
+  numdata <- binarize(x)
 
-  y.num <- replace.nominal.columns(as.data.frame(y))
+  y.num <- binarize(as.data.frame(y))
   x.cov <- stats::cov(numdata)
 
   extra <- list(
@@ -113,8 +110,7 @@ mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
 
 #' @rdname mf.discriminant
 #' @export
-mf.discriminant.formula <- function(formula, data, features="all",
-                                    transform.attr=TRUE, ...) {
+mf.discriminant.formula <- function(formula, data, features="all", ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -126,8 +122,7 @@ mf.discriminant.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula,data)
   attr(modFrame, "terms") <- NULL
 
-  mf.discriminant.default(modFrame[, -1], modFrame[, 1], features,
-                          transform.attr, ...)
+  mf.discriminant.default(modFrame[, -1], modFrame[, 1], features, ...)
 }
 
 #' List the discriminant meta-features
@@ -147,7 +142,6 @@ cancor <- function(x, y, extra, ...) {
 }
 
 center.of.gravity <- function(x, y, ...) {
-  #TODO Change to another group
   classes <- table(y)
   minc <- which.min(classes)
   maxc <- which.max(classes[-minc])
@@ -159,18 +153,15 @@ center.of.gravity <- function(x, y, ...) {
 }
 
 discfct <- function(x, y, extra, ...) {
-  #TODO Confirm if the use of levels normalizes the measure
   length(extra$cancor$cor) / nlevels(y)
 }
 
 eigen.fract <- function(x, y, extra, ...) {
-  #Castiello Version
   values <- extra$eigenvalues$values
   values[1] / sum(values)
 }
 
 cancor.fract <- function(x, y, extra, ...) {
-  #Michie version
   values <- extra$cancor$cor ^ 2
   values[1] / sum(values)
 }
@@ -184,7 +175,6 @@ min.eighenvalue <- function(x, y, extra, ...) {
 }
 
 sdratio <- function(x, y, extra, ...) {
-  #The Michie formulation there are some wrongs
   p <- ncol(x)
   q <- nlevels(y)
   n <- length(y)
@@ -198,10 +188,8 @@ sdratio <- function(x, y, extra, ...) {
     M <- (1 - ((2*p^2+3*p-1)/(6*(p+1)*(q-1))) * (sum(1/ni)-1/(n-q))) *
       ((n - q) * log(det(S)) - sum(ni * log(sapply(Si, det))))
 
-    #Sometimes the det is zero and log is Inf, then return 0
     ifelse(is.na(M) | is.infinite(M), 0, exp(M / (p * sum(ni - 1))))
   }, warning = function(e) {
-    #Sometimes the det is negative, then return 0
     0
   })
 }

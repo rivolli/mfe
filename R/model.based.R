@@ -5,41 +5,39 @@
 #' induced from a dataset.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
-#' @param y A factor response vector with one label for each row/component of x.
+#' @param x A data.frame contained only the input attributes.
+#' @param y a factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
-#' @param ... Optional arguments to the summary methods.
 #' @param formula A formula to define the class column.
-#' @param data A data.frame dataset contained the input attributes and class.
+#' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
+#' @param ... Not used.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"average.leaf.corrobation"}{Represents the.number of examples that
-#'      belong to each leaf in the DT model divided by the number of examples in
-#'      the dataset.}
-#'    \item{"branch.length"}{Represents the.size of each leaf in the DT model.}
-#'    \item{"depth"}{Represents the size of each path in the DT model.}
-#'    \item{"homogeneity"}{Represents the number of leaves divided by the
-#'      strutural shape of the DT model.}
-#'    \item{"max.depth"}{Represents the size of the longest path of the DT
-#'      model.}
-#'    \item{"nleave"}{Represents the number of leaves of the DT model.}
-#'    \item{"nnode"}{Represents the number of nodes in the DT model.}
+#'    \item{"average.leaf.corrobation"}{This measure calculate the proportion of  
+#'      examples that belong to each leaf of the DT model.}
+#'    \item{"branch.length"}{Is the length of each leaf of the DT model.}
+#'    \item{"depth"}{Is the depth of each path and leaf of the DT model.}
+#'    \item{"homogeneity"}{Is the number of leaves divided by the strutural 
+#'      shape of the DT model.}
+#'    \item{"max.depth"}{Is the maximum depth of the DT model.}
+#'    \item{"nleave"}{Is the number of leaves of the DT model.}
+#'    \item{"nnode"}{Is the number of nodes in the DT model.}
 #'    \item{"nodes.per.attribute"}{Represents the number of nodes in the DT
 #'      model divided by the number of predictive attributes.}
-#'    \item{"nodes.per.instance"}{Represents the number of leaves in the DT
-#'      model divided by the number of examples in the dataset.}
-#'    \item{"nodes.level"}{Represents the number of nodes per level.}
-#'    \item{"repeated.nodes"}{Represents the number of repeated attributes that
-#'      appear in the DT model.}
-#'    \item{"shape"}{Represents the probability of arrive in each leaf given a
-#'      random walk. We call this as the strutural shape of the DT model.}
-#'    \item{"variable.importance"}{Represents the variable importance calculated
-#'      by Gini index to construct the DT model.}
+#'    \item{"nodes.per.instance"}{Represents the number of nodes in the DT model 
+#'      divided by the number of examples in the dataset.}
+#'    \item{"nodes.per.level"}{Is the number of nodes per level of the DT model.}
+#'    \item{"repeated.nodes"}{This measure calculate the number of repeated 
+#'      attributes that appear in the DT model.}
+#'    \item{"shape"}{Is the probability of arrive in each leaf given a random 
+#'      walk. We call this as the strutural shape of the DT model.}
+#'    \item{"variable.importance"}{Calculate the variable importance using the  
+#'      Gini index to estimate the amout of information used in the DT model.}
 #'  }
 #' @return Each one of these meta-features generate multiple values (by leaves
 #'  and/or nodes) and then it is post processed by the summary methods.
@@ -156,10 +154,8 @@ average.leaf.corrobation <- function(model, data, ...) {
 }
 
 variable.importance <- function(model, ...) {
-  aux <- attr(model$terms, "term.labels")
-  aux <- stats::setNames(rep(0, length(aux)), aux)
-  aux[names(model$variable.importance)] <- model$variable.importance
-  return(aux)
+  aux <- model$variable.importance
+  return(multiple(aux))
 }
 
 depth <- function(model, ...) {
@@ -173,11 +169,8 @@ max.depth <- function(model, ...) {
 }
 
 repeated.nodes <- function(model, data, ...) {
-  aux <- attr(model$terms, "term.labels")
-  aux <- stats::setNames(rep(0, length(aux)), aux)
-  tmp <- table(factor(model$frame$var[model$frame$var != "<leaf>"]))
-  aux[names(tmp)] <- tmp
-  return(aux)
+  aux <- table(factor(model$frame$var[model$frame$var != "<leaf>"]))
+  return(multiple(aux))
 }
 
 shape <- function(model, ...) {
@@ -200,10 +193,6 @@ branch.length <- function(model, ...) {
 
 nodes.per.level <- function(model, ...) {
   aux <- depth(model)[model$frame$var != "<leaf>"]
-  if(length(aux) <= 1) {
-    return(c(0, 0))
-  }
-  sapply(0:max(aux), function(d) {
-    sum(aux == d)
-  })
+  aux <- table(factor(aux))
+  return(multiple(aux))
 }

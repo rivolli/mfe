@@ -4,13 +4,13 @@
 #' hand. It is also known as simple measures.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
+#' @param x A data.frame contained only the input attributes.
 #' @param y a factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
-#' @param ... Not used
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
+#' @param ... Not used.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{

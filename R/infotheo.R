@@ -4,18 +4,16 @@
 #' discrete (categorical) attributes, but they also fit continuous ones.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
+#' @param x A data.frame contained only the input attributes.
 #' @param y a factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
-#' @param ... Optional arguments to the summary methods.
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
-#' @param transform.attr A logical value indicating if the numerical
-#'  attributes should be transformed to categorical.
+#' @param ... Not used.
 #' @details
 #'  TODO describe discretization method
 #'  The following features are allowed for this method:
@@ -76,7 +74,7 @@ mf.infotheo <- function(...) {
 #' @rdname mf.infotheo
 #' @export
 mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
-                                transform.attr=TRUE, ...) {
+                                ...) {
   if(!is.data.frame(x)){
     stop("data argument must be a data.frame")
   }
@@ -98,12 +96,9 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
   }
   features <- match.arg(features, ls.infotheo(), TRUE)
 
-  catdata <- validate.and.replace.numeric.attr(x, transform.attr)
-
-  #Remove constant columns
+  catdata <- categorize(x)
   catdata <- catdata[, sapply(catdata, nlevels) > 1, drop=FALSE]
 
-  #Pre processed data
   extra <- list(
     y.entropy = entropy(y),
     y.log = base::log2(nlevels(y)),
@@ -120,9 +115,8 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
 
 #' @rdname mf.infotheo
 #' @export
-mf.infotheo.formula <- function(formula, data, features="all",
-                                summary=c("mean", "sd"), transform.attr=TRUE,
-                                ...) {
+mf.infotheo.formula <- function(formula, data, features="all", 
+                                summary=c("mean", "sd"), ...) {
   if(!inherits(formula, "formula")){
     stop("method is only for formula datas")
   }
@@ -134,8 +128,7 @@ mf.infotheo.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.infotheo.default(modFrame[, -1], modFrame[, 1], features, summary,
-                      transform.attr, ...)
+  mf.infotheo.default(modFrame[, -1], modFrame[, 1], features, summary, ...)
 }
 
 #' List the information theoretical meta-features
@@ -149,8 +142,6 @@ ls.infotheo <- function () {
   c("attributes.concentration", "attribute.entropy", "class.concentration",
     "class.entropy", "equivalent.attributes", "joint.entropy",
     "mutual.information", "noise.signal")
-  #TODO attribute_entropy, class_entropy is the normalized version
-  #TODO irrelevant.attributes
 }
 
 attributes.concentration <- function(x, ...) {
@@ -163,7 +154,6 @@ attributes.concentration <- function(x, ...) {
 }
 
 attribute.entropy <- function(extra, ...) {
-  #TODO by.class makes senses
   extra$x.entropy / extra$x.log
 }
 
@@ -191,7 +181,6 @@ concentration.coefficient <- function(x, y) {
 }
 
 entropy <- function(x) {
-  # infotheo::entropy generate different values
   qi <- table(x) / length(x)
   -sum(qi * sapply(qi, log2))
 }
@@ -200,18 +189,12 @@ equivalent.attributes <- function(extra, ...) {
   extra$y.entropy / mean(extra$mutinf)
 }
 
-irrelevant.attributes <- function(x, y, extra, ...) {
-  #TODO
-}
-
 joint.entropy <- function(x, y, ...) {
-  #TODO without normalization
   joint.data <- sapply(as.data.frame(sapply(x, paste, y)), as.factor)
   sapply(as.data.frame(joint.data), entropy)
 }
 
 mutinf <- function(x, y) {
-  # infotheo::mutinformation generate different values
   entropy(x) + entropy(y) - entropy(paste(x, y))
 }
 
