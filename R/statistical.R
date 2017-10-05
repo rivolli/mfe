@@ -1,8 +1,8 @@
 #' Statistical meta-features
 #'
-#' Statistical meta-features are the standard statistical measures to
-#' describe the numerical properties of a distribution of data. As it requires
-#' only numerical attributes, the categorical data are transformed to numerical.
+#' Statistical meta-features are the standard statistical measures to describe 
+#' the numerical properties of a distribution of data. As it requires only 
+#' numerical attributes, the categorical data are transformed to numerical.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
@@ -98,6 +98,7 @@ mf.statistical.default <- function(x, y, features="all",
     y <- y[, 1]
   }
   y <- as.factor(y)
+
   if (min(table(y)) < 2) {
     stop("number of examples in the minority class should be >= 2")
   }
