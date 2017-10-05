@@ -1,9 +1,8 @@
 #' Landmarking Meta-features
 #'
 #' Landmarking measures are simple and fast algorithms, from which performance
-#' characteristics can be extracted. The measures use k-fold cross-validation
-#' and the evaluation measure is accuracy. For multi-class classification
-#' problems, a decomposition strategy is applied.
+#' can be extracted. The measures use k-fold cross-validation and the evaluation 
+#' measure is accuracy.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
