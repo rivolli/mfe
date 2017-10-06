@@ -105,7 +105,7 @@ mf.landmarking.default <- function(x, y, features="all",
     measure <- mapply(function(test) {
       eval(call(f, x=x, y=y, test=test))
     }, test=test)
-    post.processing(measure, summary)
+    post.processing(measure, summary, ls.landmarking.multiples())
   }, simplify=FALSE)
 }
 

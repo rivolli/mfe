@@ -120,7 +120,7 @@ mf.model.based.formula <- function(formula, data, features="all",
   model <- dt.model(formula, data)
   sapply(features, function(f) {
     measure <- eval(call(f, model=model, data=data))
-    post.processing(measure, summary)
+    post.processing(measure, summary, ls.model.based.multiples())
   }, simplify=FALSE)
 }
 
