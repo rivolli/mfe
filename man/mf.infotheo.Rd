@@ -15,7 +15,8 @@ mf.infotheo(...)
   summary = c("mean", "sd"), ...)
 }
 \arguments{
-\item{...}{Not used.}
+\item{...}{Further arguments passed to or from other methods like the
+post-processing functions.}
 
 \item{x}{A data.frame contained only the input attributes.}
 

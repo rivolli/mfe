@@ -110,7 +110,7 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
 
   sapply(features, function(f) {
     measure <- eval(call(f, x=x.num, y=y, extra=extra))
-    post.processing(measure, "non.aggregated", FALSE) #...
+    post.processing(measure, multiple=FALSE)
   }, simplify=FALSE)
 }
 

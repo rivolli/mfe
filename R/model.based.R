@@ -14,7 +14,8 @@
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
-#' @param ... Not used.
+#' @param ... Further arguments passed to or from other methods like the
+#'  post-processing functions.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
