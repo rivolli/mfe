@@ -7,7 +7,9 @@
 #' @param measure A list with the meta-features values.
 #' @param summary The functions to post processing the data. See the details
 #'   to more information. Default: \code{c("mean", "sd")}
-#' @param ... Extra values used to the functions.
+#' @param multiple A logical value defining if the measure should return
+#'   multiple values. (Default: \code{TRUE})
+#' @param ... Extra values used to the functions of summarization.
 #' @details
 #'  The post processing functions are used to summarize the meta-features.
 #'  They are organized into three groups: non-aggregated, descriptive
@@ -56,9 +58,15 @@
 #' post.processing(runif(15), c("min", "max"))
 #' post.processing(runif(15), c("quantile", "skewness"))
 #' post.processing(runif(15), "hist", bins=5, min=0, max=1)
-post.processing <- function(measure, summary=c("mean", "sd"), ...) {
-  if(length(measure) == 1) {
-    return(measure)
+post.processing <- function(measure, summary=c("mean", "sd"), multiple=TRUE,
+                            ...) {
+  measure[!is.finite(measure) | is.null(measure) | is.nan(measure)] <- NA
+
+  if(!multiple) {
+    if(length(measure) > 1) {
+      warning("More than one value was obtained for a single measure")
+    }
+    return(measure[1])
   }
 
   skewness <- function(x, na.rm=FALSE, type=3, ...) {

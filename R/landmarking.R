@@ -103,7 +103,7 @@ mf.landmarking.default <- function(x, y, features="all",
     measure <- mapply(function(test) {
       eval(call(f, x=x, y=y, test=test))
     }, test=test)
-    post.processing(measure, summary, ...)
+    post.processing(measure, summary, f %in% ls.landmarking.multiples(), ...)
   }, simplify=FALSE)
 }
 
@@ -136,6 +136,10 @@ mf.landmarking.formula <- function(formula, data, features="all",
 ls.landmarking <- function() {
   c("decision.stumps", "elite.nearest.neighbor", "linear.discriminant",
     "naive.bayes", "nearest.neighbor", "worst.node")
+}
+
+ls.landmarking.multiples <- function() {
+  ls.landmarking()
 }
 
 accuracy <- function(prediction, label) {

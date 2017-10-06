@@ -92,8 +92,6 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
   features <- match.arg(features, ls.discriminant(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
-  colnames(x) <- make.names(colnames(x))
-
   x.num <- binarize(x)
   y.num <- binarize(as.data.frame(y))
   x.cov <- stats::cov(x.num)
@@ -112,7 +110,7 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
 
   sapply(features, function(f) {
     measure <- eval(call(f, x=x.num, y=y, extra=extra))
-    post.processing(measure, "non.aggregated", ...)
+    post.processing(measure, "non.aggregated", FALSE) #...
   }, simplify=FALSE)
 }
 

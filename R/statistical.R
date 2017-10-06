@@ -134,12 +134,13 @@ mf.statistical.default <- function(x, y, features="all",
 
     sapply(features, function(f) {
       values <- lapply(measures, function (values) values[[f]])
-      post.processing(unlist(values), summary, ...)
+      post.processing(unlist(values), summary,
+                      f %in% ls.statistical.multiples(), ...)
     }, simplify=FALSE)
   } else {
     sapply(features, function(f) {
       measure <- do.call(f, c(list(x=numdata), list(...)))
-      post.processing(measure, summary, ...)
+      post.processing(measure, summary, f %in% ls.statistical.multiples(), ...)
     }, simplify=FALSE)
   }
 }
@@ -177,6 +178,10 @@ ls.statistical <- function() {
     "skewness", "standard.deviation", "trim.mean", "variance")
 }
 
+ls.statistical.multiples <- function() {
+  ls.statistical()
+}
+
 correlation <- function(x, ...) {
   args <- list(...)
   method <- ifelse(is.null(args$method), "pearson", args$method)
@@ -207,9 +212,7 @@ geometric.mean <- function(x, ...) {
 }
 
 harmonic.mean <- function(x, ...) {
-  res <- apply(x, 2, function(col) length(col) / sum(1/col))
-  res[!is.finite(res)] <- NA
-  res
+  apply(x, 2, function(col) length(col) / sum(1/col))
 }
 
 iqr <- function(x, ...) {

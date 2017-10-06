@@ -4,7 +4,7 @@
 \alias{post.processing}
 \title{Post processing meta-features values}
 \usage{
-post.processing(measure, summary = c("mean", "sd"), ...)
+post.processing(measure, summary = c("mean", "sd"), multiple = TRUE, ...)
 }
 \arguments{
 \item{measure}{A list with the meta-features values.}
@@ -12,7 +12,10 @@ post.processing(measure, summary = c("mean", "sd"), ...)
 \item{summary}{The functions to post processing the data. See the details
 to more information. Default: \code{c("mean", "sd")}}
 
-\item{...}{Extra values used to the functions.}
+\item{multiple}{A logical value defining if the measure should return
+multiple values. (Default: \code{TRUE})}
+
+\item{...}{Extra values used to the functions of summarization.}
 }
 \value{
 A list with the post-processed meta-features

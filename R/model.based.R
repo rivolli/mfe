@@ -118,7 +118,7 @@ mf.model.based.formula <- function(formula, data, features="all",
   model <- dt.model(formula, data)
   sapply(features, function(f) {
     measure <- eval(call(f, model=model, data=data))
-    post.processing(measure, summary, ...)
+    post.processing(measure, summary, f %in% ls.model.based.multiples(), ...)
   }, simplify=FALSE)
 }
 
@@ -132,6 +132,11 @@ mf.model.based.formula <- function(formula, data, features="all",
 ls.model.based <- function() {
   c("average.leaf.corrobation", "branch.length", "depth", "homogeneity",
     "max.depth", "nleave", "nnode", "nodes.per.attribute", "nodes.per.instance",
+    "nodes.per.level", "repeated.nodes", "shape", "variable.importance")
+}
+
+ls.model.based.multiples <- function() {
+  c("average.leaf.corrobation", "branch.length", "depth", "homogeneity",
     "nodes.per.level", "repeated.nodes", "shape", "variable.importance")
 }
 
@@ -158,7 +163,9 @@ average.leaf.corrobation <- function(model, data, ...) {
 
 variable.importance <- function(model, ...) {
   aux <- model$variable.importance
-  return(multiple(aux))
+  if(is.null(aux))
+    return(NA)
+  return(aux)
 }
 
 depth <- function(model, ...) {
@@ -172,14 +179,16 @@ max.depth <- function(model, ...) {
 }
 
 repeated.nodes <- function(model, data, ...) {
-  aux <- table(factor(model$frame$var[model$frame$var != "<leaf>"]))
-  return(multiple(aux))
+  aux <- as.numeric(table(factor(model$frame$var[model$frame$var != "<leaf>"])))
+  if(length(aux) == 0)
+    return(NA)
+  return(aux)
 }
 
 shape <- function(model, ...) {
   aux <- depth(model)[model$frame$var == "<leaf>"]
-  prob <- -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
-  return(prob)
+  aux <- -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
+  return(aux)
 }
 
 nleave <- function(model, ...) {
@@ -187,7 +196,10 @@ nleave <- function(model, ...) {
 }
 
 homogeneity <- function(model, ...) {
-  nleave(model, ...) / shape(model, ...)
+  aux <- nleave(model, ...) / shape(model, ...)
+  if(any(shape(model, ...) == 0))
+    return(NA)
+  return(aux)
 }
 
 branch.length <- function(model, ...) {
@@ -195,7 +207,8 @@ branch.length <- function(model, ...) {
 }
 
 nodes.per.level <- function(model, ...) {
-  aux <- depth(model)[model$frame$var != "<leaf>"]
-  aux <- table(factor(aux))
-  return(multiple(aux))
+  aux <- as.numeric(table(factor(depth(model)[model$frame$var != "<leaf>"])))
+  if(length(aux) == 0)
+    return(NA)
+  return(aux)
 }

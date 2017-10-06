@@ -111,8 +111,8 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
   )
 
   sapply(features, function(f) {
-    measure <- eval(call(f, x=x.dis, y=y, extra=extra))
-    post.processing(measure, summary, ...)
+    measure <- do.call(f, c(list(x=x.dis, y=y, extra=extra), list(...)))
+    post.processing(measure, summary, f %in% ls.infotheo.multiples(), ...)
   }, simplify=FALSE)
 }
 
@@ -145,6 +145,11 @@ ls.infotheo <- function () {
   c("attributes.concentration", "attribute.entropy", "class.concentration",
     "class.entropy", "equivalent.attributes", "joint.entropy",
     "mutual.information", "noise.signal")
+}
+
+ls.infotheo.multiples <- function () {
+  c("attributes.concentration", "attribute.entropy", "class.concentration",
+    "joint.entropy", "mutual.information")
 }
 
 attributes.concentration <- function(x, ...) {
