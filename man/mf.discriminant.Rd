@@ -86,9 +86,8 @@ Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).
    classification. Applied Soft Computing, 6(2), 119-138.
 }
 \seealso{
-Other meta.features: \code{\link{mf.general}},
+Other meta-features: \code{\link{mf.general}},
   \code{\link{mf.infotheo}}, \code{\link{mf.landmarking}},
   \code{\link{mf.model.based}},
   \code{\link{mf.statistical}}
 }
-

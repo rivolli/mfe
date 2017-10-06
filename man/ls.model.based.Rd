@@ -15,4 +15,3 @@ List the DT model based meta-features
 \examples{
 ls.model.based()
 }
-

@@ -92,9 +92,8 @@ Bensusan, H., Giraud-Carrier, C. G., & Kennedy, C. J. (2000). A Higher-order
  Conference on Discovery Science (Vol 2534, pp. 141-152)
 }
 \seealso{
-Other meta.features: \code{\link{mf.discriminant}},
+Other meta-features: \code{\link{mf.discriminant}},
   \code{\link{mf.general}}, \code{\link{mf.infotheo}},
   \code{\link{mf.landmarking}},
   \code{\link{mf.statistical}}
 }
-

@@ -95,9 +95,8 @@ Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).
    Intelligence (Vol. 3558, pp. 457-468).
 }
 \seealso{
-Other meta.features: \code{\link{mf.discriminant}},
+Other meta-features: \code{\link{mf.discriminant}},
   \code{\link{mf.general}}, \code{\link{mf.landmarking}},
   \code{\link{mf.model.based}},
   \code{\link{mf.statistical}}
 }
-

@@ -15,4 +15,3 @@ List the information theoretical meta-features
 \examples{
 ls.infotheo()
 }
-

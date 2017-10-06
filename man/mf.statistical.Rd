@@ -110,9 +110,8 @@ Castiello, C., Castellano, G., & Fanelli, A. M. (2005). Meta-data:
    classification. Applied Soft Computing, 6(2), 119-138.
 }
 \seealso{
-Other meta.features: \code{\link{mf.discriminant}},
+Other meta-features: \code{\link{mf.discriminant}},
   \code{\link{mf.general}}, \code{\link{mf.infotheo}},
   \code{\link{mf.landmarking}},
   \code{\link{mf.model.based}}
 }
-

@@ -103,9 +103,8 @@ Pfahringer, B., Bensusan, H., &  Giraud-Carrier, C. G. (2000). Meta-Learning
  International Conference on Machine Learning (pp. 743-750)
 }
 \seealso{
-Other meta.features: \code{\link{mf.discriminant}},
+Other meta-features: \code{\link{mf.discriminant}},
   \code{\link{mf.general}}, \code{\link{mf.infotheo}},
   \code{\link{mf.model.based}},
   \code{\link{mf.statistical}}
 }
-

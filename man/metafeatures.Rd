@@ -68,4 +68,3 @@ metafeatures(iris[1:4], iris[5], c("general", "statistical", "infotheo"))
 ## Use another summary methods
 metafeatures(Species ~ ., iris, summary=c("min", "median", "max"))
 }
-
