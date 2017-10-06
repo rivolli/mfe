@@ -17,14 +17,19 @@
 #' @param by.class A logical value indicating if the meta-features must be
 #'  computed for each group of samples belonging to different output classes.
 #'  (Default: TRUE)
-#' @param ... Not used.
+#' @param ... Further arguments passed to or from other methods like the
+#'  meta-features and post-processing.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
 #'    \item{"correlation"}{Represents the absolute correlation between each pair
-#'       of the numeric attributes in the dataset.}
+#'       of the numeric attributes in the dataset. This measure accepts an extra
+#'       argument called \code{method} that values can be \code{c("pearson",
+#'       "kendall", "spearman")}, see \code{\link{cor}} for more details.}
 #'    \item{"covariance"}{Represents the absolute covariance between each pair
-#'       of the numeric attributes in the dataset.}
+#'       of the numeric attributes in the dataset. This measure accepts an extra
+#'       argument called \code{method} that values can be \code{c("pearson",
+#'       "kendall", "spearman")}, see \code{\link{cov}} for more details.}
 #'    \item{"discreteness.degree"}{Represents the degree of discreetness of each
 #'       attribute in the dataset. It is measured using a sparsity measure.}
 #'    \item{"geometric.mean"}{Represents the geometric mean of the numeric
@@ -37,11 +42,14 @@
 #'       the dataset.}
 #'    \item{"mad"}{Represents the median absolute deviation of the numeric
 #'       attributes in the dataset.}
-#'    \item{"normality"}{Represents the number of attributes that have a normal
-#'       distribution of values. For that it is used the Shapiro-Wilk Normality
-#'       Test with \code{alpha=0.05}.}
-#'    \item{"outliers"}{"Represents the proportion of numeric attributes with
-#'      outliers."}
+#'    \item{"normality"}{Represents the p-values of the attributes according to
+#'       a normal distribution test. For that it is used the Shapiro-Wilk
+#'       Normality Test. Values lower than 0.05 could be considered provenient
+#'       from a normal distribution.}
+#'    \item{"outliers"}{"Ratio of the variances of mean value and the
+#'       alfa-trimmed mean. Values smaller than 0.7 can be considered outliers.
+#'       The default alpha value is 0.05 but it can be setted using extra
+#'       parameters."}
 #'    \item{"skewness"}{Represents the skewness of the numeric attributes in
 #'       the dataset.}
 #'    \item{"standard.deviation"}{Represents the standard deviation of the
@@ -116,13 +124,13 @@ mf.statistical.default <- function(x, y, features="all",
   numdata <- binarize(x)
 
   if(by.class) {
-    measures <- lapply(unique(y), function(class) {
+    measures <- sapply(levels(y), function(class) {
       new.data <- numdata[y==class, , drop=FALSE]
       new.data <- new.data[, apply(new.data, 2, stats::sd) != 0, drop=FALSE]
-      sapply(features, function(f) {
-        eval(call(f, x=new.data))
+      aux <- sapply(features, function(f) {
+        do.call(f, c(list(x=new.data), list(...)))
       }, simplify=FALSE)
-    })
+    }, simplify=FALSE)
 
     sapply(features, function(f) {
       values <- lapply(measures, function (values) values[[f]])
@@ -130,7 +138,7 @@ mf.statistical.default <- function(x, y, features="all",
     }, simplify=FALSE)
   } else {
     sapply(features, function(f) {
-      measure <- eval(call(f, x=numdata))
+      measure <- do.call(f, c(list(x=numdata), list(...)))
       post.processing(measure, summary, ...)
     }, simplify=FALSE)
   }
@@ -170,25 +178,21 @@ ls.statistical <- function() {
 }
 
 correlation <- function(x, ...) {
-  aux <- stats::cor(x)
-  values <- abs(aux[upper.tri(aux)])
-  if (length(values)) {
-    values <- c(values, values)
-  }
-  values
+  args <- list(...)
+  method <- ifelse(is.null(args$method), "pearson", args$method)
+  aux <- stats::cor(x, method=method)
+  abs(aux[upper.tri(aux)])
 }
 
 covariance <- function(x, ...) {
-  aux <- stats::cov(x)
+  args <- list(...)
+  method <- ifelse(is.null(args$method), "pearson", args$method)
+  aux <- stats::cov(x, method=method)
   values <- abs(aux[upper.tri(aux)])
-  if (length(values)) {
-    values <- c(values, values)
-  }
-  values
 }
 
 discreteness.degree <- function(x, ...) {
-  apply(x, 2, function(col) mean(table(col)))
+  apply(x, 2, function(col) mean(table(col), ...))
 }
 
 geometric.mean <- function(x, ...) {
@@ -196,7 +200,7 @@ geometric.mean <- function(x, ...) {
 
   x[x < 1] <- NA
   res2 <- apply(x, 2, function(col) {
-    exp(mean(log(col)))
+    exp(mean(log(col), ...))
   })
 
   coalesce(res1, res2)
@@ -209,41 +213,51 @@ harmonic.mean <- function(x, ...) {
 }
 
 iqr <- function(x, ...) {
-  apply(x, 2, stats::IQR) / apply(x, 2, stats::sd)
+  args <- list(...)
+  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
+  apply(x, 2, stats::IQR, na.rm=na.rm) / apply(x, 2, stats::sd, na.rm=na.rm)
 }
 
 kurtosis <- function(x, ...) {
-  abs(apply(x, 2, e1071::kurtosis))
+  args <- list(...)
+  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
+  abs(apply(x, 2, e1071::kurtosis, na.rm=na.rm))
 }
 
 mad <- function(x, ...) {
-  apply(x, 2, stats::mad)
+  args <- list(...)
+  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
+  apply(x, 2, stats::mad, na.rm=na.rm)
 }
 
 normality <- function(x, ...) {
-  res <- apply(x, 2, function(col) {
+  apply(x, 2, function(col) {
     stats::shapiro.test(sample(col, min(length(col), 5000)))$p.value
   })
-  sum(res < 0.05)
 }
 
 outliers <- function(x, alpha=0.05, ...) {
-  values <- apply(x, 2, function(x) mean(x)/mean(x, trim=alpha) < 0.7)
-  sum(values / ncol(x), na.rm=TRUE)
+  apply(x, 2, function(x) mean(x, ...)/mean(x, trim=alpha, ...))
 }
 
 skewness <- function(x, ...) {
-  abs(apply(x, 2, e1071::skewness))
+  args <- list(...)
+  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
+  abs(apply(x, 2, e1071::skewness, na.rm=na.rm))
 }
 
 standard.deviation <- function(x, ...) {
-  apply(x, 2, stats::sd)
+  args <- list(...)
+  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
+  apply(x, 2, stats::sd, na.rm=na.rm)
 }
 
 trim.mean <- function(x, ...) {
-  apply(x, 2, mean, trim=0.2)
+  apply(x, 2, mean, trim=0.2, ...)
 }
 
 variance <- function(x, ...) {
-  apply(x, 2, stats::var)
+  args <- list(...)
+  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
+  apply(x, 2, stats::var, na.rm=na.rm)
 }

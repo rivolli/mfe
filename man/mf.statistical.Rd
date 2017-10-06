@@ -15,7 +15,8 @@ mf.statistical(...)
   summary = c("mean", "sd"), by.class = TRUE, ...)
 }
 \arguments{
-\item{...}{Not used.}
+\item{...}{Further arguments passed to or from other methods like the
+meta-features and post-processing.}
 
 \item{x}{A data.frame contained only the input attributes.}
 
@@ -48,9 +49,13 @@ numerical attributes, the categorical data are transformed to numerical.
 The following features are allowed for this method:
  \describe{
    \item{"correlation"}{Represents the absolute correlation between each pair
-      of the numeric attributes in the dataset.}
+      of the numeric attributes in the dataset. This measure accepts an extra
+      argument called \code{method} that values can be \code{c("pearson",
+      "kendall", "spearman")}, see \code{\link{cor}} for more details.}
    \item{"covariance"}{Represents the absolute covariance between each pair
-      of the numeric attributes in the dataset.}
+      of the numeric attributes in the dataset. This measure accepts an extra
+      argument called \code{method} that values can be \code{c("pearson",
+      "kendall", "spearman")}, see \code{\link{cov}} for more details.}
    \item{"discreteness.degree"}{Represents the degree of discreetness of each
       attribute in the dataset. It is measured using a sparsity measure.}
    \item{"geometric.mean"}{Represents the geometric mean of the numeric
@@ -63,11 +68,14 @@ The following features are allowed for this method:
       the dataset.}
    \item{"mad"}{Represents the median absolute deviation of the numeric
       attributes in the dataset.}
-   \item{"normality"}{Represents the number of attributes that have a normal
-      distribution of values. For that it is used the Shapiro-Wilk Normality
-      Test with \code{alpha=0.05}.}
-   \item{"outliers"}{"Represents the proportion of numeric attributes with
-     outliers."}
+   \item{"normality"}{Represents the p-values of the attributes according to
+      a normal distribution test. For that it is used the Shapiro-Wilk
+      Normality Test. Values lower than 0.05 could be considered provenient
+      from a normal distribution.}
+   \item{"outliers"}{"Ratio of the variances of mean value and the
+      alfa-trimmed mean. Values smaller than 0.7 can be considered outliers.
+      The default alpha value is 0.05 but it can be setted using extra
+      parameters."}
    \item{"skewness"}{Represents the skewness of the numeric attributes in
       the dataset.}
    \item{"standard.deviation"}{Represents the standard deviation of the

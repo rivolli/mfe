@@ -20,9 +20,6 @@ test_that("mf.statistical.result", {
   expect_true(all(sapply(features, names) == c("mean", "sd")))
 
   new.features <- mf.statistical(class ~ ., rmfdata, by.class = FALSE)
-  f <- setdiff(ls.statistical(), c("harmonic.mean", "outliers", "normality", "discreteness.degree"))
-  expect_false(any(do.call(rbind, features[f]) == do.call(rbind, new.features[f])))
-  expect_length(new.features$outliers, 1)
 
   features <- mf.statistical(class ~ ., rmfdata, c("variance", "skewness"))
   expect_named(features, c("variance", "skewness"))
