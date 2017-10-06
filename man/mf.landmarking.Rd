@@ -42,7 +42,7 @@ Each one of these meta-features generate multiple values (by fold
 }
 \description{
 Landmarking measures are simple and fast algorithms, from which performance
-can be extracted. The measures use k-fold cross-validation and the evaluation 
+can be extracted. The measures use k-fold cross-validation and the evaluation
 measure is accuracy.
 }
 \details{
@@ -64,7 +64,7 @@ The following features are allowed for this method:
    \item{"nearest.neighbor"}{This measure evaluate the performance of the
      1-Nearest Neighbor classifier. It uses the euclidean distance of the
      nearest neighbor to determine how noisy is the data.}
-   \item{"worst.node"}{Construct a single DT node model induced by the less 
+   \item{"worst.node"}{Construct a single DT node model induced by the less
      informative attribute. With the "decision.stumps" measure is possible to
      define a baseline value of linear separability for dataset.}
  }
