@@ -1,7 +1,7 @@
 #' Statistical meta-features
 #'
-#' Statistical meta-features are the standard statistical measures to describe 
-#' the numerical properties of a distribution of data. As it requires only 
+#' Statistical meta-features are the standard statistical measures to describe
+#' the numerical properties of a distribution of data. As it requires only
 #' numerical attributes, the categorical data are transformed to numerical.
 #'
 #' @family meta-features
@@ -111,8 +111,6 @@ mf.statistical.default <- function(x, y, features="all",
     features <- ls.statistical()
   }
   features <- match.arg(features, ls.statistical(), TRUE)
-  colnames(x) <- make.names(colnames(x))
-
   colnames(x) <- make.names(colnames(x))
 
   numdata <- binarize(x)

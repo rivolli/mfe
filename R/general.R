@@ -91,8 +91,6 @@ mf.general.default <- function(x, y, features="all", ...) {
   features <- match.arg(features, ls.general(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
-  colnames(x) <- make.names(colnames(x))
-
   sapply(features, function(f) {
     eval(call(f, x=x, y=y))
   }, simplify=FALSE)

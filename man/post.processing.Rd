@@ -48,9 +48,6 @@ The post processing functions are used to summarize the meta-features.
    \item{"mean"}{See \code{\link{mean}}}
    \item{"median"}{See \code{\link{median}}}
    \item{"min"}{See \code{\link{min}}}
-   \item{"mode"}{Returns the most common value of the distribution. If more
-      than one value are the most common return the first. It does not work
-      as expected for real numbers.}
    \item{"quantile"}{See \code{\link{quantile}}}
    \item{"sd"}{See \code{\link{sd}}}
    \item{"skewness"}{See \code{\link[e1071]{skewness}}}

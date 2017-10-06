@@ -34,9 +34,6 @@
 #'    \item{"mean"}{See \code{\link{mean}}}
 #'    \item{"median"}{See \code{\link{median}}}
 #'    \item{"min"}{See \code{\link{min}}}
-#'    \item{"mode"}{Returns the most common value of the distribution. If more
-#'       than one value are the most common return the first. It does not work
-#'       as expected for real numbers.}
 #'    \item{"quantile"}{See \code{\link{quantile}}}
 #'    \item{"sd"}{See \code{\link{sd}}}
 #'    \item{"skewness"}{See \code{\link[e1071]{skewness}}}
@@ -70,11 +67,6 @@ post.processing <- function(measure, summary=c("mean", "sd"), ...) {
 
   kurtosis <- function(x, na.rm=FALSE, type=3, ...) {
     e1071::kurtosis(x, na.rm, type)
-  }
-
-  mode <- function(x, ...){
-    ux <- unique(x)
-    ux[which.max(tabulate(match(x, ux)))]
   }
 
   res <- sapply(summary, function(s) {

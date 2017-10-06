@@ -97,15 +97,13 @@ mf.landmarking.default <- function(x, y, features="all",
   features <- match.arg(features, ls.landmarking(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
-  colnames(x) <- make.names(colnames(x))
-
   test <- createFolds(y, folds=folds)
 
   sapply(features, function(f) {
     measure <- mapply(function(test) {
       eval(call(f, x=x, y=y, test=test))
     }, test=test)
-    post.processing(measure, summary)
+    post.processing(measure, summary, ...)
   }, simplify=FALSE)
 }
 

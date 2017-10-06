@@ -8,7 +8,7 @@ test_that("post.processing", {
   expect_equal(post.processing(1:10, "non.aggregated"), c(1:10), check.names=FALSE)
 
   #Mode
-  expect_equal(post.processing(c(1,1,2,2,2,4,4,4,4), "mode"), c(mode=4))
+  #expect_equal(post.processing(c(1,1,2,2,2,4,4,4,4), "mode"), c(mode=4))
 
   #Kurtosis and Skewness
   set.seed(1)

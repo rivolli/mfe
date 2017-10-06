@@ -1,7 +1,7 @@
 #' Information-theoretic meta-features
 #'
 #' Information-theoretic meta-features are particularly appropriate to describe
-#' discrete (categorical) attributes, but they also fit continuous ones so a 
+#' discrete (categorical) attributes, but they also fit continuous ones so a
 #' discretization is required.
 #'
 #' @family meta-features
@@ -99,8 +99,6 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
   features <- match.arg(features, ls.infotheo(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
-  colnames(x) <- make.names(colnames(x))
-
   x.dis <- categorize(x)
   x.dis <- x.dis[, sapply(x.dis, nlevels) > 1, drop=FALSE]
 
@@ -120,7 +118,7 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
 
 #' @rdname mf.infotheo
 #' @export
-mf.infotheo.formula <- function(formula, data, features="all", 
+mf.infotheo.formula <- function(formula, data, features="all",
                                 summary=c("mean", "sd"), ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")

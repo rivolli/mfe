@@ -37,7 +37,7 @@ A list named by the requested meta-features.
 }
 \description{
 Information-theoretic meta-features are particularly appropriate to describe
-discrete (categorical) attributes, but they also fit continuous ones so a 
+discrete (categorical) attributes, but they also fit continuous ones so a
 discretization is required.
 }
 \details{
