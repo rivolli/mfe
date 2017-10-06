@@ -9,26 +9,23 @@
 mf.infotheo(...)
 
 \method{mf.infotheo}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), transform.attr = TRUE, ...)
+  "sd"), ...)
 
 \method{mf.infotheo}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), transform.attr = TRUE, ...)
+  summary = c("mean", "sd"), ...)
 }
 \arguments{
-\item{...}{Optional arguments to the summary methods.}
+\item{...}{Not used.}
 
-\item{x}{A data.frame contained only the input attributes}
+\item{x}{A data.frame contained only the input attributes.}
 
-\item{y}{a factor response vector with one label for each row/component of x.}
+\item{y}{A factor response vector with one label for each row/component of x.}
 
 \item{features}{A list of features names or \code{"all"} to include all them.}
 
 \item{summary}{A list of methods to summarize the results as post-processing
 functions. See \link{post.processing} method to more information. (Default:
 \code{c("mean", "sd")})}
-
-\item{transform.attr}{A logical value indicating if the numerical
-attributes should be transformed to categorical.}
 
 \item{formula}{A formula to define the class column.}
 
@@ -40,7 +37,8 @@ A list named by the requested meta-features.
 }
 \description{
 Information-theoretic meta-features are particularly appropriate to describe
-discrete (categorical) attributes, but they also fit continuous ones.
+discrete (categorical) attributes, but they also fit continuous ones so a 
+discretization is required.
 }
 \details{
 TODO describe discretization method

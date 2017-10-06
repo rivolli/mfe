@@ -1,22 +1,24 @@
 Package: mfe
 Type: Package
 Title: Meta-Feature Extractor
-Version: 0.1.1.9008
-Date: 2017-10-03
+Version: 0.1.1.9009
+Date: 2017-10-06
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
   role=c("aut", "cre")), person("Luis Paulo", "F. Garcia", 
   email="lpgarcia@icmc.usp.br", role="aut"), person("Andre", 
   "C. P. L. F. de Carvalho", email="andre@icmc.usp.br", role="ths"))
-Description: Extracts meta-features from datasets to support the design of recommendation systems 
-  based on Meta-Learning. The meta-features, also called characterization measures, are able to 
-  characterize the complexity of datasets and to provide estimates of algorithm performance. The 
-  package contains not only the standard characterization measures, but also more recent 
-  characterization measures. By making available a large set of meta-feature extraction functions, 
-  this package allows a comprehensive data characterization, a deep data exploration and a large 
-  number of Meta-Learning based data analysis. These concepts are described in the paper: 
-  Pinto, F., Soares C., and Mendes-Moreira J. (2016). Towards Automatic Generation of Metafeatures. 
-  In Pacific-Asia Conference on Knowledge Discovery and Data Mining (PAKDD). pp 215-226. 
-  <doi:10.1007/978-3-319-31753-3_18>
+Description: Extracts meta-features from datasets to support the design of 
+  recommendation systems based on Meta-Learning. The meta-features, also called 
+  characterization measures, are able to characterize the complexity of datasets
+  and to provide estimates of algorithm performance. The package contains not 
+  only the standard characterization measures, but also more recent 
+  characterization measures. By making available a large set of meta-feature 
+  extraction functions, tasks like comprehensive data characterization, deep 
+  data exploration and large number of Meta-Learning based data analysis can be
+  performed. These concepts are described in the paper: Pinto, F., Soares C., 
+  and Mendes-Moreira J. (2016). Towards Automatic Generation of Metafeatures. 
+  In Pacific-Asia Conference on Knowledge Discovery and Data Mining (PAKDD). 
+  pp 215-226, <doi:10.1007/978-3-319-31753-3_18>.
 URL: https://github.com/rivolli/mfe
 Depends:
     R (>= 3.3.1),

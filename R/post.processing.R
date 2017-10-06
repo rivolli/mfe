@@ -64,7 +64,6 @@ post.processing <- function(measure, summary=c("mean", "sd"), ...) {
     return(measure)
   }
 
-  #Internal methods to do not override the originals
   skewness <- function(x, na.rm=FALSE, type=3, ...) {
     e1071::skewness(x, na.rm, type)
   }
@@ -89,7 +88,7 @@ non.aggregated <- function (x, ...) {
   x
 }
 
-hist <- function(x, bins=10, min=base::min(x), max=base::max(x), ...){
+hist <- function(x, bins=10, min=base::min(x), max=base::max(x), ...) {
   breaks <- seq(min, max, length.out=bins+1)
   graphics::hist(x, breaks=breaks, plot=FALSE)$counts / length(x)
 }

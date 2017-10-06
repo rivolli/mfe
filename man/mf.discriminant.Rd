@@ -8,23 +8,18 @@
 \usage{
 mf.discriminant(...)
 
-\method{mf.discriminant}{default}(x, y, features = "all",
-  transform.attr = TRUE, ...)
+\method{mf.discriminant}{default}(x, y, features = "all", ...)
 
-\method{mf.discriminant}{formula}(formula, data, features = "all",
-  transform.attr = TRUE, ...)
+\method{mf.discriminant}{formula}(formula, data, features = "all", ...)
 }
 \arguments{
 \item{...}{Not used.}
 
-\item{x}{A data.frame contained only the input attributes}
+\item{x}{A data.frame contained only the input attributes.}
 
-\item{y}{a factor response vector with one label for each row/component of x.}
+\item{y}{A factor response vector with one label for each row/component of x.}
 
 \item{features}{A list of features names or \code{"all"} to include all them.}
-
-\item{transform.attr}{A logical value indicating if the categorical
-attributes should be transformed to numerical.}
 
 \item{formula}{A formula to define the class column.}
 
@@ -35,8 +30,9 @@ The details section describes the valid values for this group.}
 A list named by the requested meta-features.
 }
 \description{
-Discriminant meta-features are computed using the discriminant analysis. It
-is computed using just the numerical attributes.
+Discriminant meta-features are computed using the discriminant analysis
+algorithm. It is computed using just the numerical attributes so a
+binarization on the data is required.
 }
 \details{
 The following features are allowed for this method:
@@ -53,6 +49,8 @@ The following features are allowed for this method:
    \item{"eigen.fract"}{Represents the relative importance of the largest
       eigenvalue of the attribute covariance matrix computed from the
       numeric attributes in the dataset.}
+   \item{"max.eigenvalue"}{Represents the maximum eigenvalue.}
+   \item{"min.eigenvalue"}{Represents the minimum eigenvalue.}
    \item{"sdratio"}{Represents the test statistic for homogeneity of
       covariances. It uses the Box's M test and it is is strictly greater
       than unity if the covariances differ, and is equal to unity if and only

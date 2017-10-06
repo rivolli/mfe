@@ -1,18 +1,17 @@
 #' Discriminant meta-features
 #'
-#' Discriminant meta-features are computed using the discriminant analysis. It
-#' is computed using just the numerical attributes.
+#' Discriminant meta-features are computed using the discriminant analysis
+#' algorithm. It is computed using just the numerical attributes so a
+#' binarization on the data is required.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
-#' @param y a factor response vector with one label for each row/component of x.
+#' @param x A data.frame contained only the input attributes.
+#' @param y A factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
-#' @param ... Not used.
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
-#' @param transform.attr A logical value indicating if the categorical
-#'  attributes should be transformed to numerical.
+#' @param ... Not used.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
@@ -28,6 +27,8 @@
 #'    \item{"eigen.fract"}{Represents the relative importance of the largest
 #'       eigenvalue of the attribute covariance matrix computed from the
 #'       numeric attributes in the dataset.}
+#'    \item{"max.eigenvalue"}{Represents the maximum eigenvalue.}
+#'    \item{"min.eigenvalue"}{Represents the minimum eigenvalue.}
 #'    \item{"sdratio"}{Represents the test statistic for homogeneity of
 #'       covariances. It uses the Box's M test and it is is strictly greater
 #'       than unity if the covariances differ, and is equal to unity if and only
@@ -67,8 +68,7 @@ mf.discriminant <- function(...) {
 
 #' @rdname mf.discriminant
 #' @export
-mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
-                                    ...) {
+mf.discriminant.default <- function(x, y, features="all", ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -77,7 +77,8 @@ mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
     y <- y[, 1]
   }
   y <- as.factor(y)
-  if (min(table(y)) < 2) {
+
+  if(min(table(y)) < 2) {
     stop("number of examples in the minority class should be >= 2")
   }
 
@@ -91,31 +92,33 @@ mf.discriminant.default <- function(x, y, features="all", transform.attr=TRUE,
   features <- match.arg(features, ls.discriminant(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
-  numdata <- validate.and.replace.nominal.attr(x, transform.attr)
+  colnames(x) <- make.names(colnames(x))
 
-  y.num <- replace.nominal.columns(as.data.frame(y))
-  x.cov <- stats::cov(numdata)
+  x.num <- binarize(x)
+  y.num <- binarize(as.data.frame(y))
+  x.cov <- stats::cov(x.num)
 
   extra <- list(
     y.num = y.num,
-    cancor = tryCatch(stats::cancor(numdata, y.num), error=function (e){
-      warning(e)
-      list(cor=c())
+    cancor = tryCatch(
+        stats::cancor(x.num, y.num),
+      error=function(e) {
+        warning(e)
+        list(cor=c())
     }),
     x.cov = x.cov,
     eigenvalues = base::eigen(x.cov)
   )
 
   sapply(features, function(f) {
-    measure <- eval(call(f, x=numdata, y=y, extra=extra))
+    measure <- eval(call(f, x=x.num, y=y, extra=extra))
     post.processing(measure, "non.aggregated", ...)
   }, simplify=FALSE)
 }
 
 #' @rdname mf.discriminant
 #' @export
-mf.discriminant.formula <- function(formula, data, features="all",
-                                    transform.attr=TRUE, ...) {
+mf.discriminant.formula <- function(formula, data, features="all", ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -124,11 +127,10 @@ mf.discriminant.formula <- function(formula, data, features="all",
     stop("data argument must be a data.frame")
   }
 
-  modFrame <- stats::model.frame(formula,data)
+  modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.discriminant.default(modFrame[, -1], modFrame[, 1], features,
-                          transform.attr, ...)
+  mf.discriminant.default(modFrame[, -1], modFrame[, 1], features, ...)
 }
 
 #' List the discriminant meta-features
@@ -140,7 +142,7 @@ mf.discriminant.formula <- function(formula, data, features="all",
 #' ls.discriminant()
 ls.discriminant <- function() {
   c("cancor", "cancor.fract", "center.of.gravity", "discfct", "eigen.fract",
-    "max.eigenvalue", "min.eighenvalue", "sdratio", "wlambda")
+    "max.eigenvalue", "min.eigenvalue", "sdratio", "wlambda")
 }
 
 cancor <- function(x, y, extra, ...) {
@@ -148,7 +150,6 @@ cancor <- function(x, y, extra, ...) {
 }
 
 center.of.gravity <- function(x, y, ...) {
-  #TODO Change to another group
   classes <- table(y)
   minc <- which.min(classes)
   maxc <- which.max(classes[-minc])
@@ -160,18 +161,15 @@ center.of.gravity <- function(x, y, ...) {
 }
 
 discfct <- function(x, y, extra, ...) {
-  #TODO Confirm if the use of levels normalizes the measure
   length(extra$cancor$cor) / nlevels(y)
 }
 
 eigen.fract <- function(x, y, extra, ...) {
-  #Castiello Version
   values <- extra$eigenvalues$values
   values[1] / sum(values)
 }
 
 cancor.fract <- function(x, y, extra, ...) {
-  #Michie version
   values <- extra$cancor$cor ^ 2
   values[1] / sum(values)
 }
@@ -180,12 +178,11 @@ max.eigenvalue <- function(x, y, extra, ...) {
   max(extra$eigenvalues$values)
 }
 
-min.eighenvalue <- function(x, y, extra, ...) {
+min.eigenvalue <- function(x, y, extra, ...) {
   min(extra$eigenvalues$values)
 }
 
 sdratio <- function(x, y, extra, ...) {
-  #The Michie formulation there are some wrongs
   p <- ncol(x)
   q <- nlevels(y)
   n <- length(y)
@@ -199,11 +196,9 @@ sdratio <- function(x, y, extra, ...) {
     M <- (1 - ((2*p^2+3*p-1)/(6*(p+1)*(q-1))) * (sum(1/ni)-1/(n-q))) *
       ((n - q) * log(det(S)) - sum(ni * log(sapply(Si, det))))
 
-    #Sometimes the det is zero and log is Inf, then return 0
-    ifelse(is.na(M) | is.infinite(M), 0, exp(M / (p * sum(ni - 1))))
+    ifelse(is.na(M) | is.infinite(M), NA, exp(M / (p * sum(ni - 1))))
   }, warning = function(e) {
-    #Sometimes the det is negative, then return 0
-    0
+    NA
   })
 }
 

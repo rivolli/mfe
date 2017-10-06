@@ -9,20 +9,19 @@
 mf.statistical(...)
 
 \method{mf.statistical}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), by.class = TRUE, transform.attr = TRUE, ...)
+  "sd"), by.class = TRUE, ...)
 
 \method{mf.statistical}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), by.class = TRUE, transform.attr = TRUE, ...)
+  summary = c("mean", "sd"), by.class = TRUE, ...)
 }
 \arguments{
-\item{...}{Optional arguments to the summary methods.}
+\item{...}{Not used.}
 
-\item{x}{A data.frame contained only the input attributes}
+\item{x}{A data.frame contained only the input attributes.}
 
 \item{y}{A factor response vector with one label for each row/component of x.}
 
-\item{features}{A list of features names or \code{"all"} to include all them.
-The details section describes the valid values for this parameter.}
+\item{features}{A list of features names or \code{"all"} to include all them.}
 
 \item{summary}{A list of methods to summarize the results as post-processing
 functions. See \link{post.processing} method to more information. (Default:
@@ -32,20 +31,18 @@ functions. See \link{post.processing} method to more information. (Default:
 computed for each group of samples belonging to different output classes.
 (Default: TRUE)}
 
-\item{transform.attr}{A logical value indicating if the categorical
-attributes should be transformed to numerical.}
-
 \item{formula}{A formula to define the class column.}
 
-\item{data}{A data.frame dataset contained the input attributes and class}
+\item{data}{A data.frame dataset contained the input attributes and class
+The details section describes the valid values for this group.}
 }
 \value{
 A list named by the requested meta-features.
 }
 \description{
-Statistical meta-features are the standard statistical measures to
-describe the numerical properties of a distribution of data. As it requires
-only numerical attributes, the categorical data are transformed to numerical.
+Statistical meta-features are the standard statistical measures to describe 
+the numerical properties of a distribution of data. As it requires only 
+numerical attributes, the categorical data are transformed to numerical.
 }
 \details{
 The following features are allowed for this method:

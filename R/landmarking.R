@@ -1,28 +1,22 @@
 #' Landmarking Meta-features
 #'
 #' Landmarking measures are simple and fast algorithms, from which performance
-#' characteristics can be extracted. The measures use k-fold cross-validation
-#' and the evaluation measure is accuracy. For multi-class classification
-#' problems, a decomposition strategy is applied.
+#' can be extracted. The measures use k-fold cross-validation and the evaluation
+#' measure is accuracy.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
+#' @param x A data.frame contained only the input attributes.
 #' @param y A factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
-#' @param map A list of decomposition strategies for multi-class classification
-#'  problems. The options are: \code{"one.vs.all"} and \code{"one.vs.one"}
-#'  strategy.
+#' @param formula A formula to define the class column.
+#' @param data A data.frame dataset contained the input attributes and class
+#'  The details section describes the valid values for this group.
 #' @param folds The number of k equal size subsamples in k-fold
 #'  cross-validation.
-#' @param ... Optional arguments to the summary methods.
-#' @param formula A formula to define the class column.
-#' @param data A data.frame dataset contained the input attributes and class.
-#'  The details section describes the valid values for this group.
-#' @param transform.attr A logical value indicating if the categorical
-#'  attributes should be transformed to numerical.
+#' @param ... Not used.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
@@ -42,10 +36,9 @@
 #'    \item{"nearest.neighbor"}{This measure evaluate the performance of the
 #'      1-Nearest Neighbor classifier. It uses the euclidean distance of the
 #'      nearest neighbor to determine how noisy is the data.}
-#'    \item{"worst.node"}{Construct a single DT node model induced by the
-#'      less informative attribute. With the "decision.stumps" measure is
-#'      possible to define a baseline value of linear separability for a
-#'      dataset.}
+#'    \item{"worst.node"}{Construct a single DT node model induced by the less
+#'      informative attribute. With the "decision.stumps" measure is possible to
+#'      define a baseline value of linear separability for dataset.}
 #'  }
 #' @return Each one of these meta-features generate multiple values (by fold
 #'  and/or binary dataset) and then it is post processed by the summary methods.
@@ -71,7 +64,7 @@
 #' mf.landmarking(Species ~ ., iris, summary=c("min", "median", "max"))
 #'
 #' ## Extract all meta-features one vs one decomposition strategy
-#' mf.landmarking(Species ~ ., iris, map="one.vs.one")
+#' mf.landmarking(Species ~ ., iris)
 #' @export
 mf.landmarking <- function(...) {
   UseMethod("mf.landmarking")
@@ -80,9 +73,7 @@ mf.landmarking <- function(...) {
 #' @rdname mf.landmarking
 #' @export
 mf.landmarking.default <- function(x, y, features="all",
-                                   summary=c("mean", "sd"),
-                                   map=c("one.vs.all", "one.vs.one"), folds=10,
-                                   transform.attr=TRUE, ...) {
+                                   summary=c("mean", "sd"), folds=10, ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -100,23 +91,20 @@ mf.landmarking.default <- function(x, y, features="all",
     stop("x and y must have same number of rows")
   }
 
-  map <- match.arg(map)
   if(features[1] == "all") {
     features <- ls.landmarking()
   }
   features <- match.arg(features, ls.landmarking(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
-  data <- eval(call(map, x, y))
-  split <- lapply(data, function(i) {
-    createFolds(i[[2]], folds=folds)
-  })
+  colnames(x) <- make.names(colnames(x))
+
+  test <- createFolds(y, folds=folds)
 
   sapply(features, function(f) {
-    measure <- mapply(function(data, split) {
-      eval(call(f, x=data[[1]], y=data[[2]], split=split,
-                transform.attr=transform.attr))
-    }, data=data, split=split)
+    measure <- mapply(function(test) {
+      eval(call(f, x=x, y=y, test=test))
+    }, test=test)
     post.processing(measure, summary)
   }, simplify=FALSE)
 }
@@ -124,9 +112,7 @@ mf.landmarking.default <- function(x, y, features="all",
 #' @rdname mf.landmarking
 #' @export
 mf.landmarking.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"),
-                                   map=c("one.vs.all", "one.vs.one"), folds=10,
-                                   transform.attr=TRUE, ...) {
+                                   summary=c("mean", "sd"), folds=10, ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -138,8 +124,8 @@ mf.landmarking.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.landmarking.default(modFrame[, -1], modFrame[, 1], features, summary, map,
-                         folds, transform.attr, ...)
+  mf.landmarking.default(modFrame[, -1], modFrame[, 1], features, summary,
+                         folds, ...)
 }
 
 #' List the Landmarking meta-features
@@ -154,12 +140,12 @@ ls.landmarking <- function() {
     "naive.bayes", "nearest.neighbor", "worst.node")
 }
 
-accuracy <- function(pred, class) {
-  aux <- table(pred, class)
+accuracy <- function(prediction, label) {
+  aux <- table(prediction, label)
   sum(diag(aux)) / sum(aux)
 }
 
-dt.importance <- function(x, y, test, ...) {
+dt.importance <- function(x, y, test) {
   tryCatch({
     aux <- C50::C5imp(C50::C5.0(x[-test,], y[-test]))
     stats::setNames(aux$Overall, rownames(aux))
@@ -168,108 +154,51 @@ dt.importance <- function(x, y, test, ...) {
   })
 }
 
-one.vs.one <- function(x, y) {
-  comb <- utils::combn(levels(y), 2)
-  data <- apply(comb, 2, function(i) {
-    n <- subset(x, y %in% i)
-    p <- subset(y, y %in% i)
-    list(n, factor(p))
-  })
-
-  return(data)
+decision.stumps <- function(x, y, test, ...) {
+  imp <- names(dt.importance(x, y, test))[1]
+  model <- C50::C5.0(x[-test, imp, drop=FALSE], y[-test])
+  prediction <- stats::predict(model, x[test,])
+  accuracy(prediction, y[test])
 }
 
-one.vs.all <- function(x, y) {
-  comb <- levels(y)
-  data <- lapply(comb, function(i) {
-    p <- y
-    p[p != i] <- setdiff(comb, i)[1]
-    list(x, factor(p))
-  })
-
-  if(nlevels(y) < 3)
-    return(data[1])
-  return(data)
+worst.node <- function(x, y, test, ...) {
+  imp <- names(dt.importance(x, y, test))[ncol(x)]
+  model <- C50::C5.0(x[-test, imp, drop=FALSE], y[-test])
+  prediction <- stats::predict(model, x[test,])
+  accuracy(prediction, y[test])
 }
 
-decision.stumps <- function(x, y, split, ...) {
+nearest.neighbor <- function(x, y, test, ...) {
+  x <- binarize(x)
+  data <- data.frame(class=y, x)
+  prediction <- kknn::kknn(class ~. , data[-test,], data[test,-1], k=1)
+  accuracy(prediction$fitted.values, y[test])
+}
 
-  aux <- sapply(split, function(test) {
-    imp <- names(dt.importance(x, y, test))[1]
-    model <- C50::C5.0(x[-test, imp, drop=FALSE], y[-test])
-    prediction <- stats::predict(model, x[test,])
+elite.nearest.neighbor <- function(x, y, test, ...) {
+  x <- binarize(x)
+  imp <- dt.importance(x, y, test)
+  att <- names(which(imp != 0))
+  if(all(imp == 0))
+    att <- colnames(x)
+
+  data <- data.frame(class=y, x[, att, drop=FALSE])
+  prediction <- kknn::kknn(class ~ ., data[-test,], data[test,], k=1)
+  accuracy(prediction$fitted.values, y[test])
+}
+
+naive.bayes <- function(x, y, test, ...) {
+  model <- e1071::naiveBayes(x[-test,], y[-test])
+  prediction <- stats::predict(model, x[test,])
+  accuracy(prediction, y[test])
+}
+
+linear.discriminant <- function(x, y, test, ...) {
+  tryCatch({
+    model <- MASS::lda(x[-test,], grouping=y[-test])
+    prediction <- stats::predict(model, x[test,])$class
     accuracy(prediction, y[test])
+  }, error = function(e) {
+    return(NA)
   })
-
-  return(aux)
 }
-
-worst.node <- function(x, y, split, ...) {
-
-  aux <- sapply(split, function(test) {
-    imp <- names(dt.importance(x, y, test))[ncol(x)]
-    model <- C50::C5.0(x[-test, imp, drop=FALSE], y[-test])
-    prediction <- stats::predict(model, x[test,])
-    accuracy(prediction, y[test])
-  })
-
-  return(aux)
-}
-
-nearest.neighbor <- function(x, y, split, transform.attr=TRUE, ...) {
-
-  x <- validate.and.replace.nominal.attr(x, transform.attr)
-  aux <- sapply(split, function(test) {
-    data <- data.frame(Class=y, x)
-    prediction <- kknn::kknn(Class~., data[-test,], data[test,-1], k=1)
-    accuracy(prediction$fitted.values, y[test])
-  })
-
-  return(aux)
-}
-
-elite.nearest.neighbor <- function(x, y, split, transform.attr=TRUE, ...) {
-
-  x <- validate.and.replace.nominal.attr(x, transform.attr)
-  aux <- sapply(split, function(test) {
-    imp <- dt.importance(x, y, test)
-    att <- names(which(imp != 0))
-    if(all(imp == 0))
-      att <- colnames(x)
-
-    data <- data.frame(Class=y, x[, att, drop=FALSE])
-    prediction <- kknn::kknn(Class ~ ., data[-test,],
-                             data[test, att, drop=FALSE], k=1)
-    accuracy(prediction$fitted.values, y[test])
-  })
-
-  return(aux)
-}
-
-naive.bayes <- function(x, y, split, ...) {
-
-  aux <- sapply(split, function(test) {
-    model <- e1071::naiveBayes(x[-test,], y[-test])
-    prediction <- stats::predict(model, x[test,])
-    accuracy(prediction, y[test])
-  })
-
-  return(aux)
-}
-
-linear.discriminant <- function(x, y, split, transform.attr=TRUE, ...) {
-
-  x <- validate.and.replace.nominal.attr(x, transform.attr)
-  aux <- sapply(split, function(test) {
-    tryCatch({
-      model <- MASS::lda(x[-test,], grouping=y[-test])
-      prediction <- stats::predict(model, x[test,])$class
-      accuracy(prediction, y[test])
-    }, error = function(e) {
-      return(0)
-    })
-  })
-
-  return(aux)
-}
-

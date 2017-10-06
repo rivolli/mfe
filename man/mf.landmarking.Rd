@@ -9,17 +9,15 @@
 mf.landmarking(...)
 
 \method{mf.landmarking}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), map = c("one.vs.all", "one.vs.one"), folds = 10,
-  transform.attr = TRUE, ...)
+  "sd"), folds = 10, ...)
 
 \method{mf.landmarking}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), map = c("one.vs.all", "one.vs.one"),
-  folds = 10, transform.attr = TRUE, ...)
+  summary = c("mean", "sd"), folds = 10, ...)
 }
 \arguments{
-\item{...}{Optional arguments to the summary methods.}
+\item{...}{Not used.}
 
-\item{x}{A data.frame contained only the input attributes}
+\item{x}{A data.frame contained only the input attributes.}
 
 \item{y}{A factor response vector with one label for each row/component of x.}
 
@@ -29,19 +27,12 @@ mf.landmarking(...)
 functions. See \link{post.processing} method to more information. (Default:
 \code{c("mean", "sd")})}
 
-\item{map}{A list of decomposition strategies for multi-class classification
-problems. The options are: \code{"one.vs.all"} and \code{"one.vs.one"}
-strategy.}
-
 \item{folds}{The number of k equal size subsamples in k-fold
 cross-validation.}
 
-\item{transform.attr}{A logical value indicating if the categorical
-attributes should be transformed to numerical.}
-
 \item{formula}{A formula to define the class column.}
 
-\item{data}{A data.frame dataset contained the input attributes and class.
+\item{data}{A data.frame dataset contained the input attributes and class
 The details section describes the valid values for this group.}
 }
 \value{
@@ -51,9 +42,8 @@ Each one of these meta-features generate multiple values (by fold
 }
 \description{
 Landmarking measures are simple and fast algorithms, from which performance
-characteristics can be extracted. The measures use k-fold cross-validation
-and the evaluation measure is accuracy. For multi-class classification
-problems, a decomposition strategy is applied.
+can be extracted. The measures use k-fold cross-validation and the evaluation
+measure is accuracy.
 }
 \details{
 The following features are allowed for this method:
@@ -74,10 +64,9 @@ The following features are allowed for this method:
    \item{"nearest.neighbor"}{This measure evaluate the performance of the
      1-Nearest Neighbor classifier. It uses the euclidean distance of the
      nearest neighbor to determine how noisy is the data.}
-   \item{"worst.node"}{Construct a single DT node model induced by the
-     less informative attribute. With the "decision.stumps" measure is
-     possible to define a baseline value of linear separability for a
-     dataset.}
+   \item{"worst.node"}{Construct a single DT node model induced by the less
+     informative attribute. With the "decision.stumps" measure is possible to
+     define a baseline value of linear separability for dataset.}
  }
 }
 \examples{
@@ -95,7 +84,7 @@ mf.landmarking(Species ~ ., iris, features=c("decision.stumps",
 mf.landmarking(Species ~ ., iris, summary=c("min", "median", "max"))
 
 ## Extract all meta-features one vs one decomposition strategy
-mf.landmarking(Species ~ ., iris, map="one.vs.one")
+mf.landmarking(Species ~ ., iris)
 }
 \references{
 Pfahringer, B., Bensusan, H., &  Giraud-Carrier, C. G. (2000). Meta-Learning

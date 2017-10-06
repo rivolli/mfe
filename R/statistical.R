@@ -1,26 +1,23 @@
 #' Statistical meta-features
 #'
-#' Statistical meta-features are the standard statistical measures to
-#' describe the numerical properties of a distribution of data. As it requires
-#' only numerical attributes, the categorical data are transformed to numerical.
+#' Statistical meta-features are the standard statistical measures to describe 
+#' the numerical properties of a distribution of data. As it requires only 
+#' numerical attributes, the categorical data are transformed to numerical.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
+#' @param x A data.frame contained only the input attributes.
 #' @param y A factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
-#'  The details section describes the valid values for this parameter.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
+#' @param formula A formula to define the class column.
+#' @param data A data.frame dataset contained the input attributes and class
+#'  The details section describes the valid values for this group.
 #' @param by.class A logical value indicating if the meta-features must be
 #'  computed for each group of samples belonging to different output classes.
 #'  (Default: TRUE)
-#' @param transform.attr A logical value indicating if the categorical
-#'  attributes should be transformed to numerical.
-#' @param ... Optional arguments to the summary methods.
-#' @param formula A formula to define the class column.
-#' @param data A data.frame dataset contained the input attributes and class
-#'
+#' @param ... Not used.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
@@ -92,7 +89,7 @@ mf.statistical <- function(...) {
 #' @export
 mf.statistical.default <- function(x, y, features="all",
                                    summary=c("mean", "sd"), by.class=TRUE,
-                                   transform.attr=TRUE, ...) {
+                                    ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -101,6 +98,7 @@ mf.statistical.default <- function(x, y, features="all",
     y <- y[, 1]
   }
   y <- as.factor(y)
+
   if (min(table(y)) < 2) {
     stop("number of examples in the minority class should be >= 2")
   }
@@ -115,26 +113,24 @@ mf.statistical.default <- function(x, y, features="all",
   features <- match.arg(features, ls.statistical(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
-  numdata <- validate.and.replace.nominal.attr(x, transform.attr)
+  colnames(x) <- make.names(colnames(x))
+
+  numdata <- binarize(x)
 
   if(by.class) {
     measures <- lapply(unique(y), function(class) {
       new.data <- numdata[y==class, , drop=FALSE]
-      #Remove constant columns
       new.data <- new.data[, apply(new.data, 2, stats::sd) != 0, drop=FALSE]
-
       sapply(features, function(f) {
         eval(call(f, x=new.data))
       }, simplify=FALSE)
     })
 
     sapply(features, function(f) {
-      #TODO alternatives: mean by attribute or class
-      values <- unlist(lapply(measures, function (values) values[[f]]))
-
-      post.processing(values, summary, ...)
+      values <- lapply(measures, function (values) values[[f]])
+      post.processing(unlist(values), summary, ...)
     }, simplify=FALSE)
-  }else {
+  } else {
     sapply(features, function(f) {
       measure <- eval(call(f, x=numdata))
       post.processing(measure, summary, ...)
@@ -146,7 +142,7 @@ mf.statistical.default <- function(x, y, features="all",
 #' @export
 mf.statistical.formula <- function(formula, data, features="all",
                                    summary=c("mean", "sd"), by.class=TRUE,
-                                   transform.attr=TRUE, ...) {
+                                   ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -159,7 +155,7 @@ mf.statistical.formula <- function(formula, data, features="all",
   attr(modFrame, "terms") <- NULL
 
   mf.statistical.default(modFrame[, -1], modFrame[, 1], features, summary,
-                         by.class, transform.attr, ...)
+                         by.class, ...)
 }
 
 #' List the statistical meta-features
@@ -173,9 +169,6 @@ ls.statistical <- function() {
   c("correlation", "covariance", "discreteness.degree", "geometric.mean",
     "harmonic.mean", "iqr", "kurtosis", "mad", "normality", "outliers",
     "skewness", "standard.deviation", "trim.mean", "variance")
-  #TODO index of dispersion
-  #TODO z-score, normal cumulative distribution, Chi-square test
-  #TODO degree of fuzziness,
 }
 
 correlation <- function(x, ...) {
@@ -189,7 +182,6 @@ correlation <- function(x, ...) {
 
 covariance <- function(x, ...) {
   aux <- stats::cov(x)
-  #TODO include diag
   values <- abs(aux[upper.tri(aux)])
   if (length(values)) {
     values <- c(values, values)
@@ -231,16 +223,13 @@ mad <- function(x, ...) {
 }
 
 normality <- function(x, ...) {
-  #TODO original method uses Kolmogorov-Smirnov test
   res <- apply(x, 2, function(col) {
-    #shapiro.test requires sample size between 3 and 5000
     stats::shapiro.test(sample(col, min(length(col), 5000)))$p.value
   })
   sum(res < 0.05)
 }
 
 outliers <- function(x, alpha=0.05, ...) {
-  #Johannes, F., & Petrak, J. (2002). Extended Data Characteristics.
   values <- apply(x, 2, function(x) mean(x)/mean(x, trim=alpha) < 0.7)
   sum(values / ncol(x), na.rm=TRUE)
 }

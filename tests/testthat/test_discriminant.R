@@ -29,17 +29,6 @@ test_that("mf.discriminant.result", {
   expect_named(one, ls.discriminant()[1])
 })
 
-test_that("discriminant transformation attributes", {
-  categdata <- replace.numeric.columns(rmfdata)
-  expect_error(mf.discriminant(class ~ ., categdata, transform=FALSE),
-               "dataset does not contain numerical attributes")
-
-  val1 <- mf.discriminant(class ~ ., categdata, transform=TRUE)
-  bothdata <- cbind(categdata, replace.nominal.columns(categdata[,1:4]))
-  val2 <- mf.discriminant(class ~ ., bothdata, transform=FALSE)
-  expect_equal(val1, val2)
-})
-
 test_that("mf.discriminant.errors",{
    #Test erros cases
    expect_error(mf.discriminant(rmfdata[1:9, c(1,2)], rmfdata[4]),

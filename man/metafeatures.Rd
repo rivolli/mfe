@@ -15,8 +15,7 @@ metafeatures(...)
   summary = c("mean", "sd"), ...)
 }
 \arguments{
-\item{...}{Optional arguments to the summary methods.
-#' @param formula A formula to define the class column.}
+\item{...}{Optional arguments to the summary methods.}
 
 \item{x}{A data.frame contained only the input attributes.}
 

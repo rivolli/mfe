@@ -1,27 +1,23 @@
 #' General meta-features
 #'
-#' General meta-features include general information related to the dataset at
-#' hand. It is also known as simple measures.
+#' General meta-features include general information related to the dataset. It
+#' is also known as simple measures.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
-#' @param y a factor response vector with one label for each row/component of x.
+#' @param x A data.frame contained only the input attributes.
+#' @param y A factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
-#' @param ... Not used
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
+#' @param ... Not used.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"defective.instances"}{Represents the proportion of instances with
-#'      missing values in the dataset.}
 #'    \item{"dimensionality"}{Represents the ratio between the number of
 #'      attributes and the number of instances constituting the dataset.}
 #'    \item{"majority.class"}{Represents the proportion of instances that
 #'      belongs to the majority class. It is also known as default accuracy.}
-#'    \item{"missing.values"}{Represents the proportion of missing values in
-#'      the dataset.}
 #'    \item{"nattribute"}{Represents the total number of attributes in the
 #'      dataset.}
 #'    \item{"nbinary"}{Represents the total of binary attributes in the
@@ -95,6 +91,8 @@ mf.general.default <- function(x, y, features="all", ...) {
   features <- match.arg(features, ls.general(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
+  colnames(x) <- make.names(colnames(x))
+
   sapply(features, function(f) {
     eval(call(f, x=x, y=y))
   }, simplify=FALSE)
@@ -125,13 +123,9 @@ mf.general.formula <- function(formula, data, features="all", ...) {
 #' @examples
 #' ls.general()
 ls.general <- function() {
-  c("defective.instances", "dimensionality", "majority.class", "missing.values",
-    "nattribute", "nbinary", "nclasse", "ninstance", "nnumeric", "nsymbolic",
-    "pbinary", "pnumeric", "psymbolic", "sdclass")
-}
-
-defective.instances <- function(x, ...) {
-  sum(apply(x, 1, anyNA)) / nrow(x)
+  c("dimensionality", "majority.class", "nattribute", "nbinary", "nclasse",
+    "ninstance", "nnumeric", "nsymbolic", "pbinary", "pnumeric", "psymbolic",
+    "sdclass")
 }
 
 dimensionality <- function(x, ...) {
@@ -140,10 +134,6 @@ dimensionality <- function(x, ...) {
 
 majority.class <- function(y, ...) {
   max(table(y)) / length(y)
-}
-
-missing.values <- function(x, ...) {
-  sum(is.na(x)) / (nrow(x) * ncol(x))
 }
 
 nattribute <- function(x, ...) {

@@ -1,21 +1,20 @@
 #' Information-theoretic meta-features
 #'
 #' Information-theoretic meta-features are particularly appropriate to describe
-#' discrete (categorical) attributes, but they also fit continuous ones.
+#' discrete (categorical) attributes, but they also fit continuous ones so a 
+#' discretization is required.
 #'
 #' @family meta-features
-#' @param x A data.frame contained only the input attributes
-#' @param y a factor response vector with one label for each row/component of x.
+#' @param x A data.frame contained only the input attributes.
+#' @param y A factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
-#' @param ... Optional arguments to the summary methods.
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
-#' @param transform.attr A logical value indicating if the numerical
-#'  attributes should be transformed to categorical.
+#' @param ... Not used.
 #' @details
 #'  TODO describe discretization method
 #'  The following features are allowed for this method:
@@ -76,67 +75,65 @@ mf.infotheo <- function(...) {
 #' @rdname mf.infotheo
 #' @export
 mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
-                                transform.attr=TRUE, ...) {
-  if(!is.data.frame(x)){
+                                ...) {
+  if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
 
-  if(is.data.frame(y)){
+  if(is.data.frame(y)) {
     y <- y[, 1]
   }
   y <- as.factor(y)
-  if (min(table(y)) < 2) {
+
+  if(min(table(y)) < 2) {
     stop("number of examples in the minority class should be >= 2")
   }
 
-  if(nrow(x) != length(y)){
+  if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
 
-  if(features[1] == "all"){
+  if(features[1] == "all") {
     features <- ls.infotheo()
   }
   features <- match.arg(features, ls.infotheo(), TRUE)
   colnames(x) <- make.names(colnames(x))
 
-  catdata <- validate.and.replace.numeric.attr(x, transform.attr)
+  colnames(x) <- make.names(colnames(x))
 
-  #Remove constant columns
-  catdata <- catdata[, sapply(catdata, nlevels) > 1, drop=FALSE]
+  x.dis <- categorize(x)
+  x.dis <- x.dis[, sapply(x.dis, nlevels) > 1, drop=FALSE]
 
-  #Pre processed data
   extra <- list(
     y.entropy = entropy(y),
     y.log = base::log2(nlevels(y)),
-    x.entropy = sapply(catdata, entropy),
-    x.log = sapply(sapply(catdata, nlevels), base::log2),
-    mutinf = sapply(catdata, mutinf, y=y)
+    x.entropy = sapply(x.dis, entropy),
+    x.log = sapply(sapply(x.dis, nlevels), base::log2),
+    mutinf = sapply(x.dis, mutinf, y=y)
   )
 
-  sapply(features, function(f){
-    measure <- eval(call(f, x=catdata, y=y, extra=extra))
+  sapply(features, function(f) {
+    measure <- eval(call(f, x=x.dis, y=y, extra=extra))
     post.processing(measure, summary, ...)
   }, simplify=FALSE)
 }
 
 #' @rdname mf.infotheo
 #' @export
-mf.infotheo.formula <- function(formula, data, features="all",
-                                summary=c("mean", "sd"), transform.attr=TRUE,
-                                ...) {
-  if(!inherits(formula, "formula")){
+mf.infotheo.formula <- function(formula, data, features="all", 
+                                summary=c("mean", "sd"), ...) {
+  if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
 
-  if(!is.data.frame(data)){
+  if(!is.data.frame(data)) {
     stop("data argument must be a data.frame")
   }
 
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.infotheo.default(modFrame[, -1], modFrame[, 1], features, summary,
-                      transform.attr, ...)
+  mf.infotheo.default(modFrame[, -1], modFrame[, 1], features, summary, ...)
 }
 
 #' List the information theoretical meta-features
@@ -150,8 +147,6 @@ ls.infotheo <- function () {
   c("attributes.concentration", "attribute.entropy", "class.concentration",
     "class.entropy", "equivalent.attributes", "joint.entropy",
     "mutual.information", "noise.signal")
-  #TODO attribute_entropy, class_entropy is the normalized version
-  #TODO irrelevant.attributes
 }
 
 attributes.concentration <- function(x, ...) {
@@ -164,7 +159,6 @@ attributes.concentration <- function(x, ...) {
 }
 
 attribute.entropy <- function(extra, ...) {
-  #TODO by.class makes senses
   extra$x.entropy / extra$x.log
 }
 
@@ -192,7 +186,6 @@ concentration.coefficient <- function(x, y) {
 }
 
 entropy <- function(x) {
-  # infotheo::entropy generate different values
   qi <- table(x) / length(x)
   -sum(qi * sapply(qi, log2))
 }
@@ -201,18 +194,12 @@ equivalent.attributes <- function(extra, ...) {
   extra$y.entropy / mean(extra$mutinf)
 }
 
-irrelevant.attributes <- function(x, y, extra, ...) {
-  #TODO
-}
-
 joint.entropy <- function(x, y, ...) {
-  #TODO without normalization
   joint.data <- sapply(as.data.frame(sapply(x, paste, y)), as.factor)
   sapply(as.data.frame(joint.data), entropy)
 }
 
 mutinf <- function(x, y) {
-  # infotheo::mutinformation generate different values
   entropy(x) + entropy(y) - entropy(paste(x, y))
 }
 

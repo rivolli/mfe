@@ -31,8 +31,7 @@ test_that("mf.general.values", {
 
   #Check expected values
   expected <- list(
-    defective.instances=0, dimensionality=3/100,
-    majority.class=max(summary(rmfdata$c1)) / 100, missing.values=0,
+    dimensionality=3/100, majority.class=max(summary(rmfdata$c1)) / 100,
     nattribute=3, nbinary=1, nclasse=2, ninstance=100, nnumeric=2, nsymbolic=1,
     pbinary=1/3, pnumeric=2/3, psymbolic=1/3,
     sdclass=sd(table(rmfdata$c1) / 100)

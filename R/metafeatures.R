@@ -10,11 +10,10 @@
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
 #'  \code{c("mean", "sd")})
-#' @param ... Optional arguments to the summary methods.
-#' #' @param formula A formula to define the class column.
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
+#' @param ... Optional arguments to the summary methods.
 #' @details
 #'  The following groups are allowed for this method:
 #'  \describe{
