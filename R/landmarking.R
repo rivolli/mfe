@@ -140,6 +140,10 @@ ls.landmarking <- function() {
     "naive.bayes", "nearest.neighbor", "worst.node")
 }
 
+ls.landmarking.multiples <- function() {
+  ls.landmarking()
+}
+
 accuracy <- function(prediction, label) {
   aux <- table(prediction, label)
   sum(diag(aux)) / sum(aux)

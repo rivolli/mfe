@@ -137,6 +137,11 @@ ls.model.based <- function() {
     "nodes.per.level", "repeated.nodes", "shape", "variable.importance")
 }
 
+ls.model.based.multiples <- function() {
+  c("average.leaf.corrobation", "branch.length", "depth", "homogeneity", 
+    "nodes.per.level", "repeated.nodes", "shape", "variable.importance")
+}
+
 dt.model <- function(formula, data, ...) {
   rpart::rpart(formula, data, method="class",
     control=rpart::rpart.control(maxsurrogate=0))
@@ -159,14 +164,13 @@ average.leaf.corrobation <- function(model, data, ...) {
 }
 
 variable.importance <- function(model, ...) {
-  aux <- model$variable.importance
-  return(multiple(aux))
+  model$variable.importance
 }
 
 depth <- function(model, ...) {
   nodes <- as.numeric(rownames(model$frame))
   depths <- floor(log2(nodes) + 1e-7)
-  return(depths - min(depths))
+  depths - min(depths)
 }
 
 max.depth <- function(model, ...) {
@@ -174,14 +178,12 @@ max.depth <- function(model, ...) {
 }
 
 repeated.nodes <- function(model, data, ...) {
-  aux <- table(factor(model$frame$var[model$frame$var != "<leaf>"]))
-  return(multiple(aux))
+  table(factor(model$frame$var[model$frame$var != "<leaf>"]))
 }
 
 shape <- function(model, ...) {
   aux <- depth(model)[model$frame$var == "<leaf>"]
-  prob <- -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
-  return(prob)
+  -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
 }
 
 nleave <- function(model, ...) {
@@ -198,6 +200,5 @@ branch.length <- function(model, ...) {
 
 nodes.per.level <- function(model, ...) {
   aux <- depth(model)[model$frame$var != "<leaf>"]
-  aux <- table(factor(aux))
-  return(multiple(aux))
+  table(factor(aux))
 }
