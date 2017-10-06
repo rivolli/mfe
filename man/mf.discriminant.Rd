@@ -30,8 +30,8 @@ The details section describes the valid values for this group.}
 A list named by the requested meta-features.
 }
 \description{
-Discriminant meta-features are computed using the discriminant analysis 
-algorithm. It is computed using just the numerical attributes so a 
+Discriminant meta-features are computed using the discriminant analysis
+algorithm. It is computed using just the numerical attributes so a
 binarization on the data is required.
 }
 \details{
@@ -49,6 +49,8 @@ The following features are allowed for this method:
    \item{"eigen.fract"}{Represents the relative importance of the largest
       eigenvalue of the attribute covariance matrix computed from the
       numeric attributes in the dataset.}
+   \item{"max.eigenvalue"}{Represents the maximum eigenvalue.}
+   \item{"min.eigenvalue"}{Represents the minimum eigenvalue.}
    \item{"sdratio"}{Represents the test statistic for homogeneity of
       covariances. It uses the Box's M test and it is is strictly greater
       than unity if the covariances differ, and is equal to unity if and only

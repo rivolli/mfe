@@ -1,7 +1,7 @@
 #' Discriminant meta-features
 #'
-#' Discriminant meta-features are computed using the discriminant analysis 
-#' algorithm. It is computed using just the numerical attributes so a 
+#' Discriminant meta-features are computed using the discriminant analysis
+#' algorithm. It is computed using just the numerical attributes so a
 #' binarization on the data is required.
 #'
 #' @family meta-features
@@ -27,6 +27,8 @@
 #'    \item{"eigen.fract"}{Represents the relative importance of the largest
 #'       eigenvalue of the attribute covariance matrix computed from the
 #'       numeric attributes in the dataset.}
+#'    \item{"max.eigenvalue"}{Represents the maximum eigenvalue.}
+#'    \item{"min.eigenvalue"}{Represents the minimum eigenvalue.}
 #'    \item{"sdratio"}{Represents the test statistic for homogeneity of
 #'       covariances. It uses the Box's M test and it is is strictly greater
 #'       than unity if the covariances differ, and is equal to unity if and only
@@ -139,7 +141,7 @@ mf.discriminant.formula <- function(formula, data, features="all", ...) {
 #' ls.discriminant()
 ls.discriminant <- function() {
   c("cancor", "cancor.fract", "center.of.gravity", "discfct", "eigen.fract",
-    "max.eigenvalue", "min.eighenvalue", "sdratio", "wlambda")
+    "max.eigenvalue", "min.eigenvalue", "sdratio", "wlambda")
 }
 
 cancor <- function(x, y, extra, ...) {
@@ -175,7 +177,7 @@ max.eigenvalue <- function(x, y, extra, ...) {
   max(extra$eigenvalues$values)
 }
 
-min.eighenvalue <- function(x, y, extra, ...) {
+min.eigenvalue <- function(x, y, extra, ...) {
   min(extra$eigenvalues$values)
 }
 
@@ -193,9 +195,9 @@ sdratio <- function(x, y, extra, ...) {
     M <- (1 - ((2*p^2+3*p-1)/(6*(p+1)*(q-1))) * (sum(1/ni)-1/(n-q))) *
       ((n - q) * log(det(S)) - sum(ni * log(sapply(Si, det))))
 
-    ifelse(is.na(M) | is.infinite(M), 0, exp(M / (p * sum(ni - 1))))
+    ifelse(is.na(M) | is.infinite(M), NA, exp(M / (p * sum(ni - 1))))
   }, warning = function(e) {
-    0
+    NA
   })
 }
 
