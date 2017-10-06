@@ -85,7 +85,6 @@ mf.model.based.default <- function(x, y, features="all",
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
-  colnames(x) <- make.names(colnames(x))
 
   colnames(x) <- make.names(colnames(x))
 
