@@ -163,16 +163,13 @@ average.leaf.corrobation <- function(model, data, ...) {
 }
 
 variable.importance <- function(model, ...) {
-  aux <- model$variable.importance
-  if(is.null(aux))
-    return(NA)
-  return(aux)
+  model$variable.importance
 }
 
 depth <- function(model, ...) {
   nodes <- as.numeric(rownames(model$frame))
   depths <- floor(log2(nodes) + 1e-7)
-  return(depths - min(depths))
+  depths - min(depths)
 }
 
 max.depth <- function(model, ...) {
@@ -180,16 +177,12 @@ max.depth <- function(model, ...) {
 }
 
 repeated.nodes <- function(model, data, ...) {
-  aux <- as.numeric(table(factor(model$frame$var[model$frame$var != "<leaf>"])))
-  if(length(aux) == 0)
-    return(NA)
-  return(aux)
+  as.numeric(table(factor(model$frame$var[model$frame$var != "<leaf>"])))
 }
 
 shape <- function(model, ...) {
   aux <- depth(model)[model$frame$var == "<leaf>"]
-  aux <- -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
-  return(aux)
+  -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
 }
 
 nleave <- function(model, ...) {
@@ -197,10 +190,7 @@ nleave <- function(model, ...) {
 }
 
 homogeneity <- function(model, ...) {
-  aux <- nleave(model, ...) / shape(model, ...)
-  if(any(shape(model, ...) == 0))
-    return(NA)
-  return(aux)
+  nleave(model, ...) / shape(model, ...)
 }
 
 branch.length <- function(model, ...) {
@@ -208,8 +198,5 @@ branch.length <- function(model, ...) {
 }
 
 nodes.per.level <- function(model, ...) {
-  aux <- as.numeric(table(factor(depth(model)[model$frame$var != "<leaf>"])))
-  if(length(aux) == 0)
-    return(NA)
-  return(aux)
+  as.numeric(table(factor(depth(model)[model$frame$var != "<leaf>"])))
 }
