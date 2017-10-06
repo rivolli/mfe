@@ -1,21 +1,13 @@
 binarize <- function(x) {
-  att <- paste(colnames(x), collapse="+")
+  att <- paste(colnames(x), collapse=" + ")
   x <- stats::model.matrix(stats::formula(paste("~ 0 +", att, sep=" ")), x)
   data.frame(x)
 }
 
 categorize <- function(x) {
   att <- sapply(x, is.numeric)
-  x <- cbind(x[!att], infotheo::discretize(x[att]))[colnames(x)]
+  x <- cbind(x[!att], infotheo::discretize(x[att]))
   data.frame(sapply(x, as.factor))
-}
-
-multiple <- function(x) {
-  x <- as.numeric(x)
-  if(length(x) <= 1) {
-    return(c(x, x))
-  }
-  return(x)
 }
 
 createFolds <- function(y, folds) {
