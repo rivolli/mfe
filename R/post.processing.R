@@ -59,9 +59,15 @@
 #' post.processing(runif(15), c("min", "max"))
 #' post.processing(runif(15), c("quantile", "skewness"))
 #' post.processing(runif(15), "hist", bins=5, min=0, max=1)
-post.processing <- function(measure, summary=c("mean", "sd"), ...) {
-  if(length(measure) == 1) {
+post.processing <- function(measure, summary=c("mean", "sd"), multiple=TRUE, 
+                            ...) {
+  if(!multiple) {
     return(measure)
+  }
+
+  if(multiple) {
+    if(length(measure) == 1)
+      measure <- c(measure, measure)
   }
 
   skewness <- function(x, na.rm=FALSE, type=3, ...) {
