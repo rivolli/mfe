@@ -292,6 +292,9 @@ cause model overfitting in the data. Therefore the `mf.landmarking` function has
 mf.landmarking(Species ~ ., iris, features="naive.bayes", folds=2)
 ```
 
+There are some measures interested to evaluate the linear separability 
+(`linear.discriminant`) and the attribute information (`decision.stumps`). 
+
 The landmarking measures return a list named by the requested measures. The 
 `post.processing` methods are applied in these measures since they return 
 multiple values. To define which them should be applied use the `summary` 
