@@ -30,20 +30,16 @@ The details section describes the valid values for this group.}
 A list named by the requested meta-features.
 }
 \description{
-General meta-features include general information related to the dataset. It 
+General meta-features include general information related to the dataset. It
 is also known as simple measures.
 }
 \details{
 The following features are allowed for this method:
  \describe{
-   \item{"defective.instances"}{Represents the proportion of instances with
-     missing values in the dataset.}
    \item{"dimensionality"}{Represents the ratio between the number of
      attributes and the number of instances constituting the dataset.}
    \item{"majority.class"}{Represents the proportion of instances that
      belongs to the majority class. It is also known as default accuracy.}
-   \item{"missing.values"}{Represents the proportion of missing values in
-     the dataset.}
    \item{"nattribute"}{Represents the total number of attributes in the
      dataset.}
    \item{"nbinary"}{Represents the total of binary attributes in the

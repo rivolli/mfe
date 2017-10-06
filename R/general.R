@@ -1,6 +1,6 @@
 #' General meta-features
 #'
-#' General meta-features include general information related to the dataset. It 
+#' General meta-features include general information related to the dataset. It
 #' is also known as simple measures.
 #'
 #' @family meta-features
@@ -14,14 +14,10 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"defective.instances"}{Represents the proportion of instances with
-#'      missing values in the dataset.}
 #'    \item{"dimensionality"}{Represents the ratio between the number of
 #'      attributes and the number of instances constituting the dataset.}
 #'    \item{"majority.class"}{Represents the proportion of instances that
 #'      belongs to the majority class. It is also known as default accuracy.}
-#'    \item{"missing.values"}{Represents the proportion of missing values in
-#'      the dataset.}
 #'    \item{"nattribute"}{Represents the total number of attributes in the
 #'      dataset.}
 #'    \item{"nbinary"}{Represents the total of binary attributes in the
@@ -126,13 +122,9 @@ mf.general.formula <- function(formula, data, features="all", ...) {
 #' @examples
 #' ls.general()
 ls.general <- function() {
-  c("defective.instances", "dimensionality", "majority.class", "missing.values",
-    "nattribute", "nbinary", "nclasse", "ninstance", "nnumeric", "nsymbolic",
-    "pbinary", "pnumeric", "psymbolic", "sdclass")
-}
-
-defective.instances <- function(x, ...) {
-  sum(apply(x, 1, anyNA)) / nrow(x)
+  c("dimensionality", "majority.class", "nattribute", "nbinary", "nclasse",
+    "ninstance", "nnumeric", "nsymbolic", "pbinary", "pnumeric", "psymbolic",
+    "sdclass")
 }
 
 dimensionality <- function(x, ...) {
@@ -141,10 +133,6 @@ dimensionality <- function(x, ...) {
 
 majority.class <- function(y, ...) {
   max(table(y)) / length(y)
-}
-
-missing.values <- function(x, ...) {
-  sum(is.na(x)) / (nrow(x) * ncol(x))
 }
 
 nattribute <- function(x, ...) {
