@@ -37,3 +37,19 @@ coalesce <- function(...) {
     x
   }, list(...))
 }
+
+dist <- function(data) {
+  as.matrix(cluster::daisy(data, metric="gower", stand=TRUE))
+}
+
+knn <- function(data, test, k=1) {
+
+  dst <- dist(data[,-1, drop=FALSE])
+  prediction <- sapply(test, function(i) {
+    aux <- setdiff(rownames(data), test)
+    tmp <- names(sort(dst[i, aux])[1:k])
+    data[tmp,]$class
+  })
+
+  return(prediction)
+}
