@@ -77,6 +77,13 @@ post.processing <- function(measure, summary=c("mean", "sd"), multiple=TRUE,
     e1071::kurtosis(x, na.rm, type)
   }
 
+  quantile <- function(x, type=1, ...) {
+    tryCatch(
+      stats::quantile(x, type=type, ...),
+      error=function(e) stats::quantile(NA, na.rm=TRUE, ...)
+    )
+  }
+
   res <- sapply(summary, function(s) {
     do.call(s, list(measure, ...))
   }, simplify=FALSE)
