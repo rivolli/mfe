@@ -2,10 +2,10 @@ Package: mfe
 Type: Package
 Title: Meta-Feature Extractor
 Version: 0.1.1.9010
-Date: 2017-10-06
+Date: 2017-10-07
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
-  role=c("aut", "cre")), person("Luis Paulo", "F. Garcia", 
-  email="lpgarcia@icmc.usp.br", role="aut"), person("Andre", 
+  role=c("aut", "cre")), person("Luis", "P. F. Garcia", 
+  email="garcia@informatik.uni-leipzig.de", role="aut"), person("Andre", 
   "C. P. L. F. de Carvalho", email="andre@icmc.usp.br", role="ths"))
 Description: Extracts meta-features from datasets to support the design of 
   recommendation systems based on Meta-Learning. The meta-features, also called 
@@ -24,9 +24,9 @@ Depends:
     R (>= 3.3.1),
 Imports:
     C50,
+    cluster,
     e1071,
     infotheo,
-    kknn,
     MASS,
     rpart,
     stats,
