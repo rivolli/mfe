@@ -39,15 +39,15 @@ coalesce <- function(...) {
 }
 
 dist <- function(data) {
-  as.matrix(cluster::daisy(data, metric="gower", stand=TRUE))
+  as.matrix(cluster::daisy(data, metric="gower", warnBin=FALSE))
 }
 
 knn <- function(data, test, k=1) {
 
-  dst <- dist(data[,-1, drop=FALSE])
-  prediction <- sapply(test, function(i) {
-    aux <- setdiff(rownames(data), test)
-    tmp <- names(sort(dst[i, aux])[1:k])
+  diff <- setdiff(rownames(data), test)
+  distance <- dist(data[,-1, drop=FALSE])[test, diff]
+  prediction <- apply(distance, 1, function(i) {
+    tmp <- names(sort(i)[1:k])
     data[tmp,]$class
   })
 
