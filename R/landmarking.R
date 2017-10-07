@@ -172,22 +172,20 @@ worst.node <- function(x, y, test, ...) {
 }
 
 nearest.neighbor <- function(x, y, test, ...) {
-  x <- binarize(x)
   data <- data.frame(class=y, x)
-  prediction <- kknn::kknn(class ~. , data[-test,], data[test,-1], k=1)
-  accuracy(prediction$fitted.values, y[test])
+  prediction <- knn(data, test, k=1)
+  accuracy(prediction, y[test])
 }
 
 elite.nearest.neighbor <- function(x, y, test, ...) {
-  x <- binarize(x)
   imp <- dt.importance(x, y, test)
   att <- names(which(imp != 0))
   if(all(imp == 0))
     att <- colnames(x)
 
   data <- data.frame(class=y, x[, att, drop=FALSE])
-  prediction <- kknn::kknn(class ~ ., data[-test,], data[test,], k=1)
-  accuracy(prediction$fitted.values, y[test])
+  prediction <- knn(data, test, k=1)
+  accuracy(prediction, y[test])
 }
 
 naive.bayes <- function(x, y, test, ...) {
