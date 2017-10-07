@@ -95,7 +95,9 @@ non.aggregated <- function (x, ...) {
   x
 }
 
-hist <- function(x, bins=10, min=base::min(x), max=base::max(x), ...) {
-  breaks <- seq(min, max, length.out=bins + 1)
+hist <- function(x, bins=10, min=base::min(x, na.rm=TRUE),
+                 max=base::max(x, na.rm=TRUE), ...) {
+  breaks <- seq(ifelse(is.finite(min), min, 0),
+                ifelse(is.finite(max), max, bins), length.out=bins + 1)
   graphics::hist(x, breaks=breaks, plot=FALSE)$counts / length(x)
 }
