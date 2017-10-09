@@ -61,6 +61,9 @@
 post.processing <- function(measure, summary=c("mean", "sd"), multiple=TRUE,
                             ...) {
   measure[!is.finite(measure) | is.null(measure) | is.nan(measure)] <- NA
+  if(length(measure) == 0) {
+    measure <- as.numeric(NA)
+  }
 
   if(!multiple) {
     if(length(measure) > 1) {
@@ -97,6 +100,7 @@ non.aggregated <- function (x, ...) {
 
 hist <- function(x, bins=10, min=base::min(x, na.rm=TRUE),
                  max=base::max(x, na.rm=TRUE), ...) {
+
   breaks <- seq(ifelse(is.finite(min), min, 0),
                 ifelse(is.finite(max), max, bins), length.out=bins + 1)
   graphics::hist(x, breaks=breaks, plot=FALSE)$counts / length(x)
