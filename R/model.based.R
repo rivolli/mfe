@@ -14,7 +14,7 @@
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
-#' @param minsplit The minimum number of observations in a node.
+#' @param minsplit The minimum number of observations in a node of the DT model.
 #' @param ... Further arguments passed to or from other methods like the
 #'  post-processing functions.
 #' @details
