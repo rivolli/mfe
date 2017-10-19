@@ -14,6 +14,7 @@
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
+#' @param minsplit The minimum number of observations in a node.
 #' @param ... Further arguments passed to or from other methods like the
 #'  post-processing functions.
 #' @details
@@ -73,7 +74,7 @@ mf.model.based <- function(...) {
 #' @rdname mf.model.based
 #' @export
 mf.model.based.default <- function(x, y, features="all",
-                                   summary=c("mean", "sd"), ...) {
+                                   summary=c("mean", "sd"), minsplit=20, ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -89,13 +90,14 @@ mf.model.based.default <- function(x, y, features="all",
   colnames(x) <- make.names(colnames(x))
 
   data <- cbind(class=y, x)
-  mf.model.based.formula(stats::formula(data), data, features, summary, ...)
+  mf.model.based.formula(stats::formula(data), data, features, summary, 
+                         minsplit, ...)
 }
 
 #' @rdname mf.model.based
 #' @export
 mf.model.based.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"), ...) {
+                                   summary=c("mean", "sd"), minsplit=20, ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -116,7 +118,7 @@ mf.model.based.formula <- function(formula, data, features="all",
   }
   features <- match.arg(features, ls.model.based(), TRUE)
 
-  model <- dt.model(formula, data)
+  model <- dt.model(formula, data, minsplit)
   sapply(features, function(f) {
     measure <- eval(call(f, model=model, data=data))
     post.processing(measure, summary, f %in% ls.model.based.multiples(), ...)
@@ -141,9 +143,9 @@ ls.model.based.multiples <- function() {
     "nodes.per.level", "repeated.nodes", "shape", "variable.importance")
 }
 
-dt.model <- function(formula, data, ...) {
+dt.model <- function(formula, data, minsplit, ...) {
   rpart::rpart(formula, data, method="class",
-    control=rpart::rpart.control(maxsurrogate=0))
+    control=rpart::rpart.control(minsplit=minsplit, maxsurrogate=0))
 }
 
 nnode <- function(model, ...) {

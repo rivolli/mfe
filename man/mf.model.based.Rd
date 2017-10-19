@@ -9,10 +9,10 @@
 mf.model.based(...)
 
 \method{mf.model.based}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), ...)
+  "sd"), minsplit = 20, ...)
 
 \method{mf.model.based}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), ...)
+  summary = c("mean", "sd"), minsplit = 20, ...)
 }
 \arguments{
 \item{...}{Further arguments passed to or from other methods like the
@@ -27,6 +27,8 @@ post-processing functions.}
 \item{summary}{A list of methods to summarize the results as post-processing
 functions. See \link{post.processing} method to more information. (Default:
 \code{c("mean", "sd")})}
+
+\item{minsplit}{The minimum number of observations in a node.}
 
 \item{formula}{A formula to define the class column.}
 
