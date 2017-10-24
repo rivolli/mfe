@@ -266,8 +266,8 @@ parameter, as detailed in the `post.processing` method.
 ## Landmarking
 
 Landmarking measures are simple and fast algorithms, from which performance 
-characteristics can be extracted. These measures include the accuracy of simple 
-and efficient learning algorithms like Naive Bayes (`naive.bayes`) and 
+characteristics can be extracted. These measures include the performance of 
+simple and efficient learning algorithms like Naive Bayes (`naive.bayes`) and 
 1-Nearest Neighbor (`nearest.neighbor`). The following examples illustrate these
  measures:
 
@@ -282,14 +282,18 @@ land.iris <- mf.landmarking(Species ~ ., iris, features="all")
 mf.landmarking(Species ~ ., iris, features=c("naive.bayes", "nearest.neighbor"))
 ```
 
-The accuracy extraction of these measures without a cross validation step can 
-cause model overfitting in the data. Therefore the `mf.landmarking` function has
- the parameter `folds` to define the number of `k`-fold cross-validation. The 
- following example show how to set this value:
+The performance extraction of these measures without a cross validation step can
+ cause model overfitting in the data. Therefore the `mf.landmarking` function 
+has the parameter `folds` to define the number of `k`-fold cross-validation and
+the parameter `score` to select the performance measure. The following example 
+show how to set this value:
 
 ```{r}
 ## Extract one landmarking measures with folds=2
 mf.landmarking(Species ~ ., iris, features="naive.bayes", folds=2)
+
+## Extract one landmarking measures with folds=2
+mf.landmarking(Species ~ ., iris, features="naive.bayes", score="kappa")
 ```
 
 There are some measures interested to evaluate the linear separability 

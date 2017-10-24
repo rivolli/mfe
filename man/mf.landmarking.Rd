@@ -9,10 +9,10 @@
 mf.landmarking(...)
 
 \method{mf.landmarking}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), folds = 10, ...)
+  "sd"), folds = 10, score = "accuracy", ...)
 
 \method{mf.landmarking}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), folds = 10, ...)
+  summary = c("mean", "sd"), folds = 10, score = "accuracy", ...)
 }
 \arguments{
 \item{...}{Further arguments passed to or from other methods like the
@@ -26,14 +26,18 @@ post-processing functions.}
 
 \item{summary}{A list of methods to summarize the results as post-processing
 functions. See \link{post.processing} method to more information. (Default:
-\code{c("mean", "sd")})}
+\code{c("mean", "sd")}).}
 
 \item{folds}{The number of k equal size subsamples in k-fold
 cross-validation.}
 
+\item{score}{The evaluation measure used to score the classification 
+performance. There are 3 measures: \code{"accuracy"},  
+\code{"balanced.accuracy"} and \code{"kappa"}. (Default: \code{"accuracy"}).}
+
 \item{formula}{A formula to define the class column.}
 
-\item{data}{A data.frame dataset contained the input attributes and class
+\item{data}{A data.frame dataset contained the input attributes and class.
 The details section describes the valid values for this group.}
 }
 \value{

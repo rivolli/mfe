@@ -10,12 +10,15 @@
 #' @param features A list of features names or \code{"all"} to include all them.
 #' @param summary A list of methods to summarize the results as post-processing
 #'  functions. See \link{post.processing} method to more information. (Default:
-#'  \code{c("mean", "sd")})
+#'  \code{c("mean", "sd")}).
 #' @param formula A formula to define the class column.
-#' @param data A data.frame dataset contained the input attributes and class
+#' @param data A data.frame dataset contained the input attributes and class.
 #'  The details section describes the valid values for this group.
 #' @param folds The number of k equal size subsamples in k-fold
 #'  cross-validation.
+#' @param score The evaluation measure used to score the classification 
+#' performance. There are 3 measures: \code{"accuracy"},  
+#' \code{"balanced.accuracy"} and \code{"kappa"}. (Default: \code{"accuracy"}).
 #' @param ... Further arguments passed to or from other methods like the
 #'  post-processing functions.
 #' @details
@@ -74,7 +77,8 @@ mf.landmarking <- function(...) {
 #' @rdname mf.landmarking
 #' @export
 mf.landmarking.default <- function(x, y, features="all",
-                                   summary=c("mean", "sd"), folds=10, ...) {
+                                   summary=c("mean", "sd"), folds=10,
+                                   score="accuracy", ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -102,7 +106,7 @@ mf.landmarking.default <- function(x, y, features="all",
 
   sapply(features, function(f) {
     measure <- mapply(function(test) {
-      eval(call(f, x=x, y=y, test=test))
+      eval(call(f, x=x, y=y, test=test, score=score))
     }, test=test)
     post.processing(measure, summary, f %in% ls.landmarking.multiples(), ...)
   }, simplify=FALSE)
@@ -111,7 +115,8 @@ mf.landmarking.default <- function(x, y, features="all",
 #' @rdname mf.landmarking
 #' @export
 mf.landmarking.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"), folds=10, ...) {
+                                   summary=c("mean", "sd"), folds=10, 
+                                   score="accuracy", ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -124,7 +129,7 @@ mf.landmarking.formula <- function(formula, data, features="all",
   attr(modFrame, "terms") <- NULL
 
   mf.landmarking.default(modFrame[, -1], modFrame[, 1], features, summary,
-                         folds, ...)
+                         folds, score, ...)
 }
 
 #' List the Landmarking meta-features
@@ -144,8 +149,32 @@ ls.landmarking.multiples <- function() {
 }
 
 accuracy <- function(prediction, label) {
+  label <- factor(label)
+  prediction <- factor(prediction,  levels=levels(label))
   aux <- table(prediction, label)
   sum(diag(aux)) / sum(aux)
+}
+
+balanced.accurary <- function(prediction, label) {
+  label <- factor(label)
+  prediction <- factor(prediction,  levels=levels(label))
+  aux <- table(prediction, label)
+  sum(diag(aux) / colSums(aux))
+}
+
+kappa <- function(prediction, label) {
+  label <- factor(label)
+  prediction <- factor(prediction,  levels=levels(label))
+  aux <- table(prediction, label)
+
+  pc <- sum(apply(aux, 1, sum)/sum(aux) * 
+    apply(aux, 2, sum)/sum(aux))
+
+  if(pc == 1)
+    pc <- 0
+
+  aux <- (sum(diag(aux))/sum(aux) - pc)/(1 - pc)
+  return(aux)
 }
 
 dt.importance <- function(x, y, test) {
@@ -157,27 +186,27 @@ dt.importance <- function(x, y, test) {
   })
 }
 
-decision.stumps <- function(x, y, test, ...) {
+decision.stumps <- function(x, y, test, score, ...) {
   imp <- names(dt.importance(x, y, test))[1]
   model <- C50::C5.0(x[-test, imp, drop=FALSE], y[-test])
   prediction <- stats::predict(model, x[test,])
-  accuracy(prediction, y[test])
+  do.call(score, list(prediction, y[test]))
 }
 
-worst.node <- function(x, y, test, ...) {
+worst.node <- function(x, y, test, score, ...) {
   imp <- names(dt.importance(x, y, test))[ncol(x)]
   model <- C50::C5.0(x[-test, imp, drop=FALSE], y[-test])
   prediction <- stats::predict(model, x[test,])
-  accuracy(prediction, y[test])
+  do.call(score, list(prediction, y[test]))
 }
 
-nearest.neighbor <- function(x, y, test, ...) {
+nearest.neighbor <- function(x, y, test, score, ...) {
   data <- data.frame(class=y, x)
   prediction <- knn(data, test, k=1)
-  accuracy(prediction, y[test])
+  do.call(score, list(prediction, y[test]))
 }
 
-elite.nearest.neighbor <- function(x, y, test, ...) {
+elite.nearest.neighbor <- function(x, y, test, score, ...) {
   imp <- dt.importance(x, y, test)
   att <- names(which(imp != 0))
   if(all(imp == 0))
@@ -185,20 +214,20 @@ elite.nearest.neighbor <- function(x, y, test, ...) {
 
   data <- data.frame(class=y, x[, att, drop=FALSE])
   prediction <- knn(data, test, k=1)
-  accuracy(prediction, y[test])
+  do.call(score, list(prediction, y[test]))
 }
 
-naive.bayes <- function(x, y, test, ...) {
+naive.bayes <- function(x, y, test, score, ...) {
   model <- e1071::naiveBayes(x[-test,], y[-test])
   prediction <- stats::predict(model, x[test,])
-  accuracy(prediction, y[test])
+  do.call(score, list(prediction, y[test]))
 }
 
-linear.discriminant <- function(x, y, test, ...) {
+linear.discriminant <- function(x, y, test, score, ...) {
   tryCatch({
     model <- MASS::lda(x[-test,], grouping=y[-test])
     prediction <- stats::predict(model, x[test,])$class
-    accuracy(prediction, y[test])
+    do.call(score, list(prediction, y[test]))
   }, error = function(e) {
     return(NA)
   })

@@ -28,7 +28,7 @@ post-processing functions.}
 functions. See \link{post.processing} method to more information. (Default:
 \code{c("mean", "sd")})}
 
-\item{minsplit}{The minimum number of observations in a node.}
+\item{minsplit}{The minimum number of observations in a node of the DT model.}
 
 \item{formula}{A formula to define the class column.}
 
