@@ -1,8 +1,8 @@
 #' Landmarking Meta-features
 #'
 #' Landmarking measures are simple and fast algorithms, from which performance
-#' can be extracted. The measures use k-fold cross-validation and the evaluation
-#' measure is accuracy.
+#' can be extracted. The measures use 10-fold cross-validation and the 
+#' evaluation measure is accuracy.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
@@ -155,7 +155,7 @@ accuracy <- function(prediction, label) {
   sum(diag(aux)) / sum(aux)
 }
 
-balanced.accurary <- function(prediction, label) {
+balanced.accuracy <- function(prediction, label) {
   label <- factor(label)
   prediction <- factor(prediction,  levels=levels(label))
   aux <- table(prediction, label)
