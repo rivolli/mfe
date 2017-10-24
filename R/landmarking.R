@@ -159,7 +159,7 @@ balanced.accuracy <- function(prediction, label) {
   label <- factor(label)
   prediction <- factor(prediction,  levels=levels(label))
   aux <- table(prediction, label)
-  sum(diag(aux) / colSums(aux))
+  mean(diag(aux) / colSums(aux))
 }
 
 kappa <- function(prediction, label) {
