@@ -15,8 +15,7 @@ mf.landmarking(...)
   summary = c("mean", "sd"), folds = 10, score = "accuracy", ...)
 }
 \arguments{
-\item{...}{Further arguments passed to or from other methods like the
-post-processing functions.}
+\item{...}{Further arguments passed to the summarization functions.}
 
 \item{x}{A data.frame contained only the input attributes.}
 
@@ -24,16 +23,16 @@ post-processing functions.}
 
 \item{features}{A list of features names or \code{"all"} to include all them.}
 
-\item{summary}{A list of methods to summarize the results as post-processing
-functions. See \link{post.processing} method to more information. (Default:
-\code{c("mean", "sd")}).}
+\item{summary}{A list of summarization functions or empty for all values. See
+\link{post.processing} method to more information. (Default: 
+\code{c("mean", "sd")})}
 
-\item{folds}{The number of k equal size subsamples in k-fold
-cross-validation.}
+\item{folds}{The number of k equal size subsamples in k-fold 
+cross-validation.(Default: 10)}
 
 \item{score}{The evaluation measure used to score the classification 
-performance. There are 3 measures: \code{"accuracy"},  
-\code{"balanced.accuracy"} and \code{"kappa"}. (Default: \code{"accuracy"}).}
+performance. \code{c("accuracy", "balanced.accuracy", "kappa")}. 
+(Default: \code{"accuracy"}).}
 
 \item{formula}{A formula to define the class column.}
 
@@ -41,55 +40,24 @@ performance. There are 3 measures: \code{"accuracy"},
 The details section describes the valid values for this group.}
 }
 \value{
-Each one of these meta-features generate multiple values (by fold
- and/or binary dataset) and then it is post processed by the summary methods.
- See the \link{post.processing} method for more details about it.
+A list named by the requested meta-features.
 }
 \description{
 Landmarking measures are simple and fast algorithms, from which performance
-can be extracted. The measures use 10-fold cross-validation and the 
-evaluation measure is accuracy.
-}
-\details{
-The following features are allowed for this method:
- \describe{
-   \item{"decision.stumps"}{Construct a single DT node model induced by the
-     most informative attribute. The single split (parallel axis) in the data
-     has the main goal of establish the linear separability.}
-   \item{"elite.nearest.neighbor"}{Select the most informative attributes in
-     the dataset using the information gain ratio to induce the 1-Nearest
-     Neighbor. With the subset of informative attributes is expected that the
-     models induced by 1-Nearest Neighbor should be noise tolerant.}
-   \item{"linear.discriminant"}{Apply the Linear Discriminant classifier to
-     construct a linear split (non parallel axis) in the data to establish
-     the linear separability.}
-   \item{"naive.bayes"}{Evaluate the performance of the Naive Bayes
-     classifier. It assumes that the attributes are independent and each
-     example belongs to a certain class based on the Bayes probability.}
-   \item{"nearest.neighbor"}{This measure evaluate the performance of the
-     1-Nearest Neighbor classifier. It uses the euclidean distance of the
-     nearest neighbor to determine how noisy is the data.}
-   \item{"worst.node"}{Construct a single DT node model induced by the less
-     informative attribute. With the "decision.stumps" measure is possible to
-     define a baseline value of linear separability for dataset.}
- }
+can be extracted.
 }
 \examples{
 ## Extract all meta-features using formula
 mf.landmarking(Species ~ ., iris)
 
-## Extract all meta-features using data.frame
-mf.landmarking(iris[1:4], iris[5])
-
 ## Extract some meta-features
-mf.landmarking(Species ~ ., iris, features=c("decision.stumps",
-"nearest.neighbor", "linear.discriminant"))
+mf.landmarking(iris[1:4], iris[5], c("dn", "rn", "wn"))
 
-## Extract all meta-features with different summary methods
+## Use another summarization function
 mf.landmarking(Species ~ ., iris, summary=c("min", "median", "max"))
 
-## Extract all meta-features one vs one decomposition strategy
-mf.landmarking(Species ~ ., iris)
+## Use 2 folds and balanced accuracy
+mf.landmarking(Species ~ ., iris, folds=2, score="balanced.accuracy")
 }
 \references{
 Pfahringer, B., Bensusan, H., &  Giraud-Carrier, C. G. (2000). Meta-Learning

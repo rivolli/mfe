@@ -9,14 +9,13 @@
 mf.model.based(...)
 
 \method{mf.model.based}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), minsplit = 20, ...)
+  "sd"), ...)
 
 \method{mf.model.based}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), minsplit = 20, ...)
+  summary = c("mean", "sd"), ...)
 }
 \arguments{
-\item{...}{Further arguments passed to or from other methods like the
-post-processing functions.}
+\item{...}{Further arguments passed to the summarization functions.}
 
 \item{x}{A data.frame contained only the input attributes.}
 
@@ -24,11 +23,9 @@ post-processing functions.}
 
 \item{features}{A list of features names or \code{"all"} to include all them.}
 
-\item{summary}{A list of methods to summarize the results as post-processing
-functions. See \link{post.processing} method to more information. (Default:
+\item{summary}{A list of summarization functions or empty for all values. See
+\link{post.processing} method to more information. (Default: 
 \code{c("mean", "sd")})}
-
-\item{minsplit}{The minimum number of observations in a node of the DT model.}
 
 \item{formula}{A formula to define the class column.}
 
@@ -36,51 +33,52 @@ functions. See \link{post.processing} method to more information. (Default:
 The details section describes the valid values for this group.}
 }
 \value{
-Each one of these meta-features generate multiple values (by leaves
- and/or nodes) and then it is post processed by the summary methods.
- See the \link{post.processing} method for more details about it.
+A list named by the requested meta-features.
 }
 \description{
 Decision Tree (DT) Model Based meta-features are the measures desined to
-extract characteristics like the depth, the shape and size of a DT model
-induced from a dataset.
+extract characteristics of a DT model induced from a dataset.
 }
 \details{
 The following features are allowed for this method:
  \describe{
-   \item{"average.leaf.corrobation"}{This measure calculate the proportion of
-     examples that belong to each leaf of the DT model.}
-   \item{"branch.length"}{Is the length of each leaf of the DT model.}
-   \item{"depth"}{Is the depth of each path and leaf of the DT model.}
-   \item{"homogeneity"}{Is the number of leaves divided by the strutural
-     shape of the DT model.}
-   \item{"max.depth"}{Is the maximum depth of the DT model.}
-   \item{"nleave"}{Is the number of leaves of the DT model.}
-   \item{"nnode"}{Is the number of nodes in the DT model.}
-   \item{"nodes.per.attribute"}{Represents the number of nodes in the DT
-     model divided by the number of predictive attributes.}
-   \item{"nodes.per.instance"}{Represents the number of nodes in the DT model
-     divided by the number of examples in the dataset.}
-   \item{"nodes.per.level"}{Is the number of nodes per level of the DT model.}
-   \item{"repeated.nodes"}{This measure calculate the number of repeated
-     attributes that appear in the DT model.}
-   \item{"shape"}{Is the probability of arrive in each leaf given a random
-     walk. We call this as the strutural shape of the DT model.}
-   \item{"variable.importance"}{Calculate the variable importance using the
-     Gini index to estimate the amout of information used in the DT model.}
+   \item{"leaves"}{Number of leaves of the DT model.}
+   \item{"leavesBranch"}{Size of branches, which consists in the level of all
+   leaves of the DT model (multi-valued).}
+   \item{"leavesCorrob"}{Leaves corroboration, which is the proportion of
+   examples that belong to each leaf of the DT model (multi-valued).}
+   \item{"leavesHomo"}{Homogeneity, which is the number of leaves divided by 
+   the strutural shape of the DT model (multi-valued).}
+   \item{"leavesPerClass"}{Leaves per class, which is the proportion of 
+   leaves of the DT model associated with each class (multi-valued).}
+   \item{"nodes"}{Number of nodes of the DT model.}
+   \item{"nodesPerAttr"}{Ratio of the number of nodes of the DT model per the
+   number of attributes.}
+   \item{"nodesPerInst"}{Ratio of the number of nodes of the DT model per the
+   number of instances.}
+   \item{"nodesPerLevel"}{Number of nodes of the DT model per level 
+   (multi-valued).}
+   \item{"nodesRepeated"}{Repeated nodes, which is the number of repeated
+   attributes that appear in the DT model (multi-valued).}
+   \item{"treeDepth"}{Tree depth, which is the level of all tree nodes and 
+   leaves of the DT model (multi-valued).}
+   \item{"treeImbalance"}{Tree imbalance (multi-valued).}
+   \item{"treeShape"}{Tree shape, which is the probability of arrive in each 
+   leaf given a random walk. We call this as the strutural shape of the DT 
+   model (multi-valued).}
+   \item{"varImportance"}{Variable importance. It is calculed using the Gini 
+   index to estimate the amout of information used in the DT model 
+   (multi-valued).}
  }
 }
 \examples{
 ## Extract all meta-features using formula
 mf.model.based(Species ~ ., iris)
 
-## Extract all meta-features using data.frame
-mf.model.based(iris[1:4], iris[5])
-
 ## Extract some meta-features
-mf.model.based(Species ~ ., iris, features=c("nnode", "nleave", "depth"))
+mf.model.based(iris[1:4], iris[5], c("nodes", "leaves", "treeShape"))
 
-## Extract all meta-features with different summary methods
+## Use another summarization function
 mf.model.based(Species ~ ., iris, summary=c("min", "median", "max"))
 }
 \references{

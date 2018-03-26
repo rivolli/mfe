@@ -8,9 +8,11 @@
 \usage{
 mf.general(...)
 
-\method{mf.general}{default}(x, y, features = "all", ...)
+\method{mf.general}{default}(x, y, features = "all", summary = c("mean",
+  "sd"), ...)
 
-\method{mf.general}{formula}(formula, data, features = "all", ...)
+\method{mf.general}{formula}(formula, data, features = "all",
+  summary = c("mean", "sd"), ...)
 }
 \arguments{
 \item{...}{Not used.}
@@ -19,12 +21,17 @@ mf.general(...)
 
 \item{y}{A factor response vector with one label for each row/component of x.}
 
-\item{features}{A list of features names or \code{"all"} to include all them.}
+\item{features}{A list of features names or \code{"all"} to include all them.
+The supported values are described in the details section. (Default: 
+\code{"all"})}
+
+\item{summary}{A list of summarization functions or empty for all values. See
+\link{post.processing} method to more information. (Default: 
+\code{c("mean", "sd")})}
 
 \item{formula}{A formula to define the class column.}
 
-\item{data}{A data.frame dataset contained the input attributes and class
-The details section describes the valid values for this group.}
+\item{data}{A data.frame dataset contained the input attributes and class}
 }
 \value{
 A list named by the requested meta-features.
@@ -36,31 +43,25 @@ is also known as simple measures.
 \details{
 The following features are allowed for this method:
  \describe{
-   \item{"dimensionality"}{Represents the ratio between the number of
-     attributes and the number of instances constituting the dataset.}
-   \item{"majority.class"}{Represents the proportion of instances that
-     belongs to the majority class. It is also known as default accuracy.}
-   \item{"nattribute"}{Represents the total number of attributes in the
-     dataset.}
-   \item{"nbinary"}{Represents the total of binary attributes in the
-     dataset. It includes categorical and numeric values that have just 2
-     different values.}
-   \item{"nclasse"}{Represents the total number of output values (classes) in
-     the dataset.}
-   \item{"ninstance"}{Represents the total number of instances (also named
-     samples or observations) in the dataset.}
-   \item{"nnumeric"}{Represents the number of numeric attributes in the
-     dataset.}
-   \item{"nsymbolic"}{Represents the number of categorical attributes in the
-     dataset. This is the same as the number of factor columns.}
-   \item{"pbinary"}{Represents the proportion of binary attributes in the
-     dataset.}
-   \item{"pnumeric"}{Represents the proportion of numeric attributes in the
-     dataset.}
-   \item{"psymbolic"}{Represents the proportion of symbolic attributes in the
-     dataset.}
-   \item{"sdclass"}{Represents the standard deviation of the class
-     distribution in the dataset.}
+   \item{"attrToInst"}{Ratio of the number of attributes per the number of 
+   instances, also known as dimensionality.}
+   \item{"catToNum"}{Ratio of the number of categorical attributes per the 
+   number of numeric attributes.}
+   \item{"defError"}{Default error.}
+   \item{"instPerAttr"}{Ratio of the number of instances per the number of 
+   attributes.}
+   \item{"ntAttr"}{Number of attributes.}
+   \item{"nrBin"}{Number of binary attributes.}
+   \item{"nrCat"}{Number of categorical attributes.}
+   \item{"nrClass"}{Number of classes.}
+   \item{"nrInst"}{Number of instances.}
+   \item{"nrNum"}{Number of numeric attributes.}
+   \item{"numToCat"}{Ratio of the number of numeric attributes per the number
+   of categorical attributes.}
+   \item{"propBin"}{Proportion of binary attributes.}
+   \item{"propCat"}{Proportion of categorical attributes.}
+   \item{"propClass"}{Proportion of the classes values (multi-valued).}
+   \item{"propNum"}{Proportion of numeric attributes.}
  }
 }
 \examples{
@@ -68,8 +69,13 @@ The following features are allowed for this method:
 mf.general(Species ~ ., iris)
 
 ## Extract some metafeatures
-small.iris <- iris[1:100, ]
-mf.general(small.iris[1:4], small.iris[5], c("nclasse", "dimensionality"))
+mf.general(iris[1:100, 1:4], iris[1:100, 5], c("defError", "nrClass"))
+
+## Extract all meta-features without summarize prop.class
+mf.general(Species ~ ., iris, summary=c())
+
+## Use another summarization functions
+mf.general(Species ~ ., iris, summary=c("sd","min","iqr"))
 }
 \references{
 Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).

@@ -24,8 +24,8 @@ metafeatures(...)
 \item{groups}{A list of meta-features groups or \code{"all"} to include all
 them. The details section describes the valid values for this parameter.}
 
-\item{summary}{A list of methods to summarize the results as post-processing
-functions. See \link{post.processing} method to more information. (Default:
+\item{summary}{A list of summarization functions or empty for all values. See
+\link{post.processing} method to more information. (Default: 
 \code{c("mean", "sd")})}
 
 \item{formula}{A formula to define the class column.}
@@ -34,20 +34,19 @@ functions. See \link{post.processing} method to more information. (Default:
 The details section describes the valid values for this group.}
 }
 \value{
-A numeric vector named by the requested meta-features.
+A numeric vector named by the meta-features from the specified 
+groups.
 }
 \description{
-This is a simple way to extract the meta-features from a dataset. To set
-specific parameters for each group, use the specific characterization method.
+This is a simple way to extract the meta-features from a dataset, where all
+meta-features from each group is extracted.
 }
 \details{
 The following groups are allowed for this method:
  \describe{
-   \item{"discriminant"}{Include all discriminant meta-features. See
-     \link{mf.discriminant} for more details.}
    \item{"infotheo"}{Include all information theoretical meta-features. See
      \link{mf.infotheo} for more details.}
-   \item{"general"}{Include all general meta-features. See
+   \item{"general"}{Include all general (simple) meta-features. See
      \link{mf.general} for more details.}
    \item{"landmarking"}{Include all landmarking meta-features. See
      \link{mf.landmarking} for more details.}

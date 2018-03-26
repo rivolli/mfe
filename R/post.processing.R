@@ -87,6 +87,11 @@ post.processing <- function(measure, summary=c("mean", "sd"), multiple=TRUE,
     )
   }
 
+  iqr <- function(x, na.rm=FALSE, ...) {
+     if (!na.rm & any(is.na(x))) NA
+     else IQR(x, na.rm = na.rm)
+  }
+
   res <- sapply(summary, function(s) {
     do.call(s, list(measure, ...))
   }, simplify=FALSE)

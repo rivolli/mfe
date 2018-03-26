@@ -9,28 +9,32 @@
 mf.statistical(...)
 
 \method{mf.statistical}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), by.class = TRUE, ...)
+  "sd"), by.class = FALSE, transform = TRUE, ...)
 
 \method{mf.statistical}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), by.class = TRUE, ...)
+  summary = c("mean", "sd"), by.class = FALSE, transform = TRUE, ...)
 }
 \arguments{
-\item{...}{Further arguments passed to or from other methods like the
-meta-features and post-processing.}
+\item{...}{Further arguments passed to the summarization functions.}
 
 \item{x}{A data.frame contained only the input attributes.}
 
 \item{y}{A factor response vector with one label for each row/component of x.}
 
-\item{features}{A list of features names or \code{"all"} to include all them.}
+\item{features}{A list of features names or \code{"all"} to include all them.
+The details section describes the valid values for this group.}
 
-\item{summary}{A list of methods to summarize the results as post-processing
-functions. See \link{post.processing} method to more information. (Default:
+\item{summary}{A list of summarization functions or empty for all values. See
+\link{post.processing} method to more information. (Default: 
 \code{c("mean", "sd")})}
 
 \item{by.class}{A logical value indicating if the meta-features must be
 computed for each group of samples belonging to different output classes.
-(Default: TRUE)}
+(Default: FALSE)}
+
+\item{transform}{A logical value indicading if the categorical attributes
+should be transformed. If \code{FALSE} they will be ignored. (Default: 
+\code{TRUE})}
 
 \item{formula}{A formula to define the class column.}
 
@@ -45,65 +49,24 @@ Statistical meta-features are the standard statistical measures to describe
 the numerical properties of a distribution of data. As it requires only
 numerical attributes, the categorical data are transformed to numerical.
 }
-\details{
-The following features are allowed for this method:
- \describe{
-   \item{"correlation"}{Represents the absolute correlation between each pair
-      of the numeric attributes in the dataset. This measure accepts an extra
-      argument called \code{method} that values can be \code{c("pearson",
-      "kendall", "spearman")}, see \code{\link{cor}} for more details.}
-   \item{"covariance"}{Represents the absolute covariance between each pair
-      of the numeric attributes in the dataset. This measure accepts an extra
-      argument called \code{method} that values can be \code{c("pearson",
-      "kendall", "spearman")}, see \code{\link{cov}} for more details.}
-   \item{"discreteness.degree"}{Represents the degree of discreetness of each
-      attribute in the dataset. It is measured using a sparsity measure.}
-   \item{"geometric.mean"}{Represents the geometric mean of the numeric
-      attributes in the dataset.}
-   \item{"harmonic.mean"}{Represents the harmonic mean of the numeric
-      attributes in the dataset.}
-   \item{"iqr"}{Represents the interquartile range divided by the standard
-      deviation of the numeric attributes in the dataset.}
-   \item{"kurtosis"}{Represents the kurtosis of the numeric attributes in
-      the dataset.}
-   \item{"mad"}{Represents the median absolute deviation of the numeric
-      attributes in the dataset.}
-   \item{"normality"}{Represents the p-values of the attributes according to
-      a normal distribution test. For that it is used the Shapiro-Wilk
-      Normality Test. Values lower than 0.05 could be considered provenient
-      from a normal distribution.}
-   \item{"outliers"}{"Ratio of the variances of mean value and the
-      alfa-trimmed mean. Values smaller than 0.7 can be considered outliers.
-      The default alpha value is 0.05 but it can be setted using extra
-      parameters."}
-   \item{"skewness"}{Represents the skewness of the numeric attributes in
-      the dataset.}
-   \item{"standard.deviation"}{Represents the standard deviation of the
-      numeric attributes in the dataset.}
-   \item{"trim.mean"}{Represents the trim mean of the numeric attributes in
-      the dataset. It is the aritimetic mean excluding the 20% of the lowest
-      and hieghest instances.}
-   \item{"variance"}{Represents the variance (normalization of the standard
-      deviation) of the numeric attributes in the dataset.}
- }
- Each one of these meta-features generate multiple values (by attribute
- and/or class value) and then it is post processed by the summary methods.
- See the \link{post.processing} method for more details about it.
-
- The categorical attributes is replaced by binaries attributes.
-}
 \examples{
 ## Extract all meta-features
 mf.statistical(Species ~ ., iris)
 
 ## Extract some meta-features
-mf.statistical(iris[1:4], iris[5], c("correlation", "variance"))
+mf.statistical(iris[1:4], iris[5], c("cor", "nrNorm"))
 
-## Use another summary methods
+## Extract all meta-features without summarize the results
+mf.statistical(Species ~ ., iris, summary=c())
+
+## Use another summarization function
 mf.statistical(Species ~ ., iris, summary=c("min", "median", "max"))
 
-## Compute the mean for each measure without consider the class information
-mf.statistical(Species ~ ., iris, summary="mean", by.class=FALSE)
+## Extract statistical measures using by.class approach
+mf.statistical(Species ~ ., iris, by.class=TRUE)
+
+## Do not transform the data (using only categorical attributes)
+mf.statistical(Species ~ ., iris, transform=FALSE)
 }
 \references{
 Castiello, C., Castellano, G., & Fanelli, A. M. (2005). Meta-data:

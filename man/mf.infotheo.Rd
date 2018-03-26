@@ -9,24 +9,29 @@
 mf.infotheo(...)
 
 \method{mf.infotheo}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), ...)
+  "sd"), transform = TRUE, ...)
 
 \method{mf.infotheo}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), ...)
+  summary = c("mean", "sd"), transform = TRUE, ...)
 }
 \arguments{
-\item{...}{Further arguments passed to or from other methods like the
-post-processing functions.}
+\item{...}{Further arguments passed to the summarization functions.}
 
 \item{x}{A data.frame contained only the input attributes.}
 
 \item{y}{A factor response vector with one label for each row/component of x.}
 
-\item{features}{A list of features names or \code{"all"} to include all them.}
+\item{features}{A list of features names or \code{"all"} to include all them.
+The supported values are described in the details section. (Default: 
+\code{"all"})}
 
-\item{summary}{A list of methods to summarize the results as post-processing
-functions. See \link{post.processing} method to more information. (Default:
+\item{summary}{A list of summarization functions or empty for all values. See
+\link{post.processing} method to more information. (Default: 
 \code{c("mean", "sd")})}
+
+\item{transform}{A logical value indicading if the numeric attributes should 
+be transformed. If \code{FALSE} they will be ignored. (Default: 
+\code{TRUE})}
 
 \item{formula}{A formula to define the class column.}
 
@@ -42,42 +47,50 @@ discrete (categorical) attributes, but they also fit continuous ones so a
 discretization is required.
 }
 \details{
-TODO describe discretization method
- The following features are allowed for this method:
+The following features are allowed for this method:
  \describe{
-   \item{"attributes.concentration"}{Represents the association between the
-     nominal attributes. It is the Goodman and Kruskal's tau measure
-     otherwise known as the concentration coefficient.}
-   \item{"attribute.entropy"}{Represents the normalized entropy (a measure of
-     randomness) of each attributes in the dataset.}
-   \item{"class.concentration"}{Represents the association between the
-     nominal attributes and the class. It is the Goodman and Kruskal's tau
-     measure otherwise known as the concentration coefficient.}
-   \item{"class.entropy"}{Represents the normalized entropy of the class that
-     describes how much information is necessary to specify one class in
-     the dataset.}
-   \item{"equivalent.attributes"}{Represents the the number of attributes
-     suitable to optimally solve the classification task using the dataset.}
-   \item{"joint.entropy"}{Represents the total entropy of each attribute and
-     the classe in the dataset.}
-   \item{"mutual.information"}{Represents the common information shared
-     between each attribute and the class in the dataset.}
-   \item{"noise.signal"}{Represents the amount of irrelevant information
-     contained in the dataset.}
+   \item{"attrConc"}{Attributes concentration. It is the Goodman and 
+     Kruskal's tau measure otherwise known as the concentration coefficient
+     computed for each pair of attributes (multi-valued).}
+   \item{"attrEnt"}{Attributes entropy, a measure of randomness of each 
+     attributes in the dataset (multi-valued).}
+   \item{"classConc"}{Class concentration, similar to "attrConc", however, it
+     is computed for each attribute and the class (multi-valued).}
+   \item{"classEnt"}{Class entropy, which describes how much information is 
+     necessary to specify the class in the dataset.}
+   \item{"eqNumAttr"}{Equivalent number of attributes, which represents the 
+     number of attributes suitable to optimally solve the classification task 
+     using the dataset.}
+   \item{"jointEnt"}{Joint entropy, which represents the total entropy of 
+     each attribute and the class (multi-valued).}
+   \item{"mutInf"}{Mutual information, that is the common information shared
+     between each attribute and the class in the dataset (multi-valued).}
+   \item{"normAttrEnt"}{Normalized attribute entropy, a normalized version of
+     "attrEnt" (multi-valued).}
+   \item{"normClassEnt"}{Normalized class entropy, a normalized version of
+     "classEnt".}
+   \item{"nsRatio"}{Noise ratio, which describes the amount of irrelevant 
+     information contained in the dataset.}
  }
- Each one of these meta-features generate multiple values (by attribute
- and/or class value) and then it is post processed by the summary methods.
- See the \link{post.processing} method for more details about it.
+ This method uses the unsupervized data discretization procedure provided by
+ \link[infotheo]{discretize} function, where the default values are used when 
+ \code{transform=TRUE}.
 }
 \examples{
 ## Extract all metafeatures
 mf.infotheo(Species ~ ., iris)
 
 ## Extract some metafeatures
-mf.infotheo(iris[1:4], iris[5], c("class.entropy", "joint.entropy"))
+mf.infotheo(iris[1:4], iris[5], c("classEnt", "jointEnt"))
 
-## Use another summary methods
+## Extract all meta-features without summarize the results
+mf.infotheo(Species ~ ., iris, summary=c())
+
+## Use another summarization functions
 mf.infotheo(Species ~ ., iris, summary=c("min", "median", "max"))
+
+## Do not transform the data (using only categorical attributes)
+mf.infotheo(Species ~ ., iris, transform=FALSE)
 }
 \references{
 Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).

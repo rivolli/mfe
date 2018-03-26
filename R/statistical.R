@@ -8,63 +8,73 @@
 #' @param x A data.frame contained only the input attributes.
 #' @param y A factor response vector with one label for each row/component of x.
 #' @param features A list of features names or \code{"all"} to include all them.
-#' @param summary A list of methods to summarize the results as post-processing
-#'  functions. See \link{post.processing} method to more information. (Default:
+#'  The details section describes the valid values for this group.
+#' @param summary A list of summarization functions or empty for all values. See
+#'  \link{post.processing} method to more information. (Default: 
 #'  \code{c("mean", "sd")})
+#' @param by.class A logical value indicating if the meta-features must be
+#'  computed for each group of samples belonging to different output classes.
+#'  (Default: FALSE)
+#' @param transform A logical value indicading if the categorical attributes
+#'  should be transformed. If \code{FALSE} they will be ignored. (Default: 
+#'  \code{TRUE})
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #'  The details section describes the valid values for this group.
-#' @param by.class A logical value indicating if the meta-features must be
-#'  computed for each group of samples belonging to different output classes.
-#'  (Default: TRUE)
-#' @param ... Further arguments passed to or from other methods like the
-#'  meta-features and post-processing.
+#' @param ... Further arguments passed to the summarization functions.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"correlation"}{Represents the absolute correlation between each pair
-#'       of the numeric attributes in the dataset. This measure accepts an extra
-#'       argument called \code{method} that values can be \code{c("pearson",
-#'       "kendall", "spearman")}, see \code{\link{cor}} for more details.}
-#'    \item{"covariance"}{Represents the absolute covariance between each pair
-#'       of the numeric attributes in the dataset. This measure accepts an extra
-#'       argument called \code{method} that values can be \code{c("pearson",
-#'       "kendall", "spearman")}, see \code{\link{cov}} for more details.}
-#'    \item{"discreteness.degree"}{Represents the degree of discreetness of each
-#'       attribute in the dataset. It is measured using a sparsity measure.}
-#'    \item{"geometric.mean"}{Represents the geometric mean of the numeric
-#'       attributes in the dataset.}
-#'    \item{"harmonic.mean"}{Represents the harmonic mean of the numeric
-#'       attributes in the dataset.}
-#'    \item{"iqr"}{Represents the interquartile range divided by the standard
-#'       deviation of the numeric attributes in the dataset.}
-#'    \item{"kurtosis"}{Represents the kurtosis of the numeric attributes in
-#'       the dataset.}
-#'    \item{"mad"}{Represents the median absolute deviation of the numeric
-#'       attributes in the dataset.}
-#'    \item{"normality"}{Represents the p-values of the attributes according to
-#'       a normal distribution test. For that it is used the Shapiro-Wilk
-#'       Normality Test. Values lower than 0.05 could be considered provenient
-#'       from a normal distribution.}
-#'    \item{"outliers"}{"Ratio of the variances of mean value and the
-#'       alfa-trimmed mean. Values smaller than 0.7 can be considered outliers.
-#'       The default alpha value is 0.05 but it can be setted using extra
-#'       parameters."}
-#'    \item{"skewness"}{Represents the skewness of the numeric attributes in
-#'       the dataset.}
-#'    \item{"standard.deviation"}{Represents the standard deviation of the
-#'       numeric attributes in the dataset.}
-#'    \item{"trim.mean"}{Represents the trim mean of the numeric attributes in
-#'       the dataset. It is the aritimetic mean excluding the 20% of the lowest
-#'       and hieghest instances.}
-#'    \item{"variance"}{Represents the variance (normalization of the standard
-#'       deviation) of the numeric attributes in the dataset.}
+#'    \item{"cancor}{Canonical correlations between the predictive attributes 
+#'    and the class (multi-valued).}
+#'    \item{"cg"}{Center of gravity, which is the distance between the instance 
+#'    in the center of the majority class and the instance-center of the 
+#'    minority class.}
+#'    \item{"cor"}{Absolute attributes correlation, which measure the 
+#'    correlation between each pair of the numeric attributes in the dataset 
+#'    (multi-valued). This measure accepts an extra argument called 
+#'    \code{method = c("pearson", "kendall", "spearman")}. See 
+#'    \code{\link[stats]{cor}} for more details.}
+#'    \item{"cov"}{Absolute attributes covariance, which measure the covariance 
+#'    between each pair of the numeric attributes in the dataset 
+#'    (multi-valued).}
+#'    \item{"discfct"}{Number of the discriminant functions.}
+#'    \item{"eigen"}{Eigenvalues of the covariance matrix (multi-valued).}
+#'    \item{"fract"}{Proportion of total variation (multi-valued).}
+#'    \item{"gmean"}{Geometric mean of attributes (multi-valued).}
+#'    \item{"hmean"}{Harmonic mean of attributes (multi-valued).}
+#'    \item{"iqr"}{Interquartile range of attributes (multi-valued).}
+#'    \item{"kurtosis"}{Kurtosis of attributes (multi-valued).}
+#'    \item{"mad"}{Median absolute deviation of attributes (multi-valued).}
+#'    \item{"max"}{Maximum value of attributes (multi-valued).}
+#'    \item{"mean"}{Mean value of attributes (multi-valued).}
+#'    \item{"median"}{Median value of attributes (multi-valued).}
+#'    \item{"min"}{Minimum value of attributes (multi-valued).}
+#'    \item{"ncr"}{Number of attributes pairs with high correlation 
+#'    (multi-valued when \code{by.class=TRUE}).}
+#'    \item{"nrNorm"}{Number of attributes with normal distribution. The 
+#'    Shapiro-Wilk Normality Test is used to assess if an attribute is or not is
+#'    normally distributed (multi-valued only when \code{by.class=TRUE}).}
+#'    \item{"nrOut"}{Number of attributes with outliers values. The Turkey's 
+#'    boxplot algorith is used to compute if an attributes has or does not have
+#'    outliers (multi-valued only when \code{by.class=TRUE}).}
+#'    \item{"propNorm"}{Proportion of attributes with normal distribution
+#'    (multi-valued only when \code{by.class=TRUE}).}
+#'    \item{"propOut"}{Proportion of attributes with outliers values
+#'    (multi-valued only when \code{by.class=TRUE}).}
+#'    \item{"range"}{Range of Attributes (multi-valued).}
+#'    \item{"sd"}{Standard deviation of the attributes (multi-valued).}
+#'    \item{"sdRatio"}{Statistic test for homogeneity of covariances.}
+#'    \item{"skewness"}{Skewness of attributes (multi-valued).}
+#'    \item{"sp"}{Attributes sparsity, which represents the degree of 
+#'    discreetness of each attribute in the dataset (multi-valued).}
+#'    \item{"tmean"}{Trimmed mean of attributes (multi-valued). It is the 
+#'    aritimetic mean excluding the 20% of the lowest and hieghest instances.}
+#'    \item{"var"}{Attributes variance (multi-valued).}
+#'    \item{"wlambda"}{Wilks Lambda.}
 #'  }
-#'  Each one of these meta-features generate multiple values (by attribute
-#'  and/or class value) and then it is post processed by the summary methods.
-#'  See the \link{post.processing} method for more details about it.
-#'
-#'  The categorical attributes is replaced by binaries attributes.
+#'  This method uses simple binarization to transform the categorical attributes
+#'  when \code{transform=TRUE}.
 #' @return A list named by the requested meta-features.
 #'
 #' @references
@@ -81,13 +91,19 @@
 #' mf.statistical(Species ~ ., iris)
 #'
 #' ## Extract some meta-features
-#' mf.statistical(iris[1:4], iris[5], c("correlation", "variance"))
+#' mf.statistical(iris[1:4], iris[5], c("cor", "nrNorm"))
 #'
-#' ## Use another summary methods
+#' ## Extract all meta-features without summarize the results
+#' mf.statistical(Species ~ ., iris, summary=c())
+#' 
+#' ## Use another summarization function
 #' mf.statistical(Species ~ ., iris, summary=c("min", "median", "max"))
 #'
-#' ## Compute the mean for each measure without consider the class information
-#' mf.statistical(Species ~ ., iris, summary="mean", by.class=FALSE)
+#' ## Extract statistical measures using by.class approach
+#' mf.statistical(Species ~ ., iris, by.class=TRUE)
+#' 
+#' ## Do not transform the data (using only categorical attributes)
+#' mf.statistical(Species ~ ., iris, transform=FALSE)
 #' @export
 mf.statistical <- function(...) {
   UseMethod("mf.statistical")
@@ -96,8 +112,8 @@ mf.statistical <- function(...) {
 #' @rdname mf.statistical
 #' @export
 mf.statistical.default <- function(x, y, features="all",
-                                   summary=c("mean", "sd"), by.class=TRUE,
-                                    ...) {
+                                   summary=c("mean", "sd"), by.class=FALSE,
+                                   transform=TRUE, ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -107,39 +123,99 @@ mf.statistical.default <- function(x, y, features="all",
   }
   y <- as.factor(y)
 
-  if (min(table(y)) < 2) {
-    stop("number of examples in the minority class should be >= 2")
-  }
-
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
 
+  if (nlevels(y) > length(y) / 10) {
+    stop("y must contain classes values")
+  }
+  
   if(features[1] == "all") {
     features <- ls.statistical()
   }
   features <- match.arg(features, ls.statistical(), TRUE)
   colnames(x) <- make.names(colnames(x))
+  
+  if (length(summary) == 0) {
+    summary <- "non.aggregated"
+  }
 
-  numdata <- binarize(x)
+  if (transform) {
+    numdata <- binarize(x)
+  } else {
+    numdata <- x[, sapply(x, is.numeric), drop=FALSE]
+
+    if (length(numdata) == 0) {
+      if (by.class) {
+        multiples <- c(ls.statistical.multiples(), 
+                       setdiff(setdiff(ls.statistical(), 
+                                       ls.statistical.multiples()), 
+                               ls.statistical.exclude.byclass()))
+      } else {
+        multiples <- ls.statistical.multiples()
+      }
+      return(
+        sapply(features, function(f) {
+          post.processing(NA, summary, f %in% multiples, ...)
+        }, simplify=FALSE)
+      )
+    }
+  }
+  
+  y.num <- binarize(as.data.frame(y))
+  x.cov <- stats::cov(numdata)
+  
+  extra <- list(
+    y.num = y.num,
+    cancor = tryCatch(
+      stats::cancor(numdata, y.num),
+      error=function(e) {
+        warning(e)
+        list(cor=c())
+      }),
+    x.cov = x.cov,
+    eigenvalues = base::eigen(x.cov)
+  )
 
   if(by.class) {
+    exclude <- ls.statistical.exclude.byclass()
     measures <- sapply(levels(y), function(class) {
       new.data <- numdata[y==class, , drop=FALSE]
-      new.data <- new.data[, apply(new.data, 2, stats::sd) != 0, drop=FALSE]
+      new.x <- x[y==class, , drop=FALSE]
+      nex.xcov <- stats::cov(new.data)
+      new.extra <- list(
+        x.cov = nex.xcov,
+        eigenvalues = base::eigen(nex.xcov)
+      )
+      
+      #new.data <- new.data[, apply(new.data, 2, stats::sd) != 0, drop=FALSE]
       aux <- sapply(features, function(f) {
-        do.call(f, c(list(x=new.data), list(...)))
+        fn <- paste("m", f, sep=".")
+        if (f %in% exclude) {
+          do.call(fn, c(list(x=numdata, y=y, xorig=x, extra=extra), list(...)))
+        } else {
+          do.call(fn, c(list(x=new.data, xorig=new.x, extra=new.extra), list(...)))
+        }
       }, simplify=FALSE)
+      
+      aux
     }, simplify=FALSE)
-
+    
     sapply(features, function(f) {
-      values <- lapply(measures, function (values) values[[f]])
-      post.processing(unlist(values), summary,
-                      f %in% ls.statistical.multiples(), ...)
+      if (f %in% exclude) {
+        values <- measures[[1]][[f]]
+      } else {
+        values <- lapply(measures, function (values) values[[f]])
+      }
+      
+      post.processing(unlist(values), summary, 
+                      !f %in% setdiff(exclude, ls.statistical.multiples()), ...)
     }, simplify=FALSE)
   } else {
     sapply(features, function(f) {
-      measure <- do.call(f, c(list(x=numdata), list(...)))
+      fn <- paste("m", f, sep=".")
+      measure <- do.call(fn, c(list(x=numdata, y=y, xorig=x, extra=extra), list(...)))
       post.processing(measure, summary, f %in% ls.statistical.multiples(), ...)
     }, simplify=FALSE)
   }
@@ -148,8 +224,8 @@ mf.statistical.default <- function(x, y, features="all",
 #' @rdname mf.statistical
 #' @export
 mf.statistical.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"), by.class=TRUE,
-                                   ...) {
+                                   summary=c("mean", "sd"), by.class=FALSE,
+                                   transform=TRUE, ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -162,7 +238,7 @@ mf.statistical.formula <- function(formula, data, features="all",
   attr(modFrame, "terms") <- NULL
 
   mf.statistical.default(modFrame[, -1], modFrame[, 1], features, summary,
-                         by.class, ...)
+                         by.class, transform, ...)
 }
 
 #' List the statistical meta-features
@@ -173,94 +249,194 @@ mf.statistical.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.statistical()
 ls.statistical <- function() {
-  c("correlation", "covariance", "discreteness.degree", "geometric.mean",
-    "harmonic.mean", "iqr", "kurtosis", "mad", "normality", "outliers",
-    "skewness", "standard.deviation", "trim.mean", "variance")
+  c("cancor", "cg", "cor", "cov", "discfct", "eigen", "fract", "gmean", "hmean",
+    "iqr", "kurtosis", "mad", "max", "mean", "median", "min", "ncr", "nrNorm", 
+    "nrOut", "propNorm", "propOut", "range", "sd", "sdratio", "skewness", "sp", 
+    "tmean", "var", "wlambda")
 }
 
 ls.statistical.multiples <- function() {
-  ls.statistical()
+  c("cancor", "cor", "cov", "sp", "eigen", "fract", "gmean", "hmean", "iqr", 
+    "kurtosis", "mad", "skewness", "max", "mean", "median", "min", "range", 
+    "sd", "tmean", "var")
 }
 
-correlation <- function(x, ...) {
+ls.statistical.exclude.byclass <- function() {
+  c("cancor", "cg", "discfct", "fract", "sdratio", "wlambda")
+}
+
+m.cancor <- function(x, y, extra, ...) {
+  if (length(extra$cancor$cor) == 0) return(NA)
+  else return(extra$cancor$cor)
+}
+
+m.cg <- function(x, y, ...) {
+  classes <- table(y)
+  minc <- which.min(classes)
+  maxc <- which.max(classes[-minc])
+  
+  centers <- t(sapply(names(c(minc, maxc)), function(class){
+    apply(x[y == class, , drop=FALSE], 2, base::mean)
+  }))
+
+  c(stats::dist(centers))
+}
+
+m.cor <- function(x, ...) {
   args <- list(...)
   method <- ifelse(is.null(args$method), "pearson", args$method)
   aux <- stats::cor(x, method=method)
   abs(aux[upper.tri(aux)])
 }
 
-covariance <- function(x, ...) {
-  args <- list(...)
-  method <- ifelse(is.null(args$method), "pearson", args$method)
-  aux <- stats::cov(x, method=method)
-  values <- abs(aux[upper.tri(aux)])
+m.cov <- function(x, y, extra, ...) {
+  abs(extra$x.cov[upper.tri(extra$x.cov)])
 }
 
-discreteness.degree <- function(x, ...) {
-  apply(x, 2, function(col) mean(table(col), ...))
+m.discfct <- function(x, y, extra, ...) {
+  length(extra$cancor$cor)
 }
 
-geometric.mean <- function(x, ...) {
+m.eigen <- function(x, y, extra, ...) {
+  extra$eigenvalues$values
+}
+
+m.fract <- function(x, y, extra, ...) {
+  if (length(extra$cancor$cor)>0) {
+    lambda <- extra$cancor$cor ^ 2
+    return(cumsum(lambda) / sum(lambda))
+  } else {
+    return(NA)
+  }
+}
+
+m.gmean <- function(x, ...) {
   res1 <- apply(x, 2, prod)^(1/nrow(x))
 
   x[x < 1] <- NA
   res2 <- apply(x, 2, function(col) {
-    exp(mean(log(col), ...))
+    exp(base::mean(log(col), ...))
   })
 
   coalesce(res1, res2)
 }
 
-harmonic.mean <- function(x, ...) {
+m.hmean <- function(x, ...) {
   apply(x, 2, function(col) length(col) / sum(1/col))
 }
 
-iqr <- function(x, ...) {
+m.iqr <- function(x, ...) {
+  apply(x, 2, stats::IQR)
+}
+
+m.kurtosis <- function(x, ...) {
+  apply(x, 2, e1071::kurtosis)
+}
+
+m.mad <- function(x, ...) {
+  apply(x, 2, stats::mad)
+}
+
+m.max <- function(x, ...) {
+  apply(x, 2, base::max)
+}
+
+m.mean <- function(x, ...) {
+  apply(x, 2, base::mean)
+}
+
+m.median <- function(x, ...) {
+  apply(x, 2, stats::median)
+}
+
+m.min  <- function(x, ...) {
+  apply(x, 2, base::min)
+}
+
+m.ncr <- function(x, ...) {
+  sum(abs(m.cor(x, ...)) >= 0.5) / (ncol(x) * (ncol(x) - 1) / 2)
+}
+
+m.nrNorm <- function(x, ...) {
+  sum(unlist(apply(x, 2, function(col) {
+    p.value <- NA
+    tryCatch(
+      p.value <- stats::shapiro.test(col[seq(min(length(col), 5000))])$p.value, 
+      error = function(e) e
+    )
+    p.value
+  })) < 0.1, na.rm = TRUE)
+}
+
+m.nrOut <- function(x, ...) {
   args <- list(...)
   na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
-  apply(x, 2, stats::IQR, na.rm=na.rm) / apply(x, 2, stats::sd, na.rm=na.rm)
+  sum(apply(x, 2, function(x) {
+    qs <- quantile(x, na.rm=na.rm)
+    iqr <- (qs[4] - qs[2]) * 1.5
+    (qs[2] - iqr) > qs[1] | (qs[4] + iqr) < qs[5] 
+  }))
 }
 
-kurtosis <- function(x, ...) {
-  args <- list(...)
-  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
-  abs(apply(x, 2, e1071::kurtosis, na.rm=na.rm))
+m.propNorm <- function(x, ...) {
+  m.nrNorm(x, ...) / ncol(x)
 }
 
-mad <- function(x, ...) {
-  args <- list(...)
-  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
-  apply(x, 2, stats::mad, na.rm=na.rm)
+m.propOut <- function(x, ...) {
+  m.nrOut(x, ...) / ncol(x)
 }
 
-normality <- function(x, ...) {
-  apply(x, 2, function(col) {
-    stats::shapiro.test(sample(col, min(length(col), 5000)))$p.value
-  })
+m.range <- function(x, ...) {
+  res <- apply(x, 2, base::range)
+  res[2,] - res[1,]
 }
 
-outliers <- function(x, alpha=0.05, ...) {
-  apply(x, 2, function(x) mean(x, ...)/mean(x, trim=alpha, ...))
-}
-
-skewness <- function(x, ...) {
-  args <- list(...)
-  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
-  abs(apply(x, 2, e1071::skewness, na.rm=na.rm))
-}
-
-standard.deviation <- function(x, ...) {
+m.sd <- function(x, ...) {
   args <- list(...)
   na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
   apply(x, 2, stats::sd, na.rm=na.rm)
 }
 
-trim.mean <- function(x, ...) {
-  apply(x, 2, mean, trim=0.2, ...)
+m.sdratio <- function(x, y, extra, ...) {
+  p <- ncol(x)
+  q <- nlevels(y)
+  n <- length(y)
+  ni <- table(y) - 1
+  
+  Si <- lapply(levels(y), function(class) stats::cov(x[y == class,, drop=FALSE]))
+  S <- Reduce('+', mapply(function(Si, ni) ni*Si, S=Si, n=ni, SIMPLIFY=FALSE)) /
+    (n - q)
+  
+  tryCatch({
+    M <- (1 - ((2*p^2+3*p-1)/(6*(p+1)*(q-1))) * (sum(1/ni)-1/(n-q))) *
+      ((n - q) * log(det(S)) - sum(ni * log(sapply(Si, det))))
+    
+    ifelse(is.na(M) | is.infinite(M), NA, exp(M / (p * sum(ni - 1))))
+  }, warning = function(e) {
+    NA
+  })
 }
 
-variance <- function(x, ...) {
-  args <- list(...)
-  na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
-  apply(x, 2, stats::var, na.rm=na.rm)
+m.skewness <- function(x, ...) {
+  apply(x, 2, e1071::skewness)
+}
+
+m.sp <- function(xorig, ...) {
+  (apply(xorig, 2, function(col) base::mean(table(col))) - 1) / (nrow(xorig) - 1)
+}
+
+m.tmean <- function(x, ...) {
+  apply(x, 2, base::mean, trim=0.2)
+}
+
+m.var <- function(x, ...) {
+  apply(x, 2, stats::var)
+}
+
+m.wlambda <- function(x, y, ...) {
+  if (ncol(x) > 1) {
+    as.numeric(rrcov::Wilks.test(x, grouping=y)$statistic)
+  } else {
+    return(NA)
+  }
 }
