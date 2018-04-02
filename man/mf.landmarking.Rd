@@ -46,6 +46,30 @@ A list named by the requested meta-features.
 Landmarking measures are simple and fast algorithms, from which performance
 can be extracted.
 }
+\details{
+The following features are allowed for this method:
+ \describe{
+   \item{"dn"}{Decision node. Construct a single DT node model induced by the
+   most informative attribute.}
+   \item{"enn"}{Elite nearest neighbor. Use the most informative attributes 
+   in the dataset using the varImportance to induce the 1-Nearest Neighbor. 
+   With the subset of informative attributes is expected that the models 
+   induced by 1-Nearest Neighbor should be noise tolerant.}
+   \item{"ld"}{Linear discriminant. Apply the Linear Discriminant classifier 
+   to construct a linear split (non parallel axis) in the data to establish
+   the linear separability.}
+   \item{"nb"}{Naibe Bayes. Evaluate the performance of the Naive Bayes
+     classifier. It assumes that the attributes are independent and each
+     example belongs to a certain class based on the Bayes probability.} 
+   \item{"nn"}{One nearest neighbor. Evaluate the performance of the
+     1-Nearest Neighbor classifier. It uses the euclidean distance of the
+     nearest neighbor to determine how noisy is the data.}
+   \item{"rn"}{Random node. Construct a single DT node model induced by a
+   random attribute.}
+   \item{"wn"}{Worst node. Construct a single DT node model induced by the
+   worst informative attribute.}
+ }
+}
 \examples{
 ## Extract all meta-features using formula
 mf.landmarking(Species ~ ., iris)

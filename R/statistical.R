@@ -25,7 +25,7 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"cancor}{Canonical correlations between the predictive attributes 
+#'    \item{"cancor"}{Canonical correlations between the predictive attributes 
 #'    and the class (multi-valued).}
 #'    \item{"cg"}{Center of gravity, which is the distance between the instance 
 #'    in the center of the majority class and the instance-center of the 
@@ -69,7 +69,7 @@
 #'    \item{"sp"}{Attributes sparsity, which represents the degree of 
 #'    discreetness of each attribute in the dataset (multi-valued).}
 #'    \item{"tmean"}{Trimmed mean of attributes (multi-valued). It is the 
-#'    aritimetic mean excluding the 20% of the lowest and hieghest instances.}
+#'    aritimetic mean excluding the 20\% of the lowest and hieghest instances.}
 #'    \item{"var"}{Attributes variance (multi-valued).}
 #'    \item{"wlambda"}{Wilks Lambda.}
 #'  }
@@ -372,7 +372,7 @@ m.nrOut <- function(x, ...) {
   args <- list(...)
   na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
   sum(apply(x, 2, function(x) {
-    qs <- quantile(x, na.rm=na.rm)
+    qs <- stats::quantile(x, na.rm=na.rm)
     iqr <- (qs[4] - qs[2]) * 1.5
     (qs[2] - iqr) > qs[1] | (qs[4] + iqr) < qs[5] 
   }))

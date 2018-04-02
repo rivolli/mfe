@@ -41,6 +41,7 @@
 #'    random attribute.}
 #'    \item{"wn"}{Worst node. Construct a single DT node model induced by the
 #'    worst informative attribute.}
+#'  }
 #' @return A list named by the requested meta-features.
 #'
 #' @references
@@ -78,6 +79,10 @@ mf.landmarking.default <- function(x, y, features="all",
     y <- y[, 1]
   }
   y <- as.factor(y)
+  
+  if (nlevels(y) > length(y) / 10) {
+    stop("y must contain classes values")
+  }
 
   if(min(table(y)) < 2) {
     stop("number of examples in the minority class should be >= 2")
@@ -85,10 +90,6 @@ mf.landmarking.default <- function(x, y, features="all",
 
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
-  }
-  
-  if (nlevels(y) > length(y) / 10) {
-    stop("y must contain classes values")
   }
   
   if(features[1] == "all") {
@@ -230,6 +231,6 @@ m.rn  <- function(x, y, test, ...) {
 }
 
 m.wn <- function(x, y, test, ...) {
-  model <- ds(x, y, tail(names(importance(x, y, test)), 1), test)
+  model <- ds(x, y, utils::tail(names(importance(x, y, test)), 1), test)
   stats::predict(model, x[test,], type="class")
 }

@@ -49,6 +49,60 @@ Statistical meta-features are the standard statistical measures to describe
 the numerical properties of a distribution of data. As it requires only
 numerical attributes, the categorical data are transformed to numerical.
 }
+\details{
+The following features are allowed for this method:
+ \describe{
+   \item{"cancor"}{Canonical correlations between the predictive attributes 
+   and the class (multi-valued).}
+   \item{"cg"}{Center of gravity, which is the distance between the instance 
+   in the center of the majority class and the instance-center of the 
+   minority class.}
+   \item{"cor"}{Absolute attributes correlation, which measure the 
+   correlation between each pair of the numeric attributes in the dataset 
+   (multi-valued). This measure accepts an extra argument called 
+   \code{method = c("pearson", "kendall", "spearman")}. See 
+   \code{\link[stats]{cor}} for more details.}
+   \item{"cov"}{Absolute attributes covariance, which measure the covariance 
+   between each pair of the numeric attributes in the dataset 
+   (multi-valued).}
+   \item{"discfct"}{Number of the discriminant functions.}
+   \item{"eigen"}{Eigenvalues of the covariance matrix (multi-valued).}
+   \item{"fract"}{Proportion of total variation (multi-valued).}
+   \item{"gmean"}{Geometric mean of attributes (multi-valued).}
+   \item{"hmean"}{Harmonic mean of attributes (multi-valued).}
+   \item{"iqr"}{Interquartile range of attributes (multi-valued).}
+   \item{"kurtosis"}{Kurtosis of attributes (multi-valued).}
+   \item{"mad"}{Median absolute deviation of attributes (multi-valued).}
+   \item{"max"}{Maximum value of attributes (multi-valued).}
+   \item{"mean"}{Mean value of attributes (multi-valued).}
+   \item{"median"}{Median value of attributes (multi-valued).}
+   \item{"min"}{Minimum value of attributes (multi-valued).}
+   \item{"ncr"}{Number of attributes pairs with high correlation 
+   (multi-valued when \code{by.class=TRUE}).}
+   \item{"nrNorm"}{Number of attributes with normal distribution. The 
+   Shapiro-Wilk Normality Test is used to assess if an attribute is or not is
+   normally distributed (multi-valued only when \code{by.class=TRUE}).}
+   \item{"nrOut"}{Number of attributes with outliers values. The Turkey's 
+   boxplot algorith is used to compute if an attributes has or does not have
+   outliers (multi-valued only when \code{by.class=TRUE}).}
+   \item{"propNorm"}{Proportion of attributes with normal distribution
+   (multi-valued only when \code{by.class=TRUE}).}
+   \item{"propOut"}{Proportion of attributes with outliers values
+   (multi-valued only when \code{by.class=TRUE}).}
+   \item{"range"}{Range of Attributes (multi-valued).}
+   \item{"sd"}{Standard deviation of the attributes (multi-valued).}
+   \item{"sdRatio"}{Statistic test for homogeneity of covariances.}
+   \item{"skewness"}{Skewness of attributes (multi-valued).}
+   \item{"sp"}{Attributes sparsity, which represents the degree of 
+   discreetness of each attribute in the dataset (multi-valued).}
+   \item{"tmean"}{Trimmed mean of attributes (multi-valued). It is the 
+   aritimetic mean excluding the 20\% of the lowest and hieghest instances.}
+   \item{"var"}{Attributes variance (multi-valued).}
+   \item{"wlambda"}{Wilks Lambda.}
+ }
+ This method uses simple binarization to transform the categorical attributes
+ when \code{transform=TRUE}.
+}
 \examples{
 ## Extract all meta-features
 mf.statistical(Species ~ ., iris)

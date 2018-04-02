@@ -9,6 +9,19 @@ test_that("mf.statistical.result", {
                ls.statistical()[1:3])
 })
 
+test_that("mf.statistical.transform", {
+  aux <- cbind(class=iris$Species, iris)
+  expect_equal(
+    mf.statistical(Species ~ ., aux, ls.statistical()[1:5], transform=FALSE),
+    mf.statistical(Species ~ ., iris, ls.statistical()[1:5], transform=FALSE)
+  )
+  
+  expect_false(isTRUE(all.equal(
+    mf.statistical(Species ~ ., aux, "sp", transform=FALSE),
+    mf.statistical(Species ~ ., iris, "sp", transform=FALSE)
+  )))
+})
+
 test_that("mf.statistical.errors",{
   #Test errors cases
   expect_error(mf.statistical(iris[1:130, 1:4], iris[5]),
