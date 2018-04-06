@@ -39,36 +39,36 @@
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).
-#'    Machine Learning , Neural and Statistical Classification.
-#'    Technometrics, 37(4), 459.
+#'  Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell. 
+#'  Machine Learning, Neural and Statistical Classification, volume 37. Ellis 
+#'  Horwood Upper Saddle River, 1994.
 #'
-#'  Castiello, C., Castellano, G., & Fanelli, A. M. (2005). Meta-data:
-#'    Characterization of Input Features for Meta-learning. In Proceedings of
-#'    the 2nd International Conference on Modeling Decisions for Artificial
-#'    Intelligence (Vol. 3558, pp. 457-468).
+#'  Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
+#'  Characterization of input features for meta-learning. In 2nd International 
+#'  Conference on Modeling Decisions for Artificial Intelligence (MDAI), 
+#'  pages 457 - 468, 2005.
 #'
-#'  Lindner, G., & Studer, R. (1999). AST: Support for Algorithm Selection with
-#'    a CBR Approach. Principles of Data Mining and Knowledge Discovery,
-#'    1704, 418-423.
+#'  Guido Lindner and Rudi Studer. AST: Support for algorithm selection with a 
+#'  CBR approach. In European Conference on Principles of Data Mining and 
+#'  Knowledge Discovery (PKDD), pages 418 - 423, 1999.
 #'
-#'  Ali, S., & Smith, K. a. (2006). On learning algorithm selection for
-#'    classification. Applied Soft Computing, 6(2), 119-138.
+#'  Shawkat Ali and Kate A. Smith. On learning algorithm selection for 
+#'  classification. Applied Soft Computing, 6(2):119 - 138, 2006.
 #'
 #' @examples
 #' ## Extract all metafeatures
-#' mf.discriminant(Species ~ ., iris)
+#' discriminant(Species ~ ., iris)
 #'
 #' ## Extract some metafeatures
-#' mf.discriminant(iris[1:4], iris[5], c("cancor", "cancor.fract"))
+#' discriminant(iris[1:4], iris[5], c("cancor", "cancor.fract"))
 #' @export
-mf.discriminant <- function(...) {
-  UseMethod("mf.discriminant")
+discriminant <- function(...) {
+  UseMethod("discriminant")
 }
 
-#' @rdname mf.discriminant
+#' @rdname discriminant
 #' @export
-mf.discriminant.default <- function(x, y, features="all", ...) {
+discriminant.default <- function(x, y, features="all", ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -114,9 +114,9 @@ mf.discriminant.default <- function(x, y, features="all", ...) {
   }, simplify=FALSE)
 }
 
-#' @rdname mf.discriminant
+#' @rdname discriminant
 #' @export
-mf.discriminant.formula <- function(formula, data, features="all", ...) {
+discriminant.formula <- function(formula, data, features="all", ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -128,7 +128,7 @@ mf.discriminant.formula <- function(formula, data, features="all", ...) {
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.discriminant.default(modFrame[, -1], modFrame[, 1], features, ...)
+  discriminant.default(modFrame[, -1], modFrame[, 1], features, ...)
 }
 
 #' List the discriminant meta-features

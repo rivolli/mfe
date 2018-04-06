@@ -52,42 +52,42 @@
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).
-#'    Machine Learning , Neural and Statistical Classification.
-#'    Technometrics, 37(4), 459.
+#'  Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell. 
+#'  Machine Learning, Neural and Statistical Classification, volume 37. Ellis 
+#'  Horwood Upper Saddle River, 1994.
 #'
-#'  Kalousis, A., & Hilario, M. (2001). MODEL SELECTION VIA META-LEARNING: A
-#'    COMPARATIVE STUDY. International Journal on Artificial Intelligence Tools,
-#'    10(4), 525-554.
+#'  Alexandros Kalousis and Melanie Hilario. Model selection via meta-learning: 
+#'  a comparative study. International Journal on Artificial Intelligence Tools,
+#'  10(4):525 - 554, 2001.
 #'
-#'  Castiello, C., Castellano, G., & Fanelli, A. M. (2005). Meta-data:
-#'    Characterization of Input Features for Meta-learning. In Proceedings of
-#'    the 2nd International Conference on Modeling Decisions for Artificial
-#'    Intelligence (Vol. 3558, pp. 457-468).
+#'  Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
+#'  Characterization of input features for meta-learning. In 2nd International 
+#'  Conference on Modeling Decisions for Artificial Intelligence (MDAI), 
+#'  pages 457 - 468, 2005.
 #'
 #' @examples
 #' ## Extract all metafeatures
-#' mf.infotheo(Species ~ ., iris)
+#' infotheo(Species ~ ., iris)
 #'
 #' ## Extract some metafeatures
-#' mf.infotheo(iris[1:4], iris[5], c("classEnt", "jointEnt"))
+#' infotheo(iris[1:4], iris[5], c("classEnt", "jointEnt"))
 #'
 #' ## Extract all meta-features without summarize the results
-#' mf.infotheo(Species ~ ., iris, summary=c())
+#' infotheo(Species ~ ., iris, summary=c())
 #'
 #' ## Use another summarization functions
-#' mf.infotheo(Species ~ ., iris, summary=c("min", "median", "max"))
+#' infotheo(Species ~ ., iris, summary=c("min", "median", "max"))
 #' 
 #' ## Do not transform the data (using only categorical attributes)
-#' mf.infotheo(Species ~ ., iris, transform=FALSE)
+#' infotheo(Species ~ ., iris, transform=FALSE)
 #' @export
-mf.infotheo <- function(...) {
-  UseMethod("mf.infotheo")
+infotheo <- function(...) {
+  UseMethod("infotheo")
 }
 
-#' @rdname mf.infotheo
+#' @rdname infotheo
 #' @export
-mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
+infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
                                 transform=TRUE, ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
@@ -152,9 +152,9 @@ mf.infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
   }, simplify=FALSE)
 }
 
-#' @rdname mf.infotheo
+#' @rdname infotheo
 #' @export
-mf.infotheo.formula <- function(formula, data, features="all",
+infotheo.formula <- function(formula, data, features="all",
                                 summary=c("mean", "sd"), 
                                 transform=TRUE, ...) {
   if(!inherits(formula, "formula")) {
@@ -168,7 +168,7 @@ mf.infotheo.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.infotheo.default(modFrame[, -1], modFrame[, 1], features, summary, 
+  infotheo.default(modFrame[, -1], modFrame[, 1], features, summary, 
                       transform, ...)
 }
 

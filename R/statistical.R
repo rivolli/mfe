@@ -78,40 +78,40 @@
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Castiello, C., Castellano, G., & Fanelli, A. M. (2005). Meta-data:
-#'    Characterization of Input Features for Meta-learning. In Proceedings of
-#'    the 2nd International Conference on Modeling Decisions for Artificial
-#'    Intelligence (Vol. 3558, pp. 457-468).
+#'  Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
+#'  Characterization of input features for meta-learning. In 2nd International 
+#'  Conference on Modeling Decisions for Artificial Intelligence (MDAI), 
+#'  pages 457 - 468, 2005.
 #'
-#'  Ali, S., & Smith, K. a. (2006). On learning algorithm selection for
-#'    classification. Applied Soft Computing, 6(2), 119-138.
+#'  Shawkat Ali and Kate A. Smith. On learning algorithm selection for 
+#'  classification. Applied Soft Computing, 6(2):119 - 138, 2006.
 #'
 #' @examples
 #' ## Extract all meta-features
-#' mf.statistical(Species ~ ., iris)
+#' statistical(Species ~ ., iris)
 #'
 #' ## Extract some meta-features
-#' mf.statistical(iris[1:4], iris[5], c("cor", "nrNorm"))
+#' statistical(iris[1:4], iris[5], c("cor", "nrNorm"))
 #'
 #' ## Extract all meta-features without summarize the results
-#' mf.statistical(Species ~ ., iris, summary=c())
+#' statistical(Species ~ ., iris, summary=c())
 #' 
 #' ## Use another summarization function
-#' mf.statistical(Species ~ ., iris, summary=c("min", "median", "max"))
+#' statistical(Species ~ ., iris, summary=c("min", "median", "max"))
 #'
 #' ## Extract statistical measures using by.class approach
-#' mf.statistical(Species ~ ., iris, by.class=TRUE)
+#' statistical(Species ~ ., iris, by.class=TRUE)
 #' 
 #' ## Do not transform the data (using only categorical attributes)
-#' mf.statistical(Species ~ ., iris, transform=FALSE)
+#' statistical(Species ~ ., iris, transform=FALSE)
 #' @export
-mf.statistical <- function(...) {
-  UseMethod("mf.statistical")
+statistical <- function(...) {
+  UseMethod("statistical")
 }
 
-#' @rdname mf.statistical
+#' @rdname statistical
 #' @export
-mf.statistical.default <- function(x, y, features="all",
+statistical.default <- function(x, y, features="all",
                                    summary=c("mean", "sd"), by.class=FALSE,
                                    transform=TRUE, ...) {
   if(!is.data.frame(x)) {
@@ -221,9 +221,9 @@ mf.statistical.default <- function(x, y, features="all",
   }
 }
 
-#' @rdname mf.statistical
+#' @rdname statistical
 #' @export
-mf.statistical.formula <- function(formula, data, features="all",
+statistical.formula <- function(formula, data, features="all",
                                    summary=c("mean", "sd"), by.class=FALSE,
                                    transform=TRUE, ...) {
   if(!inherits(formula, "formula")) {
@@ -237,7 +237,7 @@ mf.statistical.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.statistical.default(modFrame[, -1], modFrame[, 1], features, summary,
+  statistical.default(modFrame[, -1], modFrame[, 1], features, summary,
                          by.class, transform, ...)
 }
 

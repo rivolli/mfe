@@ -42,40 +42,39 @@
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Michie, E. D., Spiegelhalter, D. J., & Taylor, C. C. (1994).
-#'    Machine Learning , Neural and Statistical Classification.
-#'    Technometrics, 37(4), 459.
+#'  Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell. 
+#'  Machine Learning, Neural and Statistical Classification, volume 37. Ellis 
+#'  Horwood Upper Saddle River, 1994.
 #'
-#'  Lindner, G., & Studer, R. (1999). AST: Support for Algorithm Selection with
-#'    a CBR Approach. Principles of Data Mining and Knowledge Discovery, 1704,
-#'    418-423.
+#'  Guido Lindner and Rudi Studer. AST: Support for algorithm selection with a 
+#'  CBR approach. In European Conference on Principles of Data Mining and 
+#'  Knowledge Discovery (PKDD), pages 418 - 423, 1999.
 #'
-#'  Castiello, C., Castellano, G., & Fanelli, A. M. (2005). Meta-data:
-#'    Characterization of Input Features for Meta-learning. In Proceedings of
-#'    the 2nd International Conference on Modeling Decisions for Artificial
-#'    Intelligence (Vol. 3558, pp. 457-468).
-#'
+#'  Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
+#'  Characterization of input features for meta-learning. In 2nd International 
+#'  Conference on Modeling Decisions for Artificial Intelligence (MDAI), 
+#'  pages 457 - 468, 2005.
 #'
 #' @examples
 #' ## Extract all metafeatures
-#' mf.general(Species ~ ., iris)
+#' general(Species ~ ., iris)
 #'
 #' ## Extract some metafeatures
-#' mf.general(iris[1:100, 1:4], iris[1:100, 5], c("defError", "nrClass"))
+#' general(iris[1:100, 1:4], iris[1:100, 5], c("defError", "nrClass"))
 #' 
 #' ## Extract all meta-features without summarize prop.class
-#' mf.general(Species ~ ., iris, summary=c())
+#' general(Species ~ ., iris, summary=c())
 #' 
 #' ## Use another summarization functions
-#' mf.general(Species ~ ., iris, summary=c("sd","min","iqr"))
+#' general(Species ~ ., iris, summary=c("sd","min","iqr"))
 #' @export
-mf.general <- function(...) {
-  UseMethod("mf.general")
+general <- function(...) {
+  UseMethod("general")
 }
 
-#' @rdname mf.general
+#' @rdname general
 #' @export
-mf.general.default <- function(x, y, features="all", summary=c("mean", "sd"), 
+general.default <- function(x, y, features="all", summary=c("mean", "sd"), 
                                ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
@@ -111,9 +110,9 @@ mf.general.default <- function(x, y, features="all", summary=c("mean", "sd"),
   }, simplify=FALSE)
 }
 
-#' @rdname mf.general
+#' @rdname general
 #' @export
-mf.general.formula <- function(formula, data, features="all", 
+general.formula <- function(formula, data, features="all", 
                                summary=c("mean", "sd"), ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
@@ -126,7 +125,7 @@ mf.general.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.general.default(modFrame[, -1], modFrame[, 1], features, summary, ...)
+  general.default(modFrame[, -1], modFrame[, 1], features, summary, ...)
 }
 
 #' List the general meta-features
