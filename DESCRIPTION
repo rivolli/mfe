@@ -23,7 +23,6 @@ URL: https://github.com/rivolli/mfe
 Depends:
     R (>= 3.3.1),
 Imports:
-    C50,
     cluster,
     e1071,
     infotheo,
