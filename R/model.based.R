@@ -11,7 +11,7 @@
 #'  \link{post.processing} method to more information. (Default: 
 #'  \code{c("mean", "sd")})
 #' @param formula A formula to define the class column.
-#' @param data A data.frame dataset contained the input attributes and class
+#' @param data A data.frame dataset contained the input attributes and class.
 #'  The details section describes the valid values for this group.
 #' @param ... Further arguments passed to the summarization functions.
 #' @details
@@ -48,31 +48,31 @@
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Bensusan, H., Giraud-Carrier, C. G., & Kennedy, C. J. (2000). A Higher-order
-#'  Approach to Meta-learning. In Proceedings of the 10th International
-#'  Conference on Inductive Logic Programming (Vol. 35, pp. 1-10).
+#'  Hilan Bensusan, Christophe Giraud-Carrier, and Claire Kennedy. A 
+#'  higher-order approach to meta-learning. In 10th International Conference 
+#'  Inductive Logic Programming (ILP), pages 33 - 42, 2000.
 #'
-#'  Peng, Y., Flach, P. A., Soares, C., & Brazdil, P. (2002). Improved Dataset
-#'  Characterisation for Meta-learning. In Proceedings of the 5th International
-#'  Conference on Discovery Science (Vol 2534, pp. 141-152)
+#'  Yonghong Peng, Peter A. Flach, Carlos Soares, and Pavel Brazdil. Improved 
+#'  dataset characterisation for meta-learning. In 5th International Conference 
+#'  on Discovery Science (DS), pages 141 - 152, 2002.
 #'
 #' @examples
 #' ## Extract all meta-features using formula
-#' mf.model.based(Species ~ ., iris)
+#' model.based(Species ~ ., iris)
 #'
 #' ## Extract some meta-features
-#' mf.model.based(iris[1:4], iris[5], c("nodes", "leaves", "treeShape"))
+#' model.based(iris[1:4], iris[5], c("nodes", "leaves", "treeShape"))
 #'
 #' ## Use another summarization function
-#' mf.model.based(Species ~ ., iris, summary=c("min", "median", "max"))
+#' model.based(Species ~ ., iris, summary=c("min", "median", "max"))
 #' @export
-mf.model.based <- function(...) {
-  UseMethod("mf.model.based")
+model.based <- function(...) {
+  UseMethod("model.based")
 }
 
-#' @rdname mf.model.based
+#' @rdname model.based
 #' @export
-mf.model.based.default <- function(x, y, features="all",
+model.based.default <- function(x, y, features="all",
                                    summary=c("mean", "sd"), ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
@@ -89,12 +89,12 @@ mf.model.based.default <- function(x, y, features="all",
   colnames(x) <- make.names(colnames(x))
 
   data <- cbind(class=y, x)
-  mf.model.based.formula(stats::formula(data), data, features, summary, ...)
+  model.based.formula(stats::formula(data), data, features, summary, ...)
 }
 
-#' @rdname mf.model.based
+#' @rdname model.based
 #' @export
-mf.model.based.formula <- function(formula, data, features="all",
+model.based.formula <- function(formula, data, features="all",
                                    summary=c("mean", "sd"), ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")

@@ -1,7 +1,7 @@
 #' Landmarking Meta-features
 #'
-#' Landmarking measures are simple and fast algorithms, from which performance
-#' can be extracted.
+#' Landmarking measures are simple and fast learners, from which performance can
+#' be extracted.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
@@ -16,59 +16,62 @@
 #' @param folds The number of k equal size subsamples in k-fold 
 #'  cross-validation.(Default: 10)
 #' @param score The evaluation measure used to score the classification 
-#' performance. \code{c("accuracy", "balanced.accuracy", "kappa")}. 
-#' (Default: \code{"accuracy"}).
+#'  performance. \code{c("accuracy", "balanced.accuracy", "kappa")}. 
+#'  (Default: \code{"accuracy"}).
 #' @param ... Further arguments passed to the summarization functions.
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"dn"}{Decision node. Construct a single DT node model induced by the
-#'    most informative attribute.}
+#'    \item{"dn"}{Decision node. Construct a single descision tree node model 
+#'    induced by the most informative attribute to establish the linear 
+#'    separability.}
 #'    \item{"enn"}{Elite nearest neighbor. Use the most informative attributes 
-#'    in the dataset using the varImportance to induce the 1-Nearest Neighbor. 
-#'    With the subset of informative attributes is expected that the models 
-#'    induced by 1-Nearest Neighbor should be noise tolerant.}
+#'    in the dataset to induce the 1-nearest neighbor. With the subset of 
+#'    informative attributes is expected that the models should be noise 
+#'    tolerant.}
 #'    \item{"ld"}{Linear discriminant. Apply the Linear Discriminant classifier 
 #'    to construct a linear split (non parallel axis) in the data to establish
 #'    the linear separability.}
 #'    \item{"nb"}{Naibe Bayes. Evaluate the performance of the Naive Bayes
-#'      classifier. It assumes that the attributes are independent and each
-#'      example belongs to a certain class based on the Bayes probability.} 
-#'    \item{"nn"}{One nearest neighbor. Evaluate the performance of the
-#'      1-Nearest Neighbor classifier. It uses the euclidean distance of the
-#'      nearest neighbor to determine how noisy is the data.}
-#'    \item{"rn"}{Random node. Construct a single DT node model induced by a
-#'    random attribute.}
-#'    \item{"wn"}{Worst node. Construct a single DT node model induced by the
-#'    worst informative attribute.}
+#'    classifier. It assumes that the attributes are independent and each
+#'    example belongs to a certain class based on the Bayes probability.} 
+#'    \item{"nn"}{1-nearest neighbor. Evaluate the performance of the
+#'    1-nearest neighbor classifier. It uses the euclidean distance of the
+#'    nearest neighbor to determine how noisy is the data.}
+#'    \item{"rn"}{Random node. Construct a single decision tree node model 
+#'    induced by a random attribute. The combination with \code{"dn"} measure 
+#'    can establish the linear separability.}
+#'    \item{"wn"}{Worst node. Construct a single decision tree node model 
+#'    induced by the worst informative attribute. The combination with  
+#'    \code{"dn"} measure can establish the linear separability.}
 #'  }
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Pfahringer, B., Bensusan, H., &  Giraud-Carrier, C. G. (2000). Meta-Learning
-#'  by Landmarking Various Learning Algorithms. In Proceedings of the 17th
-#'  International Conference on Machine Learning (pp. 743-750)
+#'  Bernhard Pfahringer, Hilan Bensusan, and Christophe G. Giraud-Carrier. 
+#'  Meta-learning by landmarking various learning algorithms. In 17th 
+#'  International Conference on Machine Learning (ICML), pages 743 - 750, 2000.
 #'
 #' @examples
 #' ## Extract all meta-features using formula
-#' mf.landmarking(Species ~ ., iris)
+#' landmarking(Species ~ ., iris)
 #'
 #' ## Extract some meta-features
-#' mf.landmarking(iris[1:4], iris[5], c("dn", "rn", "wn"))
+#' landmarking(iris[1:4], iris[5], c("dn", "rn", "wn"))
 #'
 #' ## Use another summarization function
-#' mf.landmarking(Species ~ ., iris, summary=c("min", "median", "max"))
+#' landmarking(Species ~ ., iris, summary=c("min", "median", "max"))
 #'
 #' ## Use 2 folds and balanced accuracy
-#' mf.landmarking(Species ~ ., iris, folds=2, score="balanced.accuracy")
+#' landmarking(Species ~ ., iris, folds=2, score="balanced.accuracy")
 #' @export
-mf.landmarking <- function(...) {
-  UseMethod("mf.landmarking")
+landmarking <- function(...) {
+  UseMethod("landmarking")
 }
 
-#' @rdname mf.landmarking
+#' @rdname landmarking
 #' @export
-mf.landmarking.default <- function(x, y, features="all",
+landmarking.default <- function(x, y, features="all",
                                    summary=c("mean", "sd"), folds=10,
                                    score="accuracy", ...) {
   if(!is.data.frame(x)) {
@@ -114,10 +117,10 @@ mf.landmarking.default <- function(x, y, features="all",
   }, simplify=FALSE)
 }
 
-#' @rdname mf.landmarking
+#' @rdname landmarking
 #' @export
-mf.landmarking.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"), folds=10, 
+landmarking.formula <- function(formula, data, features="all",
+                                   summary=c("mean", "sd"), folds=10,
                                    score="accuracy", ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
@@ -130,7 +133,7 @@ mf.landmarking.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  mf.landmarking.default(modFrame[, -1], modFrame[, 1], features, summary,
+  landmarking.default(modFrame[, -1], modFrame[, 1], features, summary,
                          folds, score, ...)
 }
 
