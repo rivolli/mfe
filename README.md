@@ -43,7 +43,7 @@ library("mfe")
 
 The simplest way to extract meta-features is using the `metafeatures` method. The method can be called by a symbolic description of the model or by a data frame. The parameters are the dataset and the group of measures to be extracted. To extract all the measures, the parameter "group" needs to be set to "all". A simple example is given next:
 
-```{r}
+```r
 library(mfe)
 data("iris")
 
@@ -61,7 +61,7 @@ ls.metafeatures()
 ```
 Several measures return more than one value. To aggregate the returned values, post processed methods can be used. This method can compute min, max, mean, median, kurtosis, standard deviation, among others (see the `post.processing` documentation for more details). The default methods are the `mean` and the `sd`. Next, it is possible to see an example of the use of this method:
 
-```{r}
+```r
 ## Compute all measures using min, median and max 
 iris.info <- metafeatures(Species ~ ., iris, summary=c("min", "median", "max"))
                           
