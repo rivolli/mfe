@@ -18,15 +18,15 @@
 #'  The following groups are allowed for this method:
 #'  \describe{
 #'    \item{"infotheo"}{Include all information theoretical meta-features. See
-#'      \link{mf.infotheo} for more details.}
+#'      \link{infotheo} for more details.}
 #'    \item{"general"}{Include all general (simple) meta-features. See
-#'      \link{mf.general} for more details.}
+#'      \link{general} for more details.}
 #'    \item{"landmarking"}{Include all landmarking meta-features. See
-#'      \link{mf.landmarking} for more details.}
+#'      \link{landmarking} for more details.}
 #'    \item{"model.based"}{Include all model based meta-features. See
-#'      \link{mf.model.based} for more details.}
+#'      \link{model.based} for more details.}
 #'    \item{"statistical"}{Include all statistical meta-features. See
-#'      \link{mf.statistical} for more details.}
+#'      \link{statistical} for more details.}
 #'  }
 #'
 #' @return A numeric vector named by the meta-features from the specified 
@@ -77,7 +77,7 @@ metafeatures.default <- function(x, y, groups="all",
   }
 
   unlist(sapply(groups, function(group) {
-    do.call(paste("mf", group, "default", sep='.'),
+    do.call(paste(group, "default", sep='.'),
             list(x=x, y=y, summary=summary, ...))
   }, simplify = FALSE))
 }
