@@ -45,15 +45,15 @@ meta-features from each group is extracted.
 The following groups are allowed for this method:
  \describe{
    \item{"infotheo"}{Include all information theoretical meta-features. See
-     \link{mf.infotheo} for more details.}
+     \link{infotheo} for more details.}
    \item{"general"}{Include all general (simple) meta-features. See
-     \link{mf.general} for more details.}
+     \link{general} for more details.}
    \item{"landmarking"}{Include all landmarking meta-features. See
-     \link{mf.landmarking} for more details.}
+     \link{landmarking} for more details.}
    \item{"model.based"}{Include all model based meta-features. See
-     \link{mf.model.based} for more details.}
+     \link{model.based} for more details.}
    \item{"statistical"}{Include all statistical meta-features. See
-     \link{mf.statistical} for more details.}
+     \link{statistical} for more details.}
  }
 }
 \examples{
