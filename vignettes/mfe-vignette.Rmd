@@ -15,11 +15,10 @@ Extracts meta-features from datasets to support the design of recommendation
 systems based on Meta-Learning (MtL). The meta-features, also called 
 characterization measures, are able to characterize the complexity of datasets 
 and to provide estimates of algorithm performance. The package contains not 
-only the standard characterization measures, but also more recent 
-characterization measures. By making available a large set of meta-feature 
-extraction functions, this package allows a comprehensive data 
-characterization, a deep data exploration and a large number of MtL-based data 
-analysis.
+only the standard, but also more recent characterization measures. By making 
+available a large set of meta-feature extraction functions, this package allows 
+a comprehensive data characterization, a deep data exploration and a large 
+number of MtL-based data analysis.
 
 In MtL, meta-features are designed to extract general properties able to 
 characterize datasets. The meta-feature values should provide relevant 
@@ -50,17 +49,16 @@ vignette is also available inside R with the command `browseVignettes`.
 The standard way to extract meta-features is using the `metafeatures` methods. 
 The method can be used by a symbolic description of the model (formula) or by a 
 data frame. The parameters are the dataset and the group of measures to be 
-extracted. To extract all the measures, the parameter `group` needs to be set as
- `all`. For instance:
+extracted. By default, the method extract all the measures. For instance:
 
 ```{r}
 library(mfe)
 
 ## Extract all measures using formula
-iris.info <- metafeatures(Species ~ ., iris, groups="all")
+iris.info <- metafeatures(Species ~ ., iris)
 
 ## Extract all measures using data frame
-iris.info <- metafeatures(iris[,1:4], iris[,5], groups="all")
+iris.info <- metafeatures(iris[,1:4], iris[,5])
 
 ## Extract general, statistical and information-theoretic measures
 iris.info <- metafeatures(Species ~ ., iris, 
@@ -68,11 +66,10 @@ iris.info <- metafeatures(Species ~ ., iris,
 
 ```
 
-Several measures return more than one value. To aggregate them, post processed 
+Several measures return more than one value. To aggregate them, post processing 
 methods can be used. It is possible to compute min, max, mean, median, kurtosis,
  standard deviation, among others. The default methods are the `mean` and the 
  `sd`. For instance:
-
 
 ```{r}
 ## Compute all measures using min, median and max 
@@ -86,7 +83,8 @@ iris.info <- metafeatures(Species ~ ., iris, summary="quantile")
 
 To customize the measure extraction, is necessary to use specific methods for 
 each group of measures. For instance, `infotheo` and `statistical` compute 
-the information theoretical and the statistical measures, respectively. The following examples illustrate these cases:
+the information theoretical and the statistical measures, respectively. The 
+following examples illustrate these cases:
 
 ```{r}
 ## Extract two infotheo measures
@@ -108,8 +106,10 @@ instead of a numeric vector. In additional, some groups can be customized using
 additional arguments.
 
 There are five measure groups which can be either general information about the 
-dataset, statistical information, descriptors about information theoretical, measures designed to extract characteristics about the DT model based or landmarks which represent the performance of simple algorithms applied to the dataset. The following example show the available 
-groups:
+dataset, statistical information, descriptors about information theoretical, 
+measures designed to extract characteristics about the DT model or landmarks 
+which represent the performance of simple algorithms applied to the dataset. 
+The following example show the available groups:
 
 ```{r}
 ## Show the the available groups
@@ -129,7 +129,7 @@ The following examples illustrate these measures:
 ls.general()
 
 ## Extract all general measures
-general.iris <- general(Species ~ ., iris, features="all")
+general.iris <- general(Species ~ ., iris)
 
 ## Extract two general measures
 general(Species ~ ., iris, features=c("nrAttr", "nrClass"))
@@ -142,8 +142,7 @@ classes proportion use:
 
 ```{r}
 ## Extract two general measures
-general(Species ~ ., iris, features="propClass", 
-           summary=c("min", "max", "sd"))
+general(Species ~ ., iris, features="propClass", summary=c("min", "max", "sd"))
 ```
 
 ## Statistical
@@ -161,32 +160,29 @@ following examples illustrate these measures:
 ls.statistical()
 
 ## Extract all statistical measures
-stat.iris <- statistical(Species ~ ., iris, features="all")
+stat.iris <- statistical(Species ~ ., iris)
 
 ## Extract two statistical measures
 statistical(Species ~ ., iris, features=c("cor", "skewness"))
-
 ```
 
-The statistical group can use two additional parameter called `by.class` and `transform`. To the former the default is `by.class=FALSE` which means that the meta-features are computed without consider the classes values. Otherwise, the measure is extracted using the instances separated by class. In the latter, the default value is `transform=TRUE` which means that categorical attributes will
-be transformed to numeric. Otherwise, they will be ignored. Note that if all attributes are categorical and the values is set to FALSE none result will be
-obtained. The following example shows the use of these two definitions:
+The statistical group can use one additional parameter called `by.class` and 
+default is `by.class=TRUE` which means that the measures are extracted using 
+the instances separated by class. The following example shows the use of this 
+definition:
 
 ```{r}
 ## Extract correlation using instances by classes
 statistical(Species ~ ., iris, features="cor", by.class=TRUE)
-
-## Ignore the class attributes
-aux <- cbind(class=iris$Species, iris)
-statistical(Species ~ ., aux, transform=FALSE)
 ```
 
-Note that, in the first example the values and the cardinality of the measure  are different since the correlation between the attributes were computed using the instances for each class separatelly.
-
-The statistical measures return a list named by the requested measures. The 
-`post.processing` methods are applied in these measures since they return 
-multiple values. To define which them should be applied use the `summary` 
-parameter, as detailed in the `post.processing` method.
+Note that, in the first example the values and the cardinality of the measure 
+are different since the correlation between the attributes were computed using 
+the instances for each class separatelly. The statistical measures return a 
+list named by the requested measures. The `post.processing` methods are applied 
+in these measures since they return multiple values. To define which them 
+should be applied use the `summary` parameter, as detailed in the 
+`post.processing` method.
 
 
 ## Information Theoretical
@@ -195,19 +191,19 @@ Information Theoretical meta-features are particularly appropriate to describe
 discrete (categorical) attributes, but they also fit continuous ones using a 
 discretization process. These measures are based on information theory. For 
 instance, `normClassEnt` and `mutInf` are the normalized entropy of the class 
-and the common information shared between each attribute and the class in the dataset, respectively. To list the measures of this group use `ls.infotheo()`. The following examples illustrate these measures:
+and the common information shared between each attribute and the class in the 
+dataset, respectively. To list the measures of this group use `ls.infotheo()`. 
+The following examples illustrate these measures:
 
 ```{r}
 ## Show the the available infotheo measures
 ls.infotheo()
 
 ## Extract all infotheo measures
-inf.iris <- infotheo(Species ~ ., iris, features="all")
+inf.iris <- infotheo(Species ~ ., iris)
 
 ## Extract two infotheo measures
-infotheo(Species ~ ., iris, 
-            features=c("normClassEnt", "mutInf"))
-
+infotheo(Species ~ ., iris, features=c("normClassEnt", "mutInf"))
 ```
 
 The infotheo measures return a list named by the requested measures. The 
@@ -219,14 +215,15 @@ parameter, as detailed in the section **Post Processing Methods**.
 
 These measures describe characteristics of the investigated models. These 
 meta-features can include, for example, the description of the DT induced for a 
-dataset, like its number of leaves (`leaves`) and the number of nodes (`nodes`) of the tree. The following examples illustrate these measures:
+dataset, like its number of leaves (`leaves`) and the number of nodes (`nodes`) 
+of the tree. The following examples illustrate these measures:
 
 ```{r}
 ## Show the the available model.based measures
 ls.model.based()
 
 ## Extract all model.based measures
-land.iris <- model.based(Species ~ ., iris, features="all")
+land.iris <- model.based(Species ~ ., iris)
 
 ## Extract three model.based measures
 model.based(Species ~ ., iris, features=c("leaves", "nodes"))
@@ -241,16 +238,15 @@ parameter, as detailed in the `post.processing` method.
 
 Landmarking measures are simple and fast algorithms, from which performance 
 characteristics can be extracted. These measures include the performance of 
-simple and efficient learning algorithms like Naive Bayes (`nb`) and 
-1-Nearest Neighbor (`nn`). The following examples illustrate these
- measures:
+simple and efficient learning algorithms like Naive Bayes (`nb`) and 1-Nearest 
+Neighbor (`nn`). The following examples illustrate these measures:
 
 ```{r}
 ## Show the the available landmarking measures
 ls.landmarking()
 
 ## Extract all landmarking measures
-land.iris <- landmarking(Species ~ ., iris, features="all")
+land.iris <- landmarking(Species ~ ., iris)
 
 ## Extract two landmarking measures
 landmarking(Species ~ ., iris, features=c("nb", "nn"))
@@ -287,7 +283,6 @@ The post processing methods are setted using the parameter `summary`. It is
 possible to compute min, max, mean, median, kurtosis, standard deviation, among 
 others. Any R method, can be used, as illustrated in the following examples:
 
-
 ```{r}
 ## Apply several statistical measures as post processing
 statistical(Species ~ ., iris, "cor", 
@@ -303,19 +298,19 @@ statistical(Species ~ ., iris, "cor", summary=c())
 
 Beyond these R default methods, two additional post processing methods are 
 available in the `mfe` package: `hist` and `non.aggregated`. The first computes 
-a histogram of the values and returns the frequencies of in each bins. The extra
-parameters `bins` can be used to define the number of values to be returned. The
- parameters `min` and `max` are used to define the range of the data. The second
- is a way to obtain all values from the measure and has the same effect of the use of an empty list. The following code illustrate 
-examples of the use of these post processing methods:
+a histogram of the values and returns the frequencies of in each bins. The 
+extra parameters `bins` can be used to define the number of values to be 
+returned. The parameters `min` and `max` are used to define the range of the 
+data. The second is a way to obtain all values from the measure and has the 
+same effect of the use of an empty list. The following code illustrate examples 
+of the use of these post processing methods:
 
 ```{r}
 ## Apply histogram as post processing method
 statistical(Species ~ ., iris, "cor", summary="hist")
 
 ## Apply histogram as post processing method and customize it
-statistical(Species ~ ., iris, "cor", 
-               summary="hist", bins=5, min=0, max=1)
+statistical(Species ~ ., iris, "cor", summary="hist", bins=5, min=0, max=1)
 
 ## Extract all correlation values
 statistical(Species ~ ., iris, "cor", summary="non.aggregated")
