@@ -87,7 +87,7 @@ the information theoretical and the statistical measures, respectively. The
 following examples illustrate these cases:
 
 ```{r}
-## Extract two infotheo measures
+## Extract two information theoretical measures
 stat.iris <- infotheo(Species ~ ., iris, 
                          features=c("attrEnt", "jointEnt"))
 
@@ -166,28 +166,33 @@ stat.iris <- statistical(Species ~ ., iris)
 statistical(Species ~ ., iris, features=c("cor", "skewness"))
 ```
 
-The statistical group can use one additional parameter called `by.class` and 
-default is `by.class=TRUE` which means that the measures are extracted using 
-the instances separated by class. The following example shows the use of this 
-definition:
+The statistical group can use two additional parameter called `by.class` and 
+`transform`. To the former the default is `by.class=FALSE` which means that the 
+meta-features are computed without consider the classes values. Otherwise, 
+the measure is extracted using the instances separated by class. In the latter, 
+the default value is `transform=TRUE` which means that categorical attributes 
+will be transformed to numeric. The following example shows the use of these 
+two definitions:
 
 ```{r}
 ## Extract correlation using instances by classes
 statistical(Species ~ ., iris, features="cor", by.class=TRUE)
+
+## Ignore the class attributes
+aux <- cbind(class=iris$Species, iris)
+statistical(Species ~ ., aux, transform=FALSE)
 ```
 
 Note that, in the first example the values and the cardinality of the measure 
 are different since the correlation between the attributes were computed using 
-the instances for each class separatelly. The statistical measures return a 
-list named by the requested measures. The `post.processing` methods are applied 
-in these measures since they return multiple values. To define which them 
-should be applied use the `summary` parameter, as detailed in the 
+the instances for each class separatelly. The `post.processing` methods are 
+applied in these measures since they return multiple values. To define which 
+them should be applied use the `summary` parameter, as detailed in the 
 `post.processing` method.
-
 
 ## Information Theoretical
 
-Information Theoretical meta-features are particularly appropriate to describe
+Information theoretical meta-features are particularly appropriate to describe
 discrete (categorical) attributes, but they also fit continuous ones using a 
 discretization process. These measures are based on information theory. For 
 instance, `normClassEnt` and `mutInf` are the normalized entropy of the class 
@@ -196,20 +201,30 @@ dataset, respectively. To list the measures of this group use `ls.infotheo()`.
 The following examples illustrate these measures:
 
 ```{r}
-## Show the the available infotheo measures
+## Show the the available information theoretical measures
 ls.infotheo()
 
-## Extract all infotheo measures
+## Extract all information theoretical measures
 inf.iris <- infotheo(Species ~ ., iris)
 
-## Extract two infotheo measures
+## Extract two information theoretical measures
 infotheo(Species ~ ., iris, features=c("normClassEnt", "mutInf"))
 ```
 
-The infotheo measures return a list named by the requested measures. The 
-`post.processing` methods are applied in some measures since they return 
-multiple values. To define which them should be applied use the `summary` 
-parameter, as detailed in the section **Post Processing Methods**.
+The Information theoretical group can use one additional parameter called 
+`transform`. Using the default value `transform=TRUE` the continuous attributes 
+will be discretized. The following example shows the use of this definition:
+
+```{r}
+## Ignore the discretization process
+aux <- cbind(class=iris$Species, iris)
+infotheo(Species ~ ., aux, transform=FALSE)
+```
+
+The information theoretical measures return a list named by the requested 
+measures. The `post.processing` methods are applied in some measures since they 
+return multiple values. To define which them should be applied use the 
+`summary` parameter, as detailed in the section **Post Processing Methods**.
 
 ## Model based
 
