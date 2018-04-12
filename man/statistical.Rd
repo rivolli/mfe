@@ -132,7 +132,7 @@ Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data:
  classification. Applied Soft Computing, 6(2):119 - 138, 2006.
 }
 \seealso{
-Other meta-features: \code{\link{discriminant}},
-  \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{landmarking}}, \code{\link{model.based}}
+Other meta-features: \code{\link{general}},
+  \code{\link{infotheo}}, \code{\link{landmarking}},
+  \code{\link{model.based}}
 }

@@ -91,7 +91,7 @@ Hilan Bensusan, Christophe Giraud-Carrier, and Claire Kennedy. A
  on Discovery Science (DS), pages 141 - 152, 2002.
 }
 \seealso{
-Other meta-features: \code{\link{discriminant}},
-  \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{landmarking}}, \code{\link{statistical}}
+Other meta-features: \code{\link{general}},
+  \code{\link{infotheo}}, \code{\link{landmarking}},
+  \code{\link{statistical}}
 }
