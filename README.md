@@ -10,7 +10,7 @@ In MtL, meta-features are designed to extract general properties able to charact
 * **General**: General information related to the dataset, also known as simple measures, such as number of instances, attributes and classes.
 * **Statistical**: Standard statistical measures to describe the numerical properties of a distribution of data.
 * **Information-theoretic**: Particularly appropriate to describe discrete (categorical) attributes and their relationship with the classes.
-* **Decision Tree Model-based**: Measures designed to extract characteristics like the depth, the shape and size of a Decision Tree model induced from a dataset.
+* **Decision Tree Model-based**: Measures designed to extract characteristics like the depth, the shape and size of a Decision Tree (DT) model induced from a dataset.
 * **Landmarking**: Represents the performance of simple and efficient learning algorithms.
 
 ## Installation
@@ -45,7 +45,7 @@ metafeatures(iris[,1:4], iris[,5])
 ## Extract general, statistical and information-theoretic measures
 metafeatures(Species ~ ., iris, groups=c("general", "statistical", "infotheo"))
 
-## Extract the model based measures
+## Extract the DT model based measures
 model.based(Species ~ ., iris)
 
 ## Show the the available groups
