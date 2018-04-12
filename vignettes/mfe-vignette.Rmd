@@ -24,7 +24,7 @@ In MtL, meta-features are designed to extract general properties able to
 characterize datasets. The meta-feature values should provide relevant 
 evidences about the performance of algorithms, allowing the design of MtL-based 
 recommendation systems. Thus, these measures must be able to predict, with a 
-low computational cost, the performance of the  algorithms under evaluation. In 
+low computational cost, the performance of the algorithms under evaluation. In 
 this package, the meta-feature measures are divided into five groups:
 
 * **General**: General information related to the dataset, also known as simple 
@@ -36,8 +36,8 @@ properties of a distribution of data and also the discriminant measures.
 * **Decision Tree Model-based**: Measures designed to extract characteristics 
 like the depth, the shape and size of a Decision Tree (DT) model induced from a 
 dataset.
-* **Landmarking**: Represents the performance of some simple and efficient 
-learning algorithms.
+* **Landmarking**: Represents the performance of simple and efficient learning 
+algorithms.
 
 In the following sections we will briefly introduce how to use the `mfe` 
 package to extract all the measures using standard methods as well as to extract 
@@ -63,7 +63,6 @@ iris.info <- metafeatures(iris[,1:4], iris[,5])
 ## Extract general, statistical and information-theoretic measures
 iris.info <- metafeatures(Species ~ ., iris, 
                           groups=c("general", "statistical", "infotheo"))
-
 ```
 
 Several measures return more than one value. To aggregate them, post processing 
@@ -185,7 +184,7 @@ statistical(Species ~ ., aux, transform=FALSE)
 
 Note that, in the first example the values and the cardinality of the measure 
 are different since the correlation between the attributes were computed using 
-the instances for each class separatelly. The `post.processing` methods are 
+the instances for each class separately. The `post.processing` methods are 
 applied in these measures since they return multiple values. To define which 
 them should be applied use the `summary` parameter, as detailed in the 
 `post.processing` method.
