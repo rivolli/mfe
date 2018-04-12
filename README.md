@@ -21,12 +21,6 @@ The installation process is similar to other packages available on CRAN:
 install.packages("mfe")
 ```
 
-Compile the project:
-
-```r
-R CMD INSTALL --no-multiarch --with-keep.source mfe
-```
-
 It is possible to install the development version using:
 
 ```r
