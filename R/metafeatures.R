@@ -1,14 +1,14 @@
 #' Extract meta-features from a dataset
 #'
-#' This is a simple way to extract the meta-features from a dataset. To set
-#' specific parameters for each group, use the specific characterization method.
+#' This is a simple way to extract the meta-features from a dataset, where all
+#' meta-features from each group is extracted.
 #'
 #' @param x A data.frame contained only the input attributes.
 #' @param y A factor response vector with one label for each row/component of x.
 #' @param groups A list of meta-features groups or \code{"all"} to include all
 #'  them. The details section describes the valid values for this parameter.
-#' @param summary A list of methods to summarize the results as post-processing
-#'  functions. See \link{post.processing} method to more information. (Default:
+#' @param summary A list of summarization functions or empty for all values. See
+#'  \link{post.processing} method to more information. (Default: 
 #'  \code{c("mean", "sd")})
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
@@ -17,21 +17,20 @@
 #' @details
 #'  The following groups are allowed for this method:
 #'  \describe{
-#'    \item{"discriminant"}{Include all discriminant meta-features. See
-#'      \link{mf.discriminant} for more details.}
 #'    \item{"infotheo"}{Include all information theoretical meta-features. See
-#'      \link{mf.infotheo} for more details.}
-#'    \item{"general"}{Include all general meta-features. See
-#'      \link{mf.general} for more details.}
+#'      \link{infotheo} for more details.}
+#'    \item{"general"}{Include all general (simple) meta-features. See
+#'      \link{general} for more details.}
 #'    \item{"landmarking"}{Include all landmarking meta-features. See
-#'      \link{mf.landmarking} for more details.}
+#'      \link{landmarking} for more details.}
 #'    \item{"model.based"}{Include all model based meta-features. See
-#'      \link{mf.model.based} for more details.}
+#'      \link{model.based} for more details.}
 #'    \item{"statistical"}{Include all statistical meta-features. See
-#'      \link{mf.statistical} for more details.}
+#'      \link{statistical} for more details.}
 #'  }
 #'
-#' @return A numeric vector named by the requested meta-features.
+#' @return A numeric vector named by the meta-features from the specified 
+#' groups.
 #' @export
 #'
 #' @examples
@@ -63,14 +62,22 @@ metafeatures.default <- function(x, y, groups="all",
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
-
+  
+  if(m.nrClass(y) / length(y) > 0.5) {
+    stop("y must contain classes values")
+  }
+  
   if(groups[1] == "all") {
     groups <- ls.metafeatures()
   }
   groups <- match.arg(groups, ls.metafeatures(), TRUE)
+  
+  if (length(summary) == 0) {
+    summary <- "non.aggregated"
+  }
 
   unlist(sapply(groups, function(group) {
-    do.call(paste("mf", group, "default", sep='.'),
+    do.call(paste(group, "default", sep='.'),
             list(x=x, y=y, summary=summary, ...))
   }, simplify = FALSE))
 }
@@ -101,6 +108,5 @@ metafeatures.formula <- function(formula, data, groups="all",
 #' @examples
 #' ls.metafeatures()
 ls.metafeatures <- function() {
-  c("discriminant", "general", "infotheo",  "landmarking", "model.based",
-    "statistical")
+  c("general", "infotheo",  "landmarking", "model.based", "statistical")
 }
