@@ -23,10 +23,9 @@
 #'    instances, also known as dimensionality.}
 #'    \item{"catToNum"}{Ratio of the number of categorical attributes per the 
 #'    number of numeric attributes.}
-#'    \item{"defError"}{Default error.}
-#'    \item{"instPerAttr"}{Ratio of the number of instances per the number of 
+#'    \item{"instToAttr"}{Ratio of the number of instances per the number of 
 #'    attributes.}
-#'    \item{"ntAttr"}{Number of attributes.}
+#'    \item{"nrAttr"}{Number of attributes.}
 #'    \item{"nrBin"}{Number of binary attributes.}
 #'    \item{"nrCat"}{Number of categorical attributes.}
 #'    \item{"nrClass"}{Number of classes.}
@@ -34,10 +33,6 @@
 #'    \item{"nrNum"}{Number of numeric attributes.}
 #'    \item{"numToCat"}{Ratio of the number of numeric attributes per the number
 #'    of categorical attributes.}
-#'    \item{"propBin"}{Proportion of binary attributes.}
-#'    \item{"propCat"}{Proportion of categorical attributes.}
-#'    \item{"propClass"}{Proportion of the classes values (multi-valued).}
-#'    \item{"propNum"}{Proportion of numeric attributes.}
 #'  }
 #' @return A list named by the requested meta-features.
 #'
@@ -60,7 +55,7 @@
 #' general(Species ~ ., iris)
 #'
 #' ## Extract some metafeatures
-#' general(iris[1:100, 1:4], iris[1:100, 5], c("defError", "nrClass"))
+#' general(iris[1:100, 1:4], iris[1:100, 5], c("nrAttr", "nrClass"))
 #' 
 #' ## Extract all meta-features without summarize prop.class
 #' general(Species ~ ., iris, summary=c())
@@ -106,7 +101,7 @@ general.default <- function(x, y, features="all", summary=c("mean", "sd"),
   sapply(features, function(f) {
     fn <- paste("m", f, sep=".")
     measure <- do.call(fn, c(list(x=x, y=y), list(...)))
-    post.processing(measure, summary, f %in% ls.general.multiples(), ...)
+    post.processing(measure, summary, FALSE, ...)
   }, simplify=FALSE)
 }
 
@@ -136,13 +131,8 @@ general.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.general()
 ls.general <- function() {
-  c("attrToInst", "catToNum", "defError", "instToAttr", "nrAttr", "nrBin", 
-    "nrCat", "nrClass", "nrInst", "nrNum",  "numToCat", "propBin", "propCat", 
-    "propClass", "propNum")
-}
-
-ls.general.multiples <- function() {
-  c("propClass")
+  c("attrToInst", "catToNum", "instToAttr", "nrAttr", "nrBin", "nrCat", 
+    "nrClass", "nrInst", "nrNum",  "numToCat")
 }
 
 #Meta-features
@@ -154,10 +144,6 @@ m.catToNum <- function (x, ...) {
   nnum <- m.nrNum(x)
   if (nnum == 0) return(NA)
   m.nrCat(x) / nnum
-}
-
-m.defError <- function(y, ...) {
-  1 - (max(table(y)) / length(y))
 }
 
 m.instToAttr <- function(x, ...) {
@@ -192,20 +178,4 @@ m.numToCat <- function (x, ...) {
   ncat <- m.nrCat(x)
   if (ncat == 0) return(NA)
   m.nrNum(x) / ncat
-}
-
-m.propBin <- function (x, ...) {
-  m.nrBin(x) / m.nrAttr(x)
-}
-
-m.propCat <- function(x, ...) {
-  m.nrCat(x) / m.nrAttr(x)
-}
-
-m.propClass <- function(y, ...) {
-  as.numeric(table(y)) / length(y)
-}
-
-m.propNum <- function(x, ...) {
-  m.nrNum(x) / m.nrAttr(x)
 }

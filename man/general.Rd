@@ -47,10 +47,9 @@ The following features are allowed for this method:
    instances, also known as dimensionality.}
    \item{"catToNum"}{Ratio of the number of categorical attributes per the 
    number of numeric attributes.}
-   \item{"defError"}{Default error.}
-   \item{"instPerAttr"}{Ratio of the number of instances per the number of 
+   \item{"instToAttr"}{Ratio of the number of instances per the number of 
    attributes.}
-   \item{"ntAttr"}{Number of attributes.}
+   \item{"nrAttr"}{Number of attributes.}
    \item{"nrBin"}{Number of binary attributes.}
    \item{"nrCat"}{Number of categorical attributes.}
    \item{"nrClass"}{Number of classes.}
@@ -58,10 +57,6 @@ The following features are allowed for this method:
    \item{"nrNum"}{Number of numeric attributes.}
    \item{"numToCat"}{Ratio of the number of numeric attributes per the number
    of categorical attributes.}
-   \item{"propBin"}{Proportion of binary attributes.}
-   \item{"propCat"}{Proportion of categorical attributes.}
-   \item{"propClass"}{Proportion of the classes values (multi-valued).}
-   \item{"propNum"}{Proportion of numeric attributes.}
  }
 }
 \examples{
@@ -69,7 +64,7 @@ The following features are allowed for this method:
 general(Species ~ ., iris)
 
 ## Extract some metafeatures
-general(iris[1:100, 1:4], iris[1:100, 5], c("defError", "nrClass"))
+general(iris[1:100, 1:4], iris[1:100, 5], c("nrAttr", "nrClass"))
 
 ## Extract all meta-features without summarize prop.class
 general(Species ~ ., iris, summary=c())

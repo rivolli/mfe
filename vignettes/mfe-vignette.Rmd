@@ -134,15 +134,7 @@ general.iris <- general(Species ~ ., iris)
 general(Species ~ ., iris, features=c("nrAttr", "nrClass"))
 ```
 
-The general measures return a list named by the requested measures. The 
-`post.processing` methods are applied only for the `propClass` meta-feature. For
-instance, to extract the minimum, maximum and the standard deviation of the
-classes proportion use:
-
-```{r}
-## Extract two general measures
-general(Species ~ ., iris, features="propClass", summary=c("min", "max", "sd"))
-```
+The general measures return a list named by the requested measures. 
 
 ## Statistical
 
@@ -263,7 +255,7 @@ ls.landmarking()
 land.iris <- landmarking(Species ~ ., iris)
 
 ## Extract two landmarking measures
-landmarking(Species ~ ., iris, features=c("nb", "nn"))
+landmarking(Species ~ ., iris, features=c("naiveBayes", "oneNN"))
 ```
 
 The performance extraction of these measures without a cross validation step can
@@ -274,10 +266,10 @@ show how to set this value:
 
 ```{r}
 ## Extract one landmarking measures with folds=2
-landmarking(Species ~ ., iris, features="nb", folds=2)
+landmarking(Species ~ ., iris, features="naiveBayes", folds=2)
 
 ## Extract one landmarking measures with folds=2
-landmarking(Species ~ ., iris, features="nb", score="kappa")
+landmarking(Species ~ ., iris, features="naiveBayes", score="kappa")
 ```
 
 The landmarking measures return a list named by the requested measures. The 

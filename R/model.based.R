@@ -140,15 +140,15 @@ model.based.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.model.based()
 ls.model.based <- function() {
-  c("leaves", "leavesBranch", "leavesCorrob", "leavesHomo", "leavesPerClass",
-    "nodes", "nodesPerAttr", "nodesPerInst", "nodesPerLevel", "nodesRepeated",
-    "treeDepth",  "treeImbalance", "treeShape", "varImportance")
+  c("leaves", "leavesBranch", "leavesCorrob", "leavesHomo", "leavesPerClass", 
+    "nodes", "nodesPerAttr", "nodesPerInst", "nodesPerLevel", "nodesRepeated", 
+    "treeDepth", "treeImbalance", "treeShape", "varImportance")
 }
 
 ls.model.based.multiples <- function() {
-  c("leavesBranch", "leavesCorrob", "leavesHomo", "leavesPerClass",
-    "nodesPerLevel", "nodesRepeated", "treeDepth", "treeShape", "treeImbalance",
-    "varImportance")
+  c("leavesBranch", "leavesCorrob", "leavesHomo", "leavesPerClass", 
+    "nodesPerLevel", "nodesRepeated", "treeDepth", "treeImbalance", 
+    "treeShape", "varImportance")
 }
 
 dt <- function(formula, data, ...) {
@@ -202,14 +202,14 @@ m.treeDepth <- function(model, ...) {
   depths - min(depths)
 }
 
-m.treeShape <- function(model, ...) {
-  aux <- m.treeDepth(model)[model$frame$var == "<leaf>"]
-  -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
-}
-
 m.treeImbalance <- function(model, ...) {
   aux <- 1 / 2 ^ m.treeDepth(model)[model$frame$var == "<leaf>"]
   aux <- as.numeric(table(aux)) * sort(unique(aux))
+  -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
+}
+
+m.treeShape <- function(model, ...) {
+  aux <- m.treeDepth(model)[model$frame$var == "<leaf>"]
   -(1 / 2 ^ aux) * log2(1 / 2 ^ aux)
 }
 

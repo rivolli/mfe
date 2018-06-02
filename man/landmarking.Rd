@@ -49,28 +49,28 @@ be extracted.
 \details{
 The following features are allowed for this method:
  \describe{
-   \item{"dn"}{Decision node. Construct a single descision tree node model 
+   \item{"bestNode"}{Decision node. Construct a single descision tree node model 
    induced by the most informative attribute to establish the linear 
    separability.}
-   \item{"enn"}{Elite nearest neighbor. Use the most informative attributes 
+   \item{"eliteNN"}{Elite nearest neighbor. Use the most informative attributes 
    in the dataset to induce the 1-nearest neighbor. With the subset of 
    informative attributes is expected that the models should be noise 
    tolerant.}
-   \item{"ld"}{Linear discriminant. Apply the Linear Discriminant classifier 
+   \item{"linearDiscr"}{Linear discriminant. Apply the Linear Discriminant classifier 
    to construct a linear split (non parallel axis) in the data to establish
    the linear separability.}
-   \item{"nb"}{Naibe Bayes. Evaluate the performance of the Naive Bayes
+   \item{"naiveBayes"}{Naibe Bayes. Evaluate the performance of the Naive Bayes
    classifier. It assumes that the attributes are independent and each
    example belongs to a certain class based on the Bayes probability.} 
-   \item{"nn"}{1-nearest neighbor. Evaluate the performance of the
+   \item{"oneNN"}{1-nearest neighbor. Evaluate the performance of the
    1-nearest neighbor classifier. It uses the euclidean distance of the
    nearest neighbor to determine how noisy is the data.}
-   \item{"rn"}{Random node. Construct a single decision tree node model 
-   induced by a random attribute. The combination with \code{"dn"} measure 
+   \item{"randomNode"}{Random node. Construct a single decision tree node model 
+   induced by a random attribute. The combination with \code{"bestNode"} measure 
    can establish the linear separability.}
-   \item{"wn"}{Worst node. Construct a single decision tree node model 
+   \item{"worstNode"}{Worst node. Construct a single decision tree node model 
    induced by the worst informative attribute. The combination with  
-   \code{"dn"} measure can establish the linear separability.}
+   \code{"bestNode"} measure can establish the linear separability.}
  }
 }
 \examples{
@@ -78,7 +78,7 @@ The following features are allowed for this method:
 landmarking(Species ~ ., iris)
 
 ## Extract some meta-features
-landmarking(iris[1:4], iris[5], c("dn", "rn", "wn"))
+landmarking(iris[1:4], iris[5], c("bestNode", "randomNode", "worstNode"))
 
 ## Use another summarization function
 landmarking(Species ~ ., iris, summary=c("min", "median", "max"))

@@ -25,9 +25,9 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"cancor"}{Canonical correlations between the predictive attributes 
+#'    \item{"canCor"}{Canonical correlations between the predictive attributes 
 #'    and the class (multi-valued).}
-#'    \item{"cg"}{Center of gravity, which is the distance between the instance 
+#'    \item{"gravity"}{Center of gravity, which is the distance between the instance 
 #'    in the center of the majority class and the instance-center of the 
 #'    minority class.}
 #'    \item{"cor"}{Absolute attributes correlation, which measure the 
@@ -38,40 +38,35 @@
 #'    \item{"cov"}{Absolute attributes covariance, which measure the covariance 
 #'    between each pair of the numeric attributes in the dataset 
 #'    (multi-valued).}
-#'    \item{"discfct"}{Number of the discriminant functions.}
-#'    \item{"eigen"}{Eigenvalues of the covariance matrix (multi-valued).}
-#'    \item{"fract"}{Proportion of total variation (multi-valued).}
-#'    \item{"gmean"}{Geometric mean of attributes (multi-valued).}
-#'    \item{"hmean"}{Harmonic mean of attributes (multi-valued).}
-#'    \item{"iqr"}{Interquartile range of attributes (multi-valued).}
+#'    \item{"nrDisc"}{Number of the discriminant functions.}
+#'    \item{"eigenvalues"}{Eigenvalues of the covariance matrix (multi-valued).}
+#'    \item{"gMean"}{Geometric mean of attributes (multi-valued).}
+#'    \item{"hMean"}{Harmonic mean of attributes (multi-valued).}
+#'    \item{"iqRange"}{Interquartile range of attributes (multi-valued).}
 #'    \item{"kurtosis"}{Kurtosis of attributes (multi-valued).}
 #'    \item{"mad"}{Median absolute deviation of attributes (multi-valued).}
 #'    \item{"max"}{Maximum value of attributes (multi-valued).}
 #'    \item{"mean"}{Mean value of attributes (multi-valued).}
 #'    \item{"median"}{Median value of attributes (multi-valued).}
 #'    \item{"min"}{Minimum value of attributes (multi-valued).}
-#'    \item{"ncr"}{Number of attributes pairs with high correlation 
+#'    \item{"nrCorAttr"}{Number of attributes pairs with high correlation 
 #'    (multi-valued when \code{by.class=TRUE}).}
 #'    \item{"nrNorm"}{Number of attributes with normal distribution. The 
 #'    Shapiro-Wilk Normality Test is used to assess if an attribute is or not is
 #'    normally distributed (multi-valued only when \code{by.class=TRUE}).}
-#'    \item{"nrOut"}{Number of attributes with outliers values. The Turkey's 
+#'    \item{"nrOutliers"}{Number of attributes with outliers values. The Turkey's 
 #'    boxplot algorith is used to compute if an attributes has or does not have
 #'    outliers (multi-valued only when \code{by.class=TRUE}).}
-#'    \item{"propNorm"}{Proportion of attributes with normal distribution
-#'    (multi-valued only when \code{by.class=TRUE}).}
-#'    \item{"propOut"}{Proportion of attributes with outliers values
-#'    (multi-valued only when \code{by.class=TRUE}).}
 #'    \item{"range"}{Range of Attributes (multi-valued).}
 #'    \item{"sd"}{Standard deviation of the attributes (multi-valued).}
 #'    \item{"sdRatio"}{Statistic test for homogeneity of covariances.}
 #'    \item{"skewness"}{Skewness of attributes (multi-valued).}
-#'    \item{"sp"}{Attributes sparsity, which represents the degree of 
+#'    \item{"sparsity"}{Attributes sparsity, which represents the degree of 
 #'    discreetness of each attribute in the dataset (multi-valued).}
-#'    \item{"tmean"}{Trimmed mean of attributes (multi-valued). It is the 
+#'    \item{"tMean"}{Trimmed mean of attributes (multi-valued). It is the 
 #'    aritimetic mean excluding the 20\% of the lowest and hieghest instances.}
 #'    \item{"var"}{Attributes variance (multi-valued).}
-#'    \item{"wlambda"}{Wilks Lambda.}
+#'    \item{"wLambda"}{Wilks Lambda.}
 #'  }
 #'  This method uses simple binarization to transform the categorical attributes
 #'  when \code{transform=TRUE}.
@@ -249,28 +244,28 @@ statistical.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.statistical()
 ls.statistical <- function() {
-  c("cancor", "cg", "cor", "cov", "discfct", "eigen", "fract", "gmean", "hmean",
-    "iqr", "kurtosis", "mad", "max", "mean", "median", "min", "ncr", "nrNorm", 
-    "nrOut", "propNorm", "propOut", "range", "sd", "sdratio", "skewness", "sp", 
-    "tmean", "var", "wlambda")
+  c("canCor", "gravity", "cor", "cov", "nrDisc", "eigenvalues", "gMean", 
+    "hMean", "iqRange", "kurtosis", "mad", "max", "mean", "median", "min", 
+    "nrCorAttr", "nrNorm", "nrOutliers", "range", "sd", "sdRatio", "skewness", 
+    "sparsity", "tMean", "var", "wLambda")
 }
 
 ls.statistical.multiples <- function() {
-  c("cancor", "cor", "cov", "sp", "eigen", "fract", "gmean", "hmean", "iqr", 
-    "kurtosis", "mad", "skewness", "max", "mean", "median", "min", "range", 
-    "sd", "tmean", "var")
+  c("canCor", "cor", "cov", "eigenvalues", "gMean", "hMean", "iqRange", 
+    "kurtosis", "mad", "max", "mean", "median", "min", "range", "sd", 
+    "skewness", "sparsity", "tMean", "var")
 }
 
 ls.statistical.exclude.byclass <- function() {
-  c("cancor", "cg", "discfct", "fract", "sdratio", "wlambda")
+  c("canCor", "gravity", "nrDisc", "sdRatio", "wLambda")
 }
 
-m.cancor <- function(x, y, extra, ...) {
+m.canCor <- function(x, y, extra, ...) {
   if (length(extra$cancor$cor) == 0) return(NA)
   else return(extra$cancor$cor)
 }
 
-m.cg <- function(x, y, ...) {
+m.gravity <- function(x, y, ...) {
   classes <- table(y)
   minc <- which.min(classes)
   maxc <- which.max(classes[-minc])
@@ -293,24 +288,15 @@ m.cov <- function(x, y, extra, ...) {
   abs(extra$x.cov[upper.tri(extra$x.cov)])
 }
 
-m.discfct <- function(x, y, extra, ...) {
+m.nrDisc <- function(x, y, extra, ...) {
   length(extra$cancor$cor)
 }
 
-m.eigen <- function(x, y, extra, ...) {
+m.eigenvalues <- function(x, y, extra, ...) {
   extra$eigenvalues$values
 }
 
-m.fract <- function(x, y, extra, ...) {
-  if (length(extra$cancor$cor)>0) {
-    lambda <- extra$cancor$cor ^ 2
-    return(cumsum(lambda) / sum(lambda))
-  } else {
-    return(NA)
-  }
-}
-
-m.gmean <- function(x, ...) {
+m.gMean <- function(x, ...) {
   res1 <- apply(x, 2, prod)^(1/nrow(x))
 
   x[x < 1] <- NA
@@ -321,11 +307,11 @@ m.gmean <- function(x, ...) {
   coalesce(res1, res2)
 }
 
-m.hmean <- function(x, ...) {
+m.hMean <- function(x, ...) {
   apply(x, 2, function(col) length(col) / sum(1/col))
 }
 
-m.iqr <- function(x, ...) {
+m.iqRange <- function(x, ...) {
   apply(x, 2, stats::IQR)
 }
 
@@ -353,7 +339,7 @@ m.min  <- function(x, ...) {
   apply(x, 2, base::min)
 }
 
-m.ncr <- function(x, ...) {
+m.nrCorAttr <- function(x, ...) {
   sum(abs(m.cor(x, ...)) >= 0.5) / (ncol(x) * (ncol(x) - 1) / 2)
 }
 
@@ -368,7 +354,7 @@ m.nrNorm <- function(x, ...) {
   })) < 0.1, na.rm = TRUE)
 }
 
-m.nrOut <- function(x, ...) {
+m.nrOutliers <- function(x, ...) {
   args <- list(...)
   na.rm <- ifelse(is.null(args$na.rm), FALSE, args$na.rm)
   sum(apply(x, 2, function(x) {
@@ -376,14 +362,6 @@ m.nrOut <- function(x, ...) {
     iqr <- (qs[4] - qs[2]) * 1.5
     (qs[2] - iqr) > qs[1] | (qs[4] + iqr) < qs[5] 
   }))
-}
-
-m.propNorm <- function(x, ...) {
-  m.nrNorm(x, ...) / ncol(x)
-}
-
-m.propOut <- function(x, ...) {
-  m.nrOut(x, ...) / ncol(x)
 }
 
 m.range <- function(x, ...) {
@@ -397,7 +375,7 @@ m.sd <- function(x, ...) {
   apply(x, 2, stats::sd, na.rm=na.rm)
 }
 
-m.sdratio <- function(x, y, extra, ...) {
+m.sdRatio <- function(x, y, extra, ...) {
   p <- ncol(x)
   q <- nlevels(y)
   n <- length(y)
@@ -421,11 +399,11 @@ m.skewness <- function(x, ...) {
   apply(x, 2, e1071::skewness)
 }
 
-m.sp <- function(xorig, ...) {
+m.sparsity <- function(xorig, ...) {
   (apply(xorig, 2, function(col) base::mean(table(col))) - 1) / (nrow(xorig) - 1)
 }
 
-m.tmean <- function(x, ...) {
+m.tMean <- function(x, ...) {
   apply(x, 2, base::mean, trim=0.2)
 }
 
@@ -433,7 +411,7 @@ m.var <- function(x, ...) {
   apply(x, 2, stats::var)
 }
 
-m.wlambda <- function(x, y, ...) {
+m.wLambda <- function(x, y, ...) {
   if (ncol(x) > 1) {
     as.numeric(rrcov::Wilks.test(x, grouping=y)$statistic)
   } else {

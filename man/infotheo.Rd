@@ -65,10 +65,6 @@ The following features are allowed for this method:
      each attribute and the class (multi-valued).}
    \item{"mutInf"}{Mutual information, that is the common information shared
      between each attribute and the class in the dataset (multi-valued).}
-   \item{"normAttrEnt"}{Normalized attribute entropy, a normalized version of
-     "attrEnt" (multi-valued).}
-   \item{"normClassEnt"}{Normalized class entropy, a normalized version of
-     "classEnt".}
    \item{"nsRatio"}{Noise ratio, which describes the amount of irrelevant 
      information contained in the dataset.}
  }

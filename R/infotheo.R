@@ -39,10 +39,6 @@
 #'      each attribute and the class (multi-valued).}
 #'    \item{"mutInf"}{Mutual information, that is the common information shared
 #'      between each attribute and the class in the dataset (multi-valued).}
-#'    \item{"normAttrEnt"}{Normalized attribute entropy, a normalized version of
-#'      "attrEnt" (multi-valued).}
-#'    \item{"normClassEnt"}{Normalized class entropy, a normalized version of
-#'      "classEnt".}
 #'    \item{"nsRatio"}{Noise ratio, which describes the amount of irrelevant 
 #'      information contained in the dataset.}
 #'  }
@@ -180,12 +176,12 @@ infotheo.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.infotheo()
 ls.infotheo <- function () {
-  c("attrConc", "attrEnt", "classConc", "classEnt",
-    "eqNumAttr", "jointEnt", "mutInf",  "normAttrEnt", "normClassEnt", "nsRatio")
+  c("attrConc", "attrEnt", "classConc", "classEnt", "eqNumAttr", "jointEnt", 
+    "mutInf", "nsRatio")
 }
 
 ls.infotheo.multiples <- function () {
-  c("attrConc", "attrEnt", "classConc", "jointEnt", "mutInf", "normAttrEnt")
+  c("attrConc", "attrEnt", "classConc", "jointEnt", "mutInf")
 }
 
 m.attrConc <- function(x, ...) {
@@ -221,14 +217,6 @@ m.jointEnt <- function(x, y, ...) {
 
 m.mutInf <- function(extra, ...) {
   extra$mutinf
-}
-
-m.normAttrEnt <- function(extra, ...) {
-  extra$x.entropy / extra$x.log
-}
-
-m.normClassEnt <- function(extra, ...) {
-  extra$y.entropy / extra$y.log
 }
 
 m.nsRatio <- function(extra, ...) {
