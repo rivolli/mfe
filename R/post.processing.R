@@ -26,7 +26,7 @@
 #'  In addition to the native functions available in R, the following functions
 #'  can be used:
 #'  \describe{
-#'    \item{"hist"}{Computes a histogram of the given data value. The extra
+#'    \item{"histogram"}{Computes a histogram of the given data value. The extra
 #'       parameters '\code{bins}' can be used to define the number of values to
 #'       be returned. The parameters '\code{max}' and '\code{min}' are used to
 #'       define the range of the data. The default value for these parameters
@@ -36,7 +36,7 @@
 #'    \item{"mean"}{See \code{\link{mean}}}
 #'    \item{"median"}{See \code{\link{median}}}
 #'    \item{"min"}{See \code{\link{min}}}
-#'    \item{"quantile"}{See \code{\link{quantile}}}
+#'    \item{"quantiles"}{See \code{\link{quantile}}}
 #'    \item{"sd"}{See \code{\link{sd}}}
 #'    \item{"skewness"}{See \code{\link[e1071]{skewness}}}
 #'    \item{"var"}{See \code{\link{var}}}
@@ -56,8 +56,8 @@
 #' @examples
 #' post.processing(runif(15))
 #' post.processing(runif(15), c("min", "max"))
-#' post.processing(runif(15), c("quantile", "skewness"))
-#' post.processing(runif(15), "hist", bins=5, min=0, max=1)
+#' post.processing(runif(15), c("quantiles", "skewness"))
+#' post.processing(runif(15), "histogram", bins=5, min=0, max=1)
 post.processing <- function(measure, summary=c("mean", "sd"), multiple=TRUE,
                             ...) {
   measure[!is.finite(measure) | is.null(measure) | is.nan(measure)] <- NA
@@ -80,7 +80,7 @@ post.processing <- function(measure, summary=c("mean", "sd"), multiple=TRUE,
     e1071::kurtosis(x, na.rm, type)
   }
 
-  quantile <- function(x, type=1, ...) {
+  quantiles <- function(x, type=1, ...) {
     tryCatch(
       stats::quantile(x, type=type, ...),
       error=function(e) stats::quantile(NA, na.rm=TRUE, ...)
@@ -103,7 +103,7 @@ non.aggregated <- function (x, ...) {
   x
 }
 
-hist <- function(x, bins=10, min=base::min(x, na.rm=TRUE),
+histogram <- function(x, bins=10, min=base::min(x, na.rm=TRUE),
                  max=base::max(x, na.rm=TRUE), ...) {
   breaks <- seq(ifelse(is.finite(min), min, 0),
                 ifelse(is.finite(max), max, bins), length.out=bins + 1)

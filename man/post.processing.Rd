@@ -41,7 +41,7 @@ The post processing functions are used to summarize the meta-features.
  In addition to the native functions available in R, the following functions
  can be used:
  \describe{
-   \item{"hist"}{Computes a histogram of the given data value. The extra
+   \item{"histogram"}{Computes a histogram of the given data value. The extra
       parameters '\code{bins}' can be used to define the number of values to
       be returned. The parameters '\code{max}' and '\code{min}' are used to
       define the range of the data. The default value for these parameters
@@ -51,7 +51,7 @@ The post processing functions are used to summarize the meta-features.
    \item{"mean"}{See \code{\link{mean}}}
    \item{"median"}{See \code{\link{median}}}
    \item{"min"}{See \code{\link{min}}}
-   \item{"quantile"}{See \code{\link{quantile}}}
+   \item{"quantiles"}{See \code{\link{quantile}}}
    \item{"sd"}{See \code{\link{sd}}}
    \item{"skewness"}{See \code{\link[e1071]{skewness}}}
    \item{"var"}{See \code{\link{var}}}
@@ -64,8 +64,8 @@ The post processing functions are used to summarize the meta-features.
 \examples{
 post.processing(runif(15))
 post.processing(runif(15), c("min", "max"))
-post.processing(runif(15), c("quantile", "skewness"))
-post.processing(runif(15), "hist", bins=5, min=0, max=1)
+post.processing(runif(15), c("quantiles", "skewness"))
+post.processing(runif(15), "histogram", bins=5, min=0, max=1)
 }
 \references{
 Pinto, F., Soares, C., & Mendes-Moreira, J. (2016). Towards Automatic
