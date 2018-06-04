@@ -23,6 +23,7 @@
 #'    instances, also known as dimensionality.}
 #'    \item{"catToNum"}{Ratio of the number of categorical attributes per the 
 #'    number of numeric attributes.}
+#'    \item{"freqClass"}{Proportion of the classes values (multi-valued).}
 #'    \item{"instToAttr"}{Ratio of the number of instances per the number of 
 #'    attributes.}
 #'    \item{"nrAttr"}{Number of attributes.}
@@ -37,7 +38,7 @@
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell. 
+#'  Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
 #'  Machine Learning, Neural and Statistical Classification, volume 37. Ellis 
 #'  Horwood Upper Saddle River, 1994.
 #'
@@ -45,7 +46,7 @@
 #'  CBR approach. In European Conference on Principles of Data Mining and 
 #'  Knowledge Discovery (PKDD), pages 418 - 423, 1999.
 #'
-#'  Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
+#'  Ciro Castiello, Giovanna Castellano, and Anna M. Fanelli. Meta-data: 
 #'  Characterization of input features for meta-learning. In 2nd International 
 #'  Conference on Modeling Decisions for Artificial Intelligence (MDAI), 
 #'  pages 457 - 468, 2005.
@@ -101,7 +102,7 @@ general.default <- function(x, y, features="all", summary=c("mean", "sd"),
   sapply(features, function(f) {
     fn <- paste("m", f, sep=".")
     measure <- do.call(fn, c(list(x=x, y=y), list(...)))
-    post.processing(measure, summary, FALSE, ...)
+    post.processing(measure, summary, f %in% ls.general.multiples(), ...)
   }, simplify=FALSE)
 }
 
@@ -131,8 +132,12 @@ general.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.general()
 ls.general <- function() {
-  c("attrToInst", "catToNum", "instToAttr", "nrAttr", "nrBin", "nrCat", 
-    "nrClass", "nrInst", "nrNum",  "numToCat")
+  c("attrToInst", "catToNum", "freqClass", "instToAttr", "nrAttr", "nrBin", 
+    "nrCat", "nrClass", "nrInst", "nrNum",  "numToCat")
+}
+
+ls.general.multiples <- function() {
+  c("freqClass")
 }
 
 #Meta-features
@@ -140,10 +145,14 @@ m.attrToInst <- function(x, ...) {
   m.nrAttr(x) / m.nrInst(x)
 }
 
-m.catToNum <- function (x, ...) {
+m.catToNum <- function(x, ...) {
   nnum <- m.nrNum(x)
   if (nnum == 0) return(NA)
   m.nrCat(x) / nnum
+}
+
+m.freqClass <- function(y, ...) {
+  as.numeric(table(y)) / length(y)
 }
 
 m.instToAttr <- function(x, ...) {
@@ -154,7 +163,7 @@ m.nrAttr <- function(x, ...) {
   ncol(x)
 }
 
-m.nrBin <- function (x, ...) {
+m.nrBin <- function(x, ...) {
   sum(apply(x, 2, function (col) length(table(col)) == 2))
 }
 
@@ -174,7 +183,7 @@ m.nrNum <- function(x, ...) {
   sum(sapply(x, is.numeric))
 }
 
-m.numToCat <- function (x, ...) {
+m.numToCat <- function(x, ...) {
   ncat <- m.nrCat(x)
   if (ncat == 0) return(NA)
   m.nrNum(x) / ncat

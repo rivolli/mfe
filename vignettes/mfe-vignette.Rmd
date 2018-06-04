@@ -134,7 +134,15 @@ general.iris <- general(Species ~ ., iris)
 general(Species ~ ., iris, features=c("nrAttr", "nrClass"))
 ```
 
-The general measures return a list named by the requested measures. 
+The general measures return a list named by the requested measures. The 
+`post.processing` methods are applied only for the `freqClass` meta-feature. For
+instance, to extract the minimum, maximum and the standard deviation of the
+classes proportion use:
+
+```{r}
+## Extract two general measures
+general(Species ~ ., iris, features="freqClass", summary=c("min", "max", "sd"))
+```
 
 ## Statistical
 
