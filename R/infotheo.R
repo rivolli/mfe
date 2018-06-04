@@ -33,7 +33,7 @@
 #'    \item{"classEnt"}{Class entropy, which describes how much information is 
 #'      necessary to specify the class in the dataset.}
 #'    \item{"eqNumAttr"}{Equivalent number of attributes, which represents the 
-#'      number of attributes suitable to optimally solve the classification task 
+#'      number of attributes suitable to optimally solve the classification task
 #'      using the dataset.}
 #'    \item{"jointEnt"}{Joint entropy, which represents the total entropy of 
 #'      each attribute and the class (multi-valued).}
@@ -43,7 +43,7 @@
 #'      information contained in the dataset.}
 #'  }
 #'  This method uses the unsupervized data discretization procedure provided by
-#'  \link[infotheo]{discretize} function, where the default values are used when 
+#'  \link[infotheo]{discretize} function, where the default values are used when
 #'  \code{transform=TRUE}.
 #' @return A list named by the requested meta-features.
 #'
@@ -54,7 +54,7 @@
 #'
 #'  Alexandros Kalousis and Melanie Hilario. Model selection via meta-learning: 
 #'  a comparative study. International Journal on Artificial Intelligence Tools,
-#'  10(4):525 - 554, 2001.
+#'  volume 10, pages 525 - 554, 2001.
 #'
 #'  Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
 #'  Characterization of input features for meta-learning. In 2nd International 
@@ -175,12 +175,12 @@ infotheo.formula <- function(formula, data, features="all",
 #'
 #' @examples
 #' ls.infotheo()
-ls.infotheo <- function () {
+ls.infotheo <- function() {
   c("attrConc", "attrEnt", "classConc", "classEnt", "eqNumAttr", "jointEnt", 
     "mutInf", "nsRatio")
 }
 
-ls.infotheo.multiples <- function () {
+ls.infotheo.multiples <- function() {
   c("attrConc", "attrEnt", "classConc", "jointEnt", "mutInf")
 }
 
@@ -189,7 +189,7 @@ m.attrConc <- function(x, ...) {
   comb <- expand.grid(i=seq(ncol(x)), j=seq(ncol(x)))
   comb <- comb[comb$i != comb$j, ]
 
-  mapply(function (i, j) {
+  mapply(function(i, j) {
     concentration.coefficient(x[, i], x[, j])
   }, i=comb$i, j=comb$j)
 }
@@ -222,20 +222,6 @@ m.mutInf <- function(extra, ...) {
 m.nsRatio <- function(extra, ...) {
   mutinf <- mean(extra$mutinf)
   (mean(extra$x.entropy) - mutinf) / mutinf
-}
-
-concentration.coefficient <- function(x, y) {
-  nij <- table(y, x) / length(x)
-  isum <- rowSums(nij)
-  jsum2 <- sum(colSums(nij)^2)
-  nij2 <- nij^2
-  
-  (sum(nij2 / isum) - jsum2) / (1 - jsum2)
-}
-
-entropy <- function(x) {
-  qi <- table(x) / length(x)
-  -sum(qi * sapply(qi, log2))
 }
 
 mutinf <- function(x, y) {

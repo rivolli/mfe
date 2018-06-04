@@ -47,17 +47,18 @@
 #'  as post-processing summarization function.
 #'
 #' @return A list with the post-processed meta-features
-#' @references
-#' Pinto, F., Soares, C., & Mendes-Moreira, J. (2016). Towards Automatic
-#'   Generation of Metafeatures. In 20th Pacific-Asia Conference (pp. 215-226).
 #'
-#' @export
+#' @references
+#'  Fabio Pinto, Carlos Soares, and Joao Mendes-Moreira. Towards Automatic
+#'  Generation of Metafeatures. In 20th Pacific-Asia Conference on Knowledge 
+#'  Discovery and Data Mining  (PAKDD), pages 215 - 226, 2016.
 #'
 #' @examples
 #' post.processing(runif(15))
 #' post.processing(runif(15), c("min", "max"))
 #' post.processing(runif(15), c("quantiles", "skewness"))
 #' post.processing(runif(15), "histogram", bins=5, min=0, max=1)
+#' @export
 post.processing <- function(measure, summary=c("mean", "sd"), multiple=TRUE,
                             ...) {
   measure[!is.finite(measure) | is.null(measure) | is.nan(measure)] <- NA

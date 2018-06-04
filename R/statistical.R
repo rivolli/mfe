@@ -27,9 +27,9 @@
 #'  \describe{
 #'    \item{"canCor"}{Canonical correlations between the predictive attributes 
 #'    and the class (multi-valued).}
-#'    \item{"gravity"}{Center of gravity, which is the distance between the instance 
-#'    in the center of the majority class and the instance-center of the 
-#'    minority class.}
+#'    \item{"gravity"}{Center of gravity, which is the distance between the 
+#'    instance in the center of the majority class and the instance-center of 
+#'    the minority class.}
 #'    \item{"cor"}{Absolute attributes correlation, which measure the 
 #'    correlation between each pair of the numeric attributes in the dataset 
 #'    (multi-valued). This measure accepts an extra argument called 
@@ -54,9 +54,9 @@
 #'    \item{"nrNorm"}{Number of attributes with normal distribution. The 
 #'    Shapiro-Wilk Normality Test is used to assess if an attribute is or not is
 #'    normally distributed (multi-valued only when \code{by.class=TRUE}).}
-#'    \item{"nrOutliers"}{Number of attributes with outliers values. The Turkey's 
-#'    boxplot algorith is used to compute if an attributes has or does not have
-#'    outliers (multi-valued only when \code{by.class=TRUE}).}
+#'    \item{"nrOutliers"}{Number of attributes with outliers values. The 
+#'    Turkey's boxplot algorith is used to compute if an attributes has or does 
+#'    not have outliers (multi-valued only when \code{by.class=TRUE}).}
 #'    \item{"range"}{Range of Attributes (multi-valued).}
 #'    \item{"sd"}{Standard deviation of the attributes (multi-valued).}
 #'    \item{"sdRatio"}{Statistic test for homogeneity of covariances.}
@@ -73,13 +73,13 @@
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
+#'  Ciro Castiello, Giovanna Castellano, and Anna M. Fanelli. Meta-data: 
 #'  Characterization of input features for meta-learning. In 2nd International 
 #'  Conference on Modeling Decisions for Artificial Intelligence (MDAI), 
 #'  pages 457 - 468, 2005.
 #'
-#'  Shawkat Ali and Kate A. Smith. On learning algorithm selection for 
-#'  classification. Applied Soft Computing, 6(2):119 - 138, 2006.
+#'  Shawkat Ali, and Kate A. Smith. On learning algorithm selection for 
+#'  classification. Applied Soft Computing, volume 6, pages 119 - 138, 2006.
 #'
 #' @examples
 #' ## Extract all meta-features
@@ -201,7 +201,7 @@ statistical.default <- function(x, y, features="all",
       if (f %in% exclude) {
         values <- measures[[1]][[f]]
       } else {
-        values <- lapply(measures, function (values) values[[f]])
+        values <- lapply(measures, function(values) values[[f]])
       }
       
       post.processing(unlist(values), summary, 

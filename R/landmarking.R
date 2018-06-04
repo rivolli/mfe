@@ -22,33 +22,35 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"bestNode"}{Decision node. Construct a single descision tree node model 
-#'    induced by the most informative attribute to establish the linear 
-#'    separability.}
-#'    \item{"eliteNN"}{Elite nearest neighbor. Use the most informative attributes 
-#'    in the dataset to induce the 1-nearest neighbor. With the subset of 
-#'    informative attributes is expected that the models should be noise 
-#'    tolerant.}
-#'    \item{"linearDiscr"}{Linear discriminant. Apply the Linear Discriminant classifier 
-#'    to construct a linear split (non parallel axis) in the data to establish
-#'    the linear separability.}
-#'    \item{"naiveBayes"}{Naibe Bayes. Evaluate the performance of the Naive Bayes
-#'    classifier. It assumes that the attributes are independent and each
-#'    example belongs to a certain class based on the Bayes probability.} 
-#'    \item{"oneNN"}{1-nearest neighbor. Evaluate the performance of the
-#'    1-nearest neighbor classifier. It uses the euclidean distance of the
-#'    nearest neighbor to determine how noisy is the data.}
-#'    \item{"randomNode"}{Random node. Construct a single decision tree node model 
-#'    induced by a random attribute. The combination with \code{"bestNode"} measure 
-#'    can establish the linear separability.}
-#'    \item{"worstNode"}{Worst node. Construct a single decision tree node model 
-#'    induced by the worst informative attribute. The combination with  
-#'    \code{"bestNode"} measure can establish the linear separability.}
+#'    \item{"bestNode"}{Construct a single descision tree node model induced by 
+#'    the most informative attribute to establish the linear separability 
+#'    (multi-valued).}
+#'    \item{"eliteNN"}{Elite nearest neighbor uses the most informative 
+#'    attribute in the dataset to induce the 1-nearest neighbor. With the subset
+#'    of informative attributes is expected that the models should be noise 
+#'    tolerant (multi-valued).}
+#'    \item{"linearDiscr"}{Apply the Linear Discriminant classifier to construct
+#'    a linear split (non parallel axis) in the data to establish the linear 
+#'    separability (multi-valued).}
+#'    \item{"naiveBayes"}{Evaluate the performance of the Naive Bayes 
+#'    classifier. It assumes that the attributes are independent and each 
+#'    example belongs to a certain class based on the Bayes probability 
+#'    (multi-valued).} 
+#'    \item{"oneNN"}{Evaluate the performance of the 1-nearest neighbor 
+#'    classifier. It uses the euclidean distance of the nearest neighbor to 
+#'    determine how noisy is the data (multi-valued).}
+#'    \item{"randomNode"}{Construct a single decision tree node model induced 
+#'    by a random attribute. The combination with \code{"bestNode"} measure 
+#'    can establish the linear separability (multi-valued).}
+#'    \item{"worstNode"}{Construct a single decision tree node model induced
+#'    by the worst informative attribute. The combination with 
+#'    \code{"bestNode"} measure can establish the linear separability 
+#'    (multi-valued).}
 #'  }
 #' @return A list named by the requested meta-features.
 #'
 #' @references
-#'  Bernhard Pfahringer, Hilan Bensusan, and Christophe G. Giraud-Carrier. 
+#'  Bernhard Pfahringer, Hilan Bensusan, and Christophe Giraud-Carrier. 
 #'  Meta-learning by landmarking various learning algorithms. In 17th 
 #'  International Conference on Machine Learning (ICML), pages 743 - 750, 2000.
 #'
@@ -151,47 +153,6 @@ ls.landmarking <- function() {
 
 ls.landmarking.multiples <- function() {
   ls.landmarking()
-}
-
-accuracy <- function(prediction, label) {
-  label <- factor(label)
-  prediction <- factor(prediction,  levels=levels(label))
-  aux <- table(prediction, label)
-  sum(diag(aux)) / sum(aux)
-}
-
-balanced.accuracy <- function(prediction, label) {
-  label <- factor(label)
-  prediction <- factor(prediction, levels=levels(label))
-  aux <- table(prediction, label)
-  mean(diag(aux) / colSums(aux))
-}
-
-kappa <- function(prediction, label) {
-  label <- factor(label)
-  prediction <- factor(prediction, levels=levels(label))
-  aux <- table(prediction, label)
-
-  pc <- sum(apply(aux, 1, sum)/sum(aux) * 
-    apply(aux, 2, sum)/sum(aux))
-
-  if(pc == 1 | is.nan(pc))
-    pc <- 0
-
-  aux <- (sum(diag(aux))/sum(aux) - pc)/(1 - pc)
-  return(aux)
-}
-
-importance <- function(x, y, test) {
-  data <- cbind(class=y[-test], x[-test,])
-  model <- dt(stats::formula(data), data)
-  model$variable.importance
-}
-
-ds <- function(x, y, imp, test, ...) {
-  data <- cbind(class=y[-test], x[-test, imp, drop=FALSE])
-  rpart::rpart(stats::formula(data), data, method="class", 
-    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=0.001, maxdepth=1))
 }
 
 m.bestNode <- function(x, y, test, ...) {

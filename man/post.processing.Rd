@@ -68,6 +68,7 @@ post.processing(runif(15), c("quantiles", "skewness"))
 post.processing(runif(15), "histogram", bins=5, min=0, max=1)
 }
 \references{
-Pinto, F., Soares, C., & Mendes-Moreira, J. (2016). Towards Automatic
-  Generation of Metafeatures. In 20th Pacific-Asia Conference (pp. 215-226).
+Fabio Pinto, Carlos Soares, and Joao Mendes-Moreira. Towards Automatic
+ Generation of Metafeatures. In 20th Pacific-Asia Conference on Knowledge 
+ Discovery and Data Mining  (PAKDD), pages 215 - 226, 2016.
 }

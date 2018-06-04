@@ -47,6 +47,7 @@ The following features are allowed for this method:
    instances, also known as dimensionality.}
    \item{"catToNum"}{Ratio of the number of categorical attributes per the 
    number of numeric attributes.}
+   \item{"freqClass"}{Proportion of the classes values (multi-valued).}
    \item{"instToAttr"}{Ratio of the number of instances per the number of 
    attributes.}
    \item{"nrAttr"}{Number of attributes.}
@@ -73,7 +74,7 @@ general(Species ~ ., iris, summary=c())
 general(Species ~ ., iris, summary=c("sd","min","iqr"))
 }
 \references{
-Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell. 
+Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
  Machine Learning, Neural and Statistical Classification, volume 37. Ellis 
  Horwood Upper Saddle River, 1994.
 
@@ -81,7 +82,7 @@ Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
  CBR approach. In European Conference on Principles of Data Mining and 
  Knowledge Discovery (PKDD), pages 418 - 423, 1999.
 
- Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
+ Ciro Castiello, Giovanna Castellano, and Anna M. Fanelli. Meta-data: 
  Characterization of input features for meta-learning. In 2nd International 
  Conference on Modeling Decisions for Artificial Intelligence (MDAI), 
  pages 457 - 468, 2005.

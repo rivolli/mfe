@@ -59,7 +59,7 @@ The following features are allowed for this method:
    \item{"classEnt"}{Class entropy, which describes how much information is 
      necessary to specify the class in the dataset.}
    \item{"eqNumAttr"}{Equivalent number of attributes, which represents the 
-     number of attributes suitable to optimally solve the classification task 
+     number of attributes suitable to optimally solve the classification task
      using the dataset.}
    \item{"jointEnt"}{Joint entropy, which represents the total entropy of 
      each attribute and the class (multi-valued).}
@@ -69,7 +69,7 @@ The following features are allowed for this method:
      information contained in the dataset.}
  }
  This method uses the unsupervized data discretization procedure provided by
- \link[infotheo]{discretize} function, where the default values are used when 
+ \link[infotheo]{discretize} function, where the default values are used when
  \code{transform=TRUE}.
 }
 \examples{
@@ -95,7 +95,7 @@ Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
 
  Alexandros Kalousis and Melanie Hilario. Model selection via meta-learning: 
  a comparative study. International Journal on Artificial Intelligence Tools,
- 10(4):525 - 554, 2001.
+ volume 10, pages 525 - 554, 2001.
 
  Ciro Castiello, Giovanna Castellano, and Anna Maria Fanelli. Meta-data: 
  Characterization of input features for meta-learning. In 2nd International 

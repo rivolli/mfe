@@ -151,11 +151,6 @@ ls.model.based.multiples <- function() {
     "treeShape", "varImportance")
 }
 
-dt <- function(formula, data, ...) {
-  rpart::rpart(formula, data, method="class", 
-    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=0.001))
-}
-
 m.leaves <- function(model, ...) {
   nrow(model$frame[model$frame$var == "<leaf>",])
 }
