@@ -22,7 +22,7 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"bestNode"}{Construct a single descision tree node model induced by 
+#'    \item{"bestNode"}{Construct a single decision tree node model induced by 
 #'    the most informative attribute to establish the linear separability 
 #'    (multi-valued).}
 #'    \item{"eliteNN"}{Elite nearest neighbor uses the most informative 

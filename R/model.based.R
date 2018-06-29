@@ -1,6 +1,6 @@
 #' Decision Tree Model Based Meta-features
 #'
-#' Decision Tree (DT) Model Based meta-features are the measures desined to
+#' Decision Tree (DT) Model Based meta-features are the measures designed to
 #' extract characteristics of a DT model induced from a dataset.
 #'
 #' @family meta-features
@@ -23,7 +23,7 @@
 #'    \item{"leavesCorrob"}{Leaves corroboration, which is the proportion of
 #'    examples that belong to each leaf of the DT model (multi-valued).}
 #'    \item{"leavesHomo"}{Homogeneity, which is the number of leaves divided by 
-#'    the strutural shape of the DT model (multi-valued).}
+#'    the structural shape of the DT model (multi-valued).}
 #'    \item{"leavesPerClass"}{Leaves per class, which is the proportion of 
 #'    leaves of the DT model associated with each class (multi-valued).}
 #'    \item{"nodes"}{Number of nodes of the DT model.}
@@ -39,10 +39,10 @@
 #'    leaves of the DT model (multi-valued).}
 #'    \item{"treeImbalance"}{Tree imbalance (multi-valued).}
 #'    \item{"treeShape"}{Tree shape, which is the probability of arrive in each 
-#'    leaf given a random walk. We call this as the strutural shape of the DT 
+#'    leaf given a random walk. We call this as the structural shape of the DT 
 #'    model (multi-valued).}
-#'    \item{"varImportance"}{Variable importance. It is calculed using the Gini 
-#'    index to estimate the amout of information used in the DT model 
+#'    \item{"varImportance"}{Variable importance. It is calculated using the 
+#'    Gini index to estimate the amount of information used in the DT model 
 #'    (multi-valued).}
 #'  }
 #' @return A list named by the requested meta-features.
@@ -53,7 +53,7 @@
 #'  Inductive Logic Programming (ILP), pages 33 - 42, 2000.
 #'
 #'  Yonghong Peng, Peter A. Flach, Carlos Soares, and Pavel Brazdil. Improved 
-#'  dataset characterisation for meta-learning. In 5th International Conference 
+#'  dataset characterization for meta-learning. In 5th International Conference 
 #'  on Discovery Science (DS), pages 141 - 152, 2002.
 #'
 #' @examples

@@ -15,7 +15,7 @@
 #' @param by.class A logical value indicating if the meta-features must be
 #'  computed for each group of samples belonging to different output classes.
 #'  (Default: FALSE)
-#' @param transform A logical value indicading if the categorical attributes
+#' @param transform A logical value indicating if the categorical attributes
 #'  should be transformed. If \code{FALSE} they will be ignored. (Default: 
 #'  \code{TRUE})
 #' @param formula A formula to define the class column.
@@ -55,7 +55,7 @@
 #'    Shapiro-Wilk Normality Test is used to assess if an attribute is or not is
 #'    normally distributed (multi-valued only when \code{by.class=TRUE}).}
 #'    \item{"nrOutliers"}{Number of attributes with outliers values. The 
-#'    Turkey's boxplot algorith is used to compute if an attributes has or does 
+#'    Turkey's boxplot algorithm is used to compute if an attributes has or does 
 #'    not have outliers (multi-valued only when \code{by.class=TRUE}).}
 #'    \item{"range"}{Range of Attributes (multi-valued).}
 #'    \item{"sd"}{Standard deviation of the attributes (multi-valued).}
@@ -64,7 +64,7 @@
 #'    \item{"sparsity"}{Attributes sparsity, which represents the degree of 
 #'    discreetness of each attribute in the dataset (multi-valued).}
 #'    \item{"tMean"}{Trimmed mean of attributes (multi-valued). It is the 
-#'    aritimetic mean excluding the 20\% of the lowest and hieghest instances.}
+#'    arithmetic mean excluding the 20\% of the lowest and highest instances.}
 #'    \item{"var"}{Attributes variance (multi-valued).}
 #'    \item{"wLambda"}{Wilks Lambda.}
 #'  }

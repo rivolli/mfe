@@ -13,7 +13,7 @@
 #' @param summary A list of summarization functions or empty for all values. See
 #'  \link{post.processing} method to more information. (Default: 
 #'  \code{c("mean", "sd")})
-#' @param transform A logical value indicading if the numeric attributes should 
+#' @param transform A logical value indicating if the numeric attributes should 
 #'  be transformed. If \code{FALSE} they will be ignored. (Default: 
 #'  \code{TRUE})
 #' @param formula A formula to define the class column.
@@ -42,7 +42,7 @@
 #'    \item{"nsRatio"}{Noise ratio, which describes the amount of irrelevant 
 #'      information contained in the dataset.}
 #'  }
-#'  This method uses the unsupervized data discretization procedure provided by
+#'  This method uses the unsupervised data discretization procedure provided by
 #'  \link[infotheo]{discretize} function, where the default values are used when
 #'  \code{transform=TRUE}.
 #' @return A list named by the requested meta-features.

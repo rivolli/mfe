@@ -20,7 +20,7 @@
 #'  type and functions can be combined. Usually, these function are used to
 #'  summarize a set of values for each meta-features. For instance, a measure
 #'  computed for each attribute can be summarized using the \code{"mean"} and/or
-#'  \code{"sd"}. Mandatorily, a single value always use the
+#'  \code{"sd"}. Necessarily, a single value always use the
 #'  \code{"non.aggregated"} function.
 #'
 #'  In addition to the native functions available in R, the following functions
