@@ -17,7 +17,7 @@ Possibly mis-spelled words in DESCRIPTION:
   Moreira (19:27)
   PAKDD (20:70)
 
-This words are correct. The notes occur only in windows test.
+This words are correct.
 
 ## Downstream dependencies
 There are no downstream dependencies.

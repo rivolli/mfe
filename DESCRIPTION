@@ -21,7 +21,7 @@ Description: Extracts meta-features from datasets to support the design of
   pages 215 - 226, 2016, <doi:10.1007/978-3-319-31753-3_18>.
 URL: https://github.com/rivolli/mfe
 Depends:
-    R (>= 3.3.0),
+    R (>= 3.3),
 Imports:
     cluster,
     e1071,
