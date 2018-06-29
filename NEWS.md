@@ -1,4 +1,4 @@
-# Version 0.1.1 [development]
+# Version 0.1.1 [current]
 
 ### Minor changes
 * Add new measures in all groups
@@ -12,7 +12,7 @@
 * Support datasets that have columns named with numbers 
 * Fix harmonic and geometric mean
 
-# First release of **mfe** [current]:
+# First release of **mfe**:
 
 * General meta-features
 * Statistical meta-features
