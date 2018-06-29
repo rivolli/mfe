@@ -29,7 +29,7 @@ The supported values are described in the details section. (Default:
 \link{post.processing} method to more information. (Default: 
 \code{c("mean", "sd")})}
 
-\item{transform}{A logical value indicading if the numeric attributes should 
+\item{transform}{A logical value indicating if the numeric attributes should 
 be transformed. If \code{FALSE} they will be ignored. (Default: 
 \code{TRUE})}
 
@@ -68,7 +68,7 @@ The following features are allowed for this method:
    \item{"nsRatio"}{Noise ratio, which describes the amount of irrelevant 
      information contained in the dataset.}
  }
- This method uses the unsupervized data discretization procedure provided by
+ This method uses the unsupervised data discretization procedure provided by
  \link[infotheo]{discretize} function, where the default values are used when
  \code{transform=TRUE}.
 }
