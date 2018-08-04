@@ -8,8 +8,8 @@
 \usage{
 metafeatures(...)
 
-\method{metafeatures}{default}(x, y, groups = "all", summary = c("mean",
-  "sd"), ...)
+\method{metafeatures}{default}(x, y, groups = "all",
+  summary = c("mean", "sd"), ...)
 
 \method{metafeatures}{formula}(formula, data, groups = "all",
   summary = c("mean", "sd"), ...)

@@ -8,8 +8,8 @@
 \usage{
 statistical(...)
 
-\method{statistical}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), by.class = FALSE, transform = TRUE, ...)
+\method{statistical}{default}(x, y, features = "all",
+  summary = c("mean", "sd"), by.class = FALSE, transform = TRUE, ...)
 
 \method{statistical}{formula}(formula, data, features = "all",
   summary = c("mean", "sd"), by.class = FALSE, transform = TRUE, ...)
@@ -131,3 +131,4 @@ Other meta-features: \code{\link{general}},
   \code{\link{infotheo}}, \code{\link{landmarking}},
   \code{\link{model.based}}
 }
+\concept{meta-features}

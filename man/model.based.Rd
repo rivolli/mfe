@@ -8,8 +8,8 @@
 \usage{
 model.based(...)
 
-\method{model.based}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), ...)
+\method{model.based}{default}(x, y, features = "all",
+  summary = c("mean", "sd"), ...)
 
 \method{model.based}{formula}(formula, data, features = "all",
   summary = c("mean", "sd"), ...)
@@ -95,3 +95,4 @@ Other meta-features: \code{\link{general}},
   \code{\link{infotheo}}, \code{\link{landmarking}},
   \code{\link{statistical}}
 }
+\concept{meta-features}

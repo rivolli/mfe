@@ -8,8 +8,8 @@
 \usage{
 general(...)
 
-\method{general}{default}(x, y, features = "all", summary = c("mean", "sd"),
-  ...)
+\method{general}{default}(x, y, features = "all", summary = c("mean",
+  "sd"), ...)
 
 \method{general}{formula}(formula, data, features = "all",
   summary = c("mean", "sd"), ...)
@@ -92,3 +92,4 @@ Other meta-features: \code{\link{infotheo}},
   \code{\link{landmarking}}, \code{\link{model.based}},
   \code{\link{statistical}}
 }
+\concept{meta-features}

@@ -8,8 +8,8 @@
 \usage{
 landmarking(...)
 
-\method{landmarking}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), folds = 10, score = "accuracy", ...)
+\method{landmarking}{default}(x, y, features = "all",
+  summary = c("mean", "sd"), folds = 10, score = "accuracy", ...)
 
 \method{landmarking}{formula}(formula, data, features = "all",
   summary = c("mean", "sd"), folds = 10, score = "accuracy", ...)
@@ -98,3 +98,4 @@ Other meta-features: \code{\link{general}},
   \code{\link{infotheo}}, \code{\link{model.based}},
   \code{\link{statistical}}
 }
+\concept{meta-features}
