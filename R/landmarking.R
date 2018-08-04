@@ -84,13 +84,9 @@ landmarking.default <- function(x, y, features="all",
     y <- y[, 1]
   }
   y <- as.factor(y)
-  
-  if (nlevels(y) > length(y) / 10) {
-    stop("y must contain classes values")
-  }
 
-  if(min(table(y)) < 2) {
-    stop("number of examples in the minority class should be >= 2")
+  if(min(table(y)) < folds) {
+    stop("number of examples in the minority class should be >= folds")
   }
 
   if(nrow(x) != length(y)) {

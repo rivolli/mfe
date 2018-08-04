@@ -14,7 +14,7 @@ test_that("model.based.errors",{
   expect_error(model.based(iris[1:130, 1:4], iris[5]),
                "x and y must have same number of rows")
   expect_error(model.based(iris[, 1:4], iris[,3]),
-               "y must contain classes values")
+               "number of examples in the minority class should be >= 2")
   expect_error(model.based(as.matrix(iris[, c(1,2)]), iris$Species),
                "data argument must be a data.frame")
   expect_error(model.based(Species ~ ., iris, features=c("abc", "xdef")))
