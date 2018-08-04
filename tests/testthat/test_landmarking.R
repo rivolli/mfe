@@ -15,8 +15,6 @@ test_that("landmarking.errors",{
   #Test errors cases
   expect_error(landmarking(iris[1:130, 1:4], iris[5]),
                "x and y must have same number of rows")
-  expect_error(landmarking(iris[, 1:4], iris[,3]),
-               "number of examples in the minority class should be >= folds")
   expect_error(landmarking(as.matrix(iris[, c(1,2)]), iris$Species),
                "data argument must be a data.frame")
   expect_error(landmarking(Species ~ ., iris, features=c("abc", "xdef")))
