@@ -62,11 +62,7 @@ metafeatures.default <- function(x, y, groups="all",
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
-  
-  if(m.nrClass(y) / length(y) > 0.5) {
-    stop("y must contain classes values")
-  }
-  
+
   if(groups[1] == "all") {
     groups <- ls.metafeatures()
   }

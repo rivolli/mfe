@@ -84,10 +84,6 @@ general.default <- function(x, y, features="all", summary=c("mean", "sd"),
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
-  
-  if (nlevels(y) > length(y) / 10) {
-    stop("y must contain classes values")
-  }
 
   if(features[1] == "all") {
     features <- ls.general()

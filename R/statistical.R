@@ -122,10 +122,6 @@ statistical.default <- function(x, y, features="all",
     stop("x and y must have same number of rows")
   }
 
-  if (nlevels(y) > length(y) / 10) {
-    stop("y must contain classes values")
-  }
-  
   if(features[1] == "all") {
     features <- ls.statistical()
   }
