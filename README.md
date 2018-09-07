@@ -66,7 +66,7 @@ metafeatures(Species ~ ., iris, summary="quantile")
 
 In the current version, the meta-feature extractor supports only classification problems. The authors plan to extend the package to add clustering and regression measures and to support MtL evaluation measures. For more specific information on how to extract each group of measures, please refer to the functions documentation page and the examples contained therein. For a general overview of the `mfe` package, please have a look at the associated vignette.
 
-To cite `mfe` in publications use: Rivolli, A., Garcia, L. P. F., de Carvalho, A. C. P. L. F., (2017). mfe: Meta-Feature Extractor. R package version 0.1.1. http://CRAN.R-project.org/package=mfe
+To cite `mfe` in publications use: Rivolli, A., Garcia, L. P. F., Soares, C., Vanschoren, J., and de Carvalho, A. C. P. L. F. (2018). Towards Reproducible Empirical Research in Meta-Learning. arXiv:1808.10406
 
 
 To submit bugs and feature requests, report at [project issues](https://github.com/rivolli/mfe/issues).
