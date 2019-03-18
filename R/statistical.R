@@ -347,7 +347,7 @@ m.nrNorm <- function(x, ...) {
       error = function(e) e
     )
     p.value
-  })) < 0.1, na.rm = TRUE)
+  })) > 0.1, na.rm = TRUE)
 }
 
 m.nrOutliers <- function(x, ...) {
