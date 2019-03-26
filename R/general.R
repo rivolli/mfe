@@ -89,7 +89,7 @@ general.default <- function(x, y, features="all", summary=c("mean", "sd"),
     features <- ls.general()
   }
   features <- match.arg(features, ls.general(), TRUE)
-  colnames(x) <- make.names(colnames(x))
+  colnames(x) <- make.names(colnames(x), unique=TRUE)
   
   if (length(summary) == 0) {
     summary <- "non.aggregated"

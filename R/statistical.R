@@ -126,7 +126,7 @@ statistical.default <- function(x, y, features="all",
     features <- ls.statistical()
   }
   features <- match.arg(features, ls.statistical(), TRUE)
-  colnames(x) <- make.names(colnames(x))
+  colnames(x) <- make.names(colnames(x), unique=TRUE)
   
   if (length(summary) == 0) {
     summary <- "non.aggregated"

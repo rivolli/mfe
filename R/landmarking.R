@@ -97,8 +97,8 @@ landmarking.default <- function(x, y, features="all",
     features <- ls.landmarking()
   }
   features <- match.arg(features, ls.landmarking(), TRUE)
-  colnames(x) <- make.names(colnames(x))
-  
+  colnames(x) <- make.names(colnames(x), unique=TRUE)
+
   if (length(summary) == 0) {
     summary <- "non.aggregated"
   }

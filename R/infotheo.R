@@ -106,7 +106,7 @@ infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
     features <- ls.infotheo()
   }
   features <- match.arg(features, ls.infotheo(), TRUE)
-  colnames(x) <- make.names(colnames(x))
+  colnames(x) <- make.names(colnames(x), unique=TRUE)
   
   if (length(summary) == 0) {
     summary <- "non.aggregated"
