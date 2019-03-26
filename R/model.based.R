@@ -205,5 +205,5 @@ m.treeShape <- function(model, ...) {
 }
 
 m.varImportance <- function(model, ...) {
-  round(model$variable.importance / sum(model$variable.importance), 2)
+  model$variable.importance / sum(model$variable.importance)
 }
