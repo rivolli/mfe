@@ -35,7 +35,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-License: GPL | file LICENSE
+License: MIT + file LICENSE
 LazyData: true
 BugReports: https://github.com/rivolli/mfe/issues
 RoxygenNote: 6.1.1
