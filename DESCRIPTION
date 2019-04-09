@@ -1,8 +1,8 @@
 Package: mfe
 Type: Package
 Title: Meta-Feature Extractor
-Version: 0.1.1
-Date: 2018-06-29
+Version: 0.1.2
+Date: 2019-04-09
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
   role=c("aut", "cre")), person("Luis", "P. F. Garcia", 
   email="garcia@informatik.uni-leipzig.de", role="aut"), person("Andre", 
