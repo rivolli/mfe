@@ -93,7 +93,8 @@ metafeatures.formula <- function(formula, data, groups="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  metafeatures.default(modFrame[, -1], modFrame[, 1], groups, summary, ...)
+  metafeatures.default(modFrame[, -1, drop=FALSE], modFrame[, 1, drop=FALSE], 
+    groups, summary, ...)
 }
 
 #' List the meta-features groups

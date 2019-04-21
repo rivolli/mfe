@@ -1,10 +1,19 @@
 context("Statistical meta-features")
 
 test_that("statistical.result", {
-  aux1 <- statistical(Species ~ ., iris)
-  
-  expect_named(aux1, ls.statistical())
-  expect_equal(aux1, statistical(iris[1:4], iris[5]))
+  aux = statistical(Species ~ ., iris)
+  expect_named(aux, ls.statistical())
+
+  expect_equal(aux, statistical(iris[1:4], iris[5]))
+  expect_named(statistical(Species ~ ., iris, ls.statistical()[1:3]), 
+               ls.statistical()[1:3])
+})
+
+test_that("byclass.result", {
+  aux = statistical(Species ~ ., iris, by.class=TRUE)
+  expect_named(aux, ls.statistical())
+
+  expect_equal(aux, statistical(iris[1:4], iris[5], by.class=TRUE))
   expect_named(statistical(Species ~ ., iris, ls.statistical()[1:3]), 
                ls.statistical()[1:3])
 })
@@ -23,10 +32,7 @@ test_that("statistical.transform", {
 })
 
 test_that("statistical.errors",{
-  #Test errors cases
-  expect_error(statistical(iris[1:130, 1:4], iris[5]),
-               "x and y must have same number of rows")
-  expect_error(statistical(as.matrix(iris[, c(1,2)]), iris$Species),
-               "data argument must be a data.frame")
+  expect_error(statistical(iris[1:130, 1:4], iris[5]))
+  expect_error(statistical(as.matrix(iris[, c(1,2)]), iris$Species))
   expect_error(statistical(Species ~ ., iris, features=c("abc", "xdef")))
 })

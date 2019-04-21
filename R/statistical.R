@@ -228,8 +228,8 @@ statistical.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  statistical.default(modFrame[, -1], modFrame[, 1], features, summary,
-                         by.class, transform, ...)
+  statistical.default(modFrame[, -1, drop=FALSE], modFrame[, 1, drop=FALSE], 
+    features, summary, by.class, transform, ...)
 }
 
 #' List the statistical meta-features

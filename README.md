@@ -1,5 +1,7 @@
 # mfe: Meta-Feature Extractor
 [![Travis-CI Build Status](https://travis-ci.org/rivolli/mfe.svg?branch=master)](https://travis-ci.org/rivolli/mfe)
+[![codecov](https://codecov.io/gh/rivolli/mfe/branch/master/graph/badge.svg)](https://codecov.io/gh/rivolli/mfe)
+[![CRAN](https://www.r-pkg.org/badges/version/mfe)](https://CRAN.R-project.org/package=mfe)
 
 Extracts meta-features from datasets to support the design of recommendation systems based on Meta-Learning (MtL). The meta-features, also called characterization measures, are able to characterize the complexity of datasets and to provide estimates of algorithm performance. The package contains not only the standard, but also more recent characterization measures. By making available a large set of meta-feature extraction functions, this package allows a comprehensive data characterization, a deep data exploration and a large number of MtL-based data analysis.
 
