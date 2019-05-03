@@ -129,6 +129,6 @@ Ciro Castiello, Giovanna Castellano, and Anna M. Fanelli. Meta-data:
 \seealso{
 Other meta-features: \code{\link{general}},
   \code{\link{infotheo}}, \code{\link{landmarking}},
-  \code{\link{model.based}}
+  \code{\link{model.based}}, \code{\link{relative}}
 }
 \concept{meta-features}
