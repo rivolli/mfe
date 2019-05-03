@@ -35,4 +35,5 @@ test_that("relative.errors",{
   expect_error(relative(iris[1:130, 1:4], iris[5]))
   expect_error(relative(as.matrix(iris[, c(1,2)]), iris$Species))
   expect_error(relative(Species ~ ., iris, features=c("abc", "xdef")))
+  expect_error(relative(Species ~ ., iris, size=0))
 })
