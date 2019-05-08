@@ -1,8 +1,9 @@
 #' Landmarking and Relative Landmarking Meta-features
 #'
-#' Landmarking measures are simple and fast learners, from which performance can
-#' be extracted. Subsampling-based Relative Landmarking measures are 
-#' landmarking measures using subsampling strategy.
+#' Landmarking measures are simple and fast learners, from which performance 
+#' can be extracted. With a specific configuration, the relative Landmarking 
+#' measures can be extracted. Those measures use subsampling strategy to 
+#' decrease the computational cost.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
