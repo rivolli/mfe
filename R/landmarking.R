@@ -1,7 +1,8 @@
-#' Landmarking Meta-features
+#' Landmarking and Relative Landmarking Meta-features
 #'
 #' Landmarking measures are simple and fast learners, from which performance can
-#' be extracted.
+#' be extracted. Subsampling-based Relative Landmarking measures are 
+#' landmarking measures using subsampling strategy.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
@@ -13,6 +14,9 @@
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class.
 #'  The details section describes the valid values for this group.
+#' @param size The percentage of examples subsampled. Values different from 1
+#' generate the subsampling-based relative landmarking metafeatures.
+#' (Default: 1.0)
 #' @param folds The number of k equal size subsamples in k-fold 
 #'  cross-validation.(Default: 10)
 #' @param score The evaluation measure used to score the classification 
@@ -66,6 +70,9 @@
 #'
 #' ## Use 2 folds and balanced accuracy
 #' landmarking(Species ~ ., iris, folds=2, score="balanced.accuracy")
+#'
+#' ## Extract the relative landmarking
+#' landmarking(Species ~ ., iris, size=0.7)
 #' @export
 landmarking <- function(...) {
   UseMethod("landmarking")
@@ -74,7 +81,7 @@ landmarking <- function(...) {
 #' @rdname landmarking
 #' @export
 landmarking.default <- function(x, y, features="all",
-                                   summary=c("mean", "sd"), folds=10,
+                                   summary=c("mean", "sd"), size=1, folds=10,
                                    score="accuracy", ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
@@ -92,7 +99,15 @@ landmarking.default <- function(x, y, features="all",
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
-  
+
+  if(size < 0.1 | size > 1) {
+    stop("The range size is ]0,1]")
+  }
+
+  idx <- sample(nrow(x), size*nrow(x), replace=FALSE)
+  x <- x[idx,]
+  y <- y[idx]
+
   if(features[1] == "all") {
     features <- ls.landmarking()
   }
@@ -118,7 +133,7 @@ landmarking.default <- function(x, y, features="all",
 #' @rdname landmarking
 #' @export
 landmarking.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"), folds=10,
+                                   summary=c("mean", "sd"), size=1, folds=10,
                                    score="accuracy", ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
@@ -132,7 +147,7 @@ landmarking.formula <- function(formula, data, features="all",
   attr(modFrame, "terms") <- NULL
 
   landmarking.default(modFrame[, -1, drop=FALSE], modFrame[, 1, drop=FALSE], 
-    features, summary, folds, score, ...)
+    features, summary, size, folds, score, ...)
 }
 
 #' List the Landmarking meta-features
