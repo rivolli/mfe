@@ -105,6 +105,5 @@ metafeatures.formula <- function(formula, data, groups="all",
 #' @examples
 #' ls.metafeatures()
 ls.metafeatures <- function() {
-  c("general", "statistical", "infotheo", "model.based", "landmarking", 
-    "relative")
+  c("general", "statistical", "infotheo", "model.based", "landmarking")
 }

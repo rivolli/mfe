@@ -90,6 +90,6 @@ Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
 \seealso{
 Other meta-features: \code{\link{infotheo}},
   \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+  \code{\link{statistical}}
 }
 \concept{meta-features}

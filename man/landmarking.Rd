@@ -4,15 +4,17 @@
 \alias{landmarking}
 \alias{landmarking.default}
 \alias{landmarking.formula}
-\title{Landmarking Meta-features}
+\title{Landmarking and Relative Landmarking Meta-features}
 \usage{
 landmarking(...)
 
 \method{landmarking}{default}(x, y, features = "all",
-  summary = c("mean", "sd"), folds = 10, score = "accuracy", ...)
+  summary = c("mean", "sd"), size = 1, folds = 10,
+  score = "accuracy", ...)
 
 \method{landmarking}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), folds = 10, score = "accuracy", ...)
+  summary = c("mean", "sd"), size = 1, folds = 10,
+  score = "accuracy", ...)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -26,6 +28,10 @@ landmarking(...)
 \item{summary}{A list of summarization functions or empty for all values. See
 \link{post.processing} method to more information. (Default: 
 \code{c("mean", "sd")})}
+
+\item{size}{The percentage of examples subsampled. Values different from 1
+generate the subsampling-based relative landmarking metafeatures.
+(Default: 1.0)}
 
 \item{folds}{The number of k equal size subsamples in k-fold 
 cross-validation.(Default: 10)}
@@ -44,7 +50,8 @@ A list named by the requested meta-features.
 }
 \description{
 Landmarking measures are simple and fast learners, from which performance can
-be extracted.
+be extracted. Subsampling-based Relative Landmarking measures are 
+landmarking measures using subsampling strategy.
 }
 \details{
 The following features are allowed for this method:
@@ -87,6 +94,9 @@ landmarking(Species ~ ., iris, summary=c("min", "median", "max"))
 
 ## Use 2 folds and balanced accuracy
 landmarking(Species ~ ., iris, folds=2, score="balanced.accuracy")
+
+## Extract the relative landmarking
+landmarking(Species ~ ., iris, size=0.7)
 }
 \references{
 Bernhard Pfahringer, Hilan Bensusan, and Christophe Giraud-Carrier. 
@@ -96,6 +106,6 @@ Bernhard Pfahringer, Hilan Bensusan, and Christophe Giraud-Carrier.
 \seealso{
 Other meta-features: \code{\link{general}},
   \code{\link{infotheo}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+  \code{\link{statistical}}
 }
 \concept{meta-features}
