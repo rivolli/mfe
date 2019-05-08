@@ -14,7 +14,7 @@ In MtL, meta-features are designed to extract general properties able to charact
 * **Information-theoretic**: Particularly appropriate to describe discrete (categorical) attributes and their relationship with the classes.
 * **Model-based**: Measures designed to extract characteristics like the depth, the shape and size of a Decision Tree (DT) model induced from a dataset.
 * **Landmarking**: Represents the performance of simple and efficient learning algorithms.
-* **Subsampling-based Relative Landmarking**: Represents the landmarking meta-features with subsampling strategy.
+* **Relative Landmarking**: Represents the landmarking meta-features with subsampling strategy to decrease the computational cost.
 
 ## Installation
 
