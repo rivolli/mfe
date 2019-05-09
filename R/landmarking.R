@@ -1,9 +1,7 @@
-#' Landmarking and Relative Landmarking Meta-features
+#' Landmarking and Subsampling Landmarking Meta-features
 #'
-#' Landmarking measures are simple and fast learners, from which performance 
-#' can be extracted. With a specific configuration, the relative Landmarking 
-#' measures can be extracted. Those measures use subsampling strategy to 
-#' decrease the computational cost.
+#' Landmarking measures are simple and fast learners, from which performance can
+#' be extracted.
 #'
 #' @family meta-features
 #' @param x A data.frame contained only the input attributes.
@@ -16,8 +14,7 @@
 #' @param data A data.frame dataset contained the input attributes and class.
 #'  The details section describes the valid values for this group.
 #' @param size The percentage of examples subsampled. Values different from 1
-#' generate the subsampling-based relative landmarking metafeatures.
-#' (Default: 1.0)
+#' generate the subsampling-based landmarking metafeatures. (Default: 1.0)
 #' @param folds The number of k equal size subsamples in k-fold 
 #'  cross-validation.(Default: 10)
 #' @param score The evaluation measure used to score the classification 
@@ -72,7 +69,7 @@
 #' ## Use 2 folds and balanced accuracy
 #' landmarking(Species ~ ., iris, folds=2, score="balanced.accuracy")
 #'
-#' ## Extract the relative landmarking
+#' ## Extract the subsapling landmarking
 #' landmarking(Species ~ ., iris, size=0.7)
 #' @export
 landmarking <- function(...) {
@@ -106,8 +103,8 @@ landmarking.default <- function(x, y, features="all",
   }
 
   idx <- sample(nrow(x), size*nrow(x), replace=FALSE)
+  y <- factor(y[idx])
   x <- x[idx,]
-  y <- y[idx]
 
   if(features[1] == "all") {
     features <- ls.landmarking()
