@@ -105,6 +105,6 @@ Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
 \seealso{
 Other meta-features: \code{\link{general}},
   \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{statistical}}
+  \code{\link{relative}}, \code{\link{statistical}}
 }
 \concept{meta-features}

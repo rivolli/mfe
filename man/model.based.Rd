@@ -93,6 +93,6 @@ Hilan Bensusan, Christophe Giraud-Carrier, and Claire Kennedy. A
 \seealso{
 Other meta-features: \code{\link{general}},
   \code{\link{infotheo}}, \code{\link{landmarking}},
-  \code{\link{statistical}}
+  \code{\link{relative}}, \code{\link{statistical}}
 }
 \concept{meta-features}
