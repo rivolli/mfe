@@ -98,7 +98,7 @@ landmarking.default <- function(x, y, features="all",
     stop("x and y must have same number of rows")
   }
 
-  if(size < 0.1 | size > 1) {
+  if(size < 0.5 | size > 1) {
     stop("The range size is ]0,1]")
   }
 
