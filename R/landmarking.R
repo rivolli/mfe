@@ -99,7 +99,7 @@ landmarking.default <- function(x, y, features="all",
   }
 
   if(size < 0.5 | size > 1) {
-    stop("The range size is ]0,1]")
+    stop("The range size is ]0.5,1]")
   }
 
   idx <- sample(nrow(x), size*nrow(x), replace=FALSE)
