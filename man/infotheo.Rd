@@ -103,8 +103,9 @@ Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
  pages 457 - 468, 2005.
 }
 \seealso{
-Other meta-features: \code{\link{general}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: \code{\link{clustering}},
+  \code{\link{general}}, \code{\link{landmarking}},
+  \code{\link{model.based}}, \code{\link{relative}},
+  \code{\link{statistical}}
 }
 \concept{meta-features}

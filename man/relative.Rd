@@ -102,8 +102,9 @@ Johannes Furnkranz, Johann Petrak, Pavel Brazdil, and Carlos Soares. On the
  Report, pages 1-9, 2002.
 }
 \seealso{
-Other meta-features: \code{\link{general}},
-  \code{\link{infotheo}}, \code{\link{landmarking}},
-  \code{\link{model.based}}, \code{\link{statistical}}
+Other meta-features: \code{\link{clustering}},
+  \code{\link{general}}, \code{\link{infotheo}},
+  \code{\link{landmarking}}, \code{\link{model.based}},
+  \code{\link{statistical}}
 }
 \concept{meta-features}

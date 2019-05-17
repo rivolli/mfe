@@ -144,8 +144,8 @@ landmarking.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  landmarking.default(modFrame[, -1, drop=FALSE], modFrame[, 1, drop=FALSE], 
-    features, summary, size, folds, score, ...)
+  landmarking.default(modFrame[-1], modFrame[1], features, summary, size, 
+    folds, score, ...)
 }
 
 #' List the Landmarking meta-features
