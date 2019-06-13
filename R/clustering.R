@@ -106,45 +106,23 @@ clustering.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.clustering()
 ls.clustering <- function() {
-  c("vdb", "int", "sil")
+  c("int", "sil")
 }
 
 ls.clustering.multiples <- function() {
   c()
 }
 
-m.vdb <- function(x, y) {
-
-  data <- ovo(x, y)
-  dst <- lapply(data, function(i) {
-    dist(i$x)
-  })
-
-  aux <- mapply(function(data, dst) {
-    l <- levels(data$y)
-    (intra(data, dst, l[1]) + intra(data, dst, l[2]))/inter(data, dst)
-  }, data=data, dst=dst)
-
-  c <- levels(y)
-  vet <- utils::combn(c, 2)
-  tmp <- sapply(c, function(i) {
-    max(aux[apply(vet == i, 2, any)])
-  })
-
-  aux <- sum(tmp)/length(c)
-  return(aux)
-}
-
 m.int <- function(x, y) {
 
-  data <- ovo(x, y)
-  dst <- lapply(data, function(i) {
+  dfs <- ovo(x, y)
+  dst <- lapply(dfs, function(i) {
     dist(i$x)
   })
 
-  aux <- mapply(function(data, dst) {
-    inter(data, dst)
-  }, data=data, dst=dst)
+  aux <- mapply(function(dfs, dst) {
+    inter(dfs, dst)
+  }, dfs=dfs, dst=dst)
 
   c <- nlevels(y)
   aux <- sum(aux)/(c*(c-1)/2)
