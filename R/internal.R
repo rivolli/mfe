@@ -68,12 +68,12 @@ dist <- function(data) {
 ds <- function(x, y, imp, test, ...) {
   data <- cbind(class=y[-test], x[-test, imp, drop=FALSE])
   rpart::rpart(stats::formula(data), data, method="class", 
-    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=0.001, maxdepth=1))
+    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=-1, maxdepth=1))
 }
 
 dt <- function(formula, data, ...) {
   rpart::rpart(formula, data, method="class", 
-    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=0.001))
+    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=-1))
 }
 
 entropy <- function(x) {
