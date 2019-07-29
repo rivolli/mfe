@@ -165,13 +165,27 @@ ls.landmarking.multiples <- function() {
 }
 
 m.bestNode <- function(x, y, test, ...) {
-  model <- ds(x, y, colnames(x), test)
+  model <- dt(x[-test,], y[-test], maxdepth=1)
+  stats::predict(model, x[test,], type="class")
+}
+
+m.randomNode  <- function(x, y, test, ...) {
+  attr <- sample(colnames(x), 1)
+  model <- dt(x[-test, attr, drop=FALSE], y[-test], maxdepth=1)
+  stats::predict(model, x[test,], type="class")
+}
+
+m.worstNode <- function(x, y, test, ...) {
+  model <- dt(x[-test,], y[-test])
+  attr <- names(model$variable.importance)
+  model <- dt(x[-test, utils::tail(attr,1), drop=FALSE], y[-test], maxdepth=1)
   stats::predict(model, x[test,], type="class")
 }
 
 m.eliteNN <- function(x, y, test, ...) {
-  imp <- names(importance(x, y, test))
-  m.oneNN(x[, imp, drop=FALSE], y, test)
+  model <- dt(x[-test,], y[-test], maxdepth=1)
+  imp <- names(model$variable.importance)
+  m.oneNN(x[imp], y, test)
 }
 
 m.linearDiscr <- function(x, y, test, ...) {
@@ -197,14 +211,4 @@ m.oneNN <- function(x, y, test, k=1, ...) {
   })
   
   return(prediction)
-}
-
-m.randomNode  <- function(x, y, test, ...) {
-  model <- ds(x, y, sample(colnames(x), 1), test)
-  stats::predict(model, x[test,], type="class")
-}
-
-m.worstNode <- function(x, y, test, ...) {
-  model <- ds(x, y, utils::tail(names(importance(x, y, test)), 1), test)
-  stats::predict(model, x[test,], type="class")
 }

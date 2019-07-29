@@ -74,6 +74,7 @@ model.based <- function(...) {
 #' @export
 model.based.default <- function(x, y, features="all",
                                    summary=c("mean", "sd"), ...) {
+
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -83,13 +84,30 @@ model.based.default <- function(x, y, features="all",
   }
   y <- as.factor(y)
 
+  if(min(table(y)) < 2) {
+    stop("number of examples in the minority class should be >= 2")
+  }
+
   if(nrow(x) != length(y)) {
     stop("x and y must have same number of rows")
   }
+
+  if(features[1] == "all") {
+    features <- ls.model.based()
+  }
+  features <- match.arg(features, ls.model.based(), TRUE)
   colnames(x) <- make.names(colnames(x), unique=TRUE)
 
-  data <- cbind(class=y, x)
-  model.based.formula(stats::formula(data), data, features, summary, ...)
+  if (length(summary) == 0) {
+    summary <- "non.aggregated"
+  }
+  
+  model <- dt(x, y)
+  sapply(features, function(f) {
+    fn <- paste("m", f, sep=".")
+    measure <- eval(call(fn, model=model, x=x, y=y))
+    post.processing(measure, summary, f %in% ls.model.based.multiples(), ...)
+  }, simplify=FALSE)
 }
 
 #' @rdname model.based
@@ -107,25 +125,7 @@ model.based.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame,"terms") <- NULL
 
-  if(min(table(modFrame[,1])) < 2) {
-    stop("number of examples in the minority class should be >= 2")
-  }
-  
-  if(features[1] == "all") {
-    features <- ls.model.based()
-  }
-  features <- match.arg(features, ls.model.based(), TRUE)
-  
-  if (length(summary) == 0) {
-    summary <- "non.aggregated"
-  }
-  
-  model <- dt(formula, data)
-  sapply(features, function(f) {
-    fn <- paste("m", f, sep=".")
-    measure <- eval(call(fn, model=model, data=data))
-    post.processing(measure, summary, f %in% ls.model.based.multiples(), ...)
-  }, simplify=FALSE)
+  model.based.default(modFrame[-1], modFrame[1], features, summary, ...)
 }
 
 #' List the DT model based meta-features
@@ -155,8 +155,8 @@ m.leavesBranch <- function(model, ...) {
   m.treeDepth(model)[model$frame$var == "<leaf>"]
 }
 
-m.leavesCorrob <- function(model, data, ...) {
-  model$frame$n[model$frame$var == "<leaf>"] / nrow(data)
+m.leavesCorrob <- function(model, x, ...) {
+  model$frame$n[model$frame$var == "<leaf>"] / nrow(x)
 }
 
 m.leavesHomo <- function(model, ...) {
@@ -171,12 +171,12 @@ m.nodes <- function(model, ...) {
   sum(model$frame$var != "<leaf>")
 }
 
-m.nodesPerAttr <- function(model, data, ...) {
-  m.nodes(model, ...) / (ncol(data)-1)
+m.nodesPerAttr <- function(model, x, ...) {
+  m.nodes(model, ...) / ncol(x)
 }
 
-m.nodesPerInst <- function(model, data, ...) {
-  m.nodes(model, ...) / nrow(data)
+m.nodesPerInst <- function(model, x, ...) {
+  m.nodes(model, ...) / nrow(x)
 }
 
 m.nodesPerLevel <- function(model, ...) {

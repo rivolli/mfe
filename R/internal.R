@@ -65,15 +65,19 @@ dist <- function(data) {
   as.matrix(cluster::daisy(data, metric="gower", warnBin=FALSE))
 }
 
-ds <- function(x, y, imp, test, ...) {
-  data <- cbind(class=y[-test], x[-test, imp, drop=FALSE])
-  rpart::rpart(stats::formula(data), data, method="class", 
-    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=-1, maxdepth=1))
+dt <- function(...) {
+  UseMethod("dt")
 }
 
-dt <- function(formula, data, ...) {
+dt.default <- function(x, y, maxdepth=30, ...) {
+  data <- cbind(class=y, x)
+  dt.formula (stats::formula(data), data, maxdepth)
+}
+
+dt.formula <- function(formula, data, maxdepth=30, ...) {
   rpart::rpart(formula, data, method="class", 
-    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=-1))
+    control=rpart::rpart.control(minsplit=2, minbucket=1, cp=-1, 
+      maxdepth=maxdepth))
 }
 
 entropy <- function(x) {
