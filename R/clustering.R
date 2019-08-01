@@ -9,6 +9,9 @@
 #' @param summary A list of summarization functions or empty for all values. See
 #'  \link{post.processing} method to more information. (Default: 
 #'  \code{c("mean", "sd")})
+#' @param transform A logical value indicating if the categorical attributes
+#'  should be transformed. If \code{FALSE} they will be ignored. (Default: 
+#'  \code{TRUE})
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class.
 #'  The details section describes the valid values for this group.
@@ -16,9 +19,11 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
+#'    \item{"vdu"}{}
 #'    \item{"vdb"}{}
-#'    \item{"int"}{}
 #'    \item{"sil"}{}
+#'    \item{"pb"}{}
+#'    \item{"ch"}{}
 #'  }
 #' @return A list named by the requested meta-features.
 #'
@@ -33,7 +38,7 @@
 #' clustering(Species ~ ., iris)
 #'
 #' ## Extract some meta-features
-#' clustering(iris[1:4], iris[5], c("vdb", "int", "sil"))
+#' clustering(iris[1:4], iris[5], c("vdu", "vdb", "sil"))
 #'
 #' ## Use another summarization function
 #' clustering(Species ~ ., iris, summary=c("min", "median", "max"))
@@ -45,7 +50,8 @@ clustering <- function(...) {
 #' @rdname clustering
 #' @export
 clustering.default <- function(x, y, features="all",
-                                   summary=c("mean", "sd"), ...) {
+                               summary=c("mean", "sd"),
+                               transform=TRUE, ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -73,6 +79,15 @@ clustering.default <- function(x, y, features="all",
     summary <- "non.aggregated"
   }
 
+  if(transform) {
+    x <- binarize(x)
+  } else {
+    x <- x[sapply(x, is.numeric)]
+  }
+
+  x <- as.matrix(x)
+  y <- as.integer(y)
+
   sapply(features, function(f) {
     fn <- paste("m", f, sep=".")
     measure <- eval(call(fn, x=x, y=y))
@@ -83,7 +98,8 @@ clustering.default <- function(x, y, features="all",
 #' @rdname clustering
 #' @export
 clustering.formula <- function(formula, data, features="all",
-                                   summary=c("mean", "sd"), ...) {
+                                   summary=c("mean", "sd"),
+                                   transform=TRUE, ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -95,7 +111,8 @@ clustering.formula <- function(formula, data, features="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  clustering.default(modFrame[-1], modFrame[1], features, summary, ...)
+  clustering.default(modFrame[-1], modFrame[1], features, summary, transform, 
+    ...)
 }
 
 #' List the best clustering meta-features
@@ -106,38 +123,26 @@ clustering.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.clustering()
 ls.clustering <- function() {
-  c("vdb", "int", "sil")
+  c("vdu", "vdb", "int", "sil", "pb", "ch", "nre", "sc")
 }
 
 ls.clustering.multiples <- function() {
   c()
 }
 
+m.vdu <- function(x, y) {
+  aux <- clusterCrit::intCriteria(x, y, "Dunn")
+  aux$dunn
+}
+
 m.vdb <- function(x, y) {
-
-  data <- ovo(x, y)
-  dst <- lapply(data, function(i) {
-    dist(i$x)
-  })
-
-  aux <- mapply(function(data, dst) {
-    l <- levels(data$y)
-    (intra(data, dst, l[1]) + intra(data, dst, l[2]))/inter(data, dst)
-  }, data=data, dst=dst)
-
-  c <- levels(y)
-  vet <- utils::combn(c, 2)
-  tmp <- sapply(c, function(i) {
-    max(aux[apply(vet == i, 2, any)])
-  })
-
-  aux <- sum(tmp)/length(c)
-  return(aux)
+  aux <- clusterCrit::intCriteria(x, y, "Davies_Bouldin")
+  aux$davies_bouldin
 }
 
 m.int <- function(x, y) {
 
-  dfs <- ovo(x, y)
+  dfs <- ovo(x, factor(y))
   dst <- lapply(dfs, function(i) {
     dist(i$x)
   })
@@ -152,9 +157,25 @@ m.int <- function(x, y) {
 }
 
 m.sil <- function(x, y) {
+  aux <- clusterCrit::intCriteria(x, y, "Silhouette")
+  aux$silhouette
+}
 
-  dst <- dist(x)
-  aux <- mean(cluster::silhouette(as.numeric(y), dst)[,3])
-  aux <- sum(aux)/length(c)
-  return(aux)
+m.pb <- function(x, y) {
+  aux <- clusterCrit::intCriteria(x, y, "Point_Biserial")
+  aux$point_biserial
+}
+
+m.ch <- function(x, y) {
+  aux <- clusterCrit::intCriteria(x, y, "Calinski_Harabasz")
+  aux$calinski_harabasz
+}
+
+m.nre <- function(x, y) {
+  aux <- table(y)/length(y)
+  -sum(aux * log2(aux))
+}
+
+m.sc <- function(x, y) {
+  mean(table(y))
 }

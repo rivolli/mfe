@@ -9,10 +9,10 @@
 clustering(...)
 
 \method{clustering}{default}(x, y, features = "all",
-  summary = c("mean", "sd"), ...)
+  summary = c("mean", "sd"), transform = TRUE, ...)
 
 \method{clustering}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), ...)
+  summary = c("mean", "sd"), transform = TRUE, ...)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -26,6 +26,10 @@ clustering(...)
 \item{summary}{A list of summarization functions or empty for all values. See
 \link{post.processing} method to more information. (Default: 
 \code{c("mean", "sd")})}
+
+\item{transform}{A logical value indicating if the categorical attributes
+should be transformed. If \code{FALSE} they will be ignored. (Default: 
+\code{TRUE})}
 
 \item{formula}{A formula to define the class column.}
 
@@ -41,9 +45,11 @@ Clustering measures extract information about validation index.
 \details{
 The following features are allowed for this method:
  \describe{
+   \item{"vdu"}{}
    \item{"vdb"}{}
-   \item{"int"}{}
    \item{"sil"}{}
+   \item{"pb"}{}
+   \item{"ch"}{}
  }
 }
 \examples{
@@ -51,7 +57,7 @@ The following features are allowed for this method:
 clustering(Species ~ ., iris)
 
 ## Extract some meta-features
-clustering(iris[1:4], iris[5], c("vdb", "int", "sil"))
+clustering(iris[1:4], iris[5], c("vdu", "vdb", "sil"))
 
 ## Use another summarization function
 clustering(Species ~ ., iris, summary=c("min", "median", "max"))
