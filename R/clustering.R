@@ -19,11 +19,15 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{"vdu"}{}
-#'    \item{"vdb"}{}
-#'    \item{"sil"}{}
-#'    \item{"pb"}{}
-#'    \item{"ch"}{}
+#'    \item{"vdu"}{Calculate the Dunn Index.}
+#'    \item{"vdb"}{Calculate the Davies and Bouldin Index.}
+#'    \item{"int"}{Calculate the INT index.}
+#'    \item{"sil"}{Calculate the mean silhouette value from data.}
+#'    \item{"pb"}{Pearson Correlation between class matching and instance 
+#'      distances.}
+#'    \item{"ch"}{Calinski and Harabaz index.}
+#'    \item{"nre"}{Normalized relative entropy.}
+#'    \item{"sc"}{Mean of the number of examples per class.}
 #'  }
 #' @return A list named by the requested meta-features.
 #'
@@ -151,7 +155,7 @@ m.int <- function(x, y) {
     inter(dfs, dst)
   }, dfs=dfs, dst=dst)
 
-  c <- nlevels(y)
+  c <- length(unique(y))
   aux <- sum(aux)/(c*(c-1)/2)
   return(aux)
 }
