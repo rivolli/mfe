@@ -1,4 +1,13 @@
-# Version 0.1.2 [current]
+# Version 0.1.3 [current]
+
+### Minor changes
+* Include relative meta-features
+* Include clustering meta-features
+
+### Bugfixes
+* Change the Decision Tree params to support sparse datasets
+
+# Version 0.1.2
 
 ### Minor changes
 * Change license
