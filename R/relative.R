@@ -106,3 +106,19 @@ relative.formula <- function(formula, data, features="all",
   relative.default(modFrame[-1], modFrame[1], features, summary, size, 
     folds, score, ...)
 }
+
+#' List the relative meta-features
+#'
+#' @return A list of relative meta-features names.
+#' @export
+#'
+#' @examples
+#' ls.relative()
+ls.relative <- function() {
+  c("bestNode", "eliteNN", "linearDiscr", "naiveBayes", "oneNN", "randomNode", 
+    "worstNode")
+}
+
+ls.relative.multiples <- function() {
+  ls.relative()
+}
