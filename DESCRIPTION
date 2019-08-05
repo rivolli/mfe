@@ -5,7 +5,7 @@ Version: 0.1.3
 Date: 2019-08-05
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
   role=c("aut", "cre")), person("Luis", "P. F. Garcia", 
-  email="garcia@informatik.uni-leipzig.de", role="aut"), person("Andre", 
+  email="luis.garcia@unb.br", role="aut"), person("Andre", 
   "C. P. L. F. de Carvalho", email="andre@icmc.usp.br", role="ths"))
 Description: Extracts meta-features from datasets to support the design of 
   recommendation systems based on Meta-Learning. The meta-features, also called 
