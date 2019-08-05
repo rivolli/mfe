@@ -127,8 +127,9 @@ Ciro Castiello, Giovanna Castellano, and Anna M. Fanelli. Meta-data:
  classification. Applied Soft Computing, volume 6, pages 119 - 138, 2006.
 }
 \seealso{
-Other meta-features: \code{\link{general}},
-  \code{\link{infotheo}}, \code{\link{landmarking}},
-  \code{\link{model.based}}, \code{\link{relative}}
+Other meta-features: \code{\link{clustering}},
+  \code{\link{general}}, \code{\link{infotheo}},
+  \code{\link{landmarking}}, \code{\link{model.based}},
+  \code{\link{relative}}
 }
 \concept{meta-features}

@@ -102,8 +102,9 @@ Bernhard Pfahringer, Hilan Bensusan, and Christophe Giraud-Carrier.
  International Conference on Machine Learning (ICML), pages 743 - 750, 2000.
 }
 \seealso{
-Other meta-features: \code{\link{general}},
-  \code{\link{infotheo}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: \code{\link{clustering}},
+  \code{\link{general}}, \code{\link{infotheo}},
+  \code{\link{model.based}}, \code{\link{relative}},
+  \code{\link{statistical}}
 }
 \concept{meta-features}

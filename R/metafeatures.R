@@ -27,6 +27,8 @@
 #'      \link{model.based} for more details.}
 #'    \item{"statistical"}{Include all statistical meta-features. See
 #'      \link{statistical} for more details.}
+#'    \item{"clustering"}{Include all clustering meta-features. See
+#'      \link{clustering} for more details.}
 #'  }
 #'
 #' @return A numeric vector named by the meta-features from the specified 
@@ -93,8 +95,7 @@ metafeatures.formula <- function(formula, data, groups="all",
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
 
-  metafeatures.default(modFrame[, -1, drop=FALSE], modFrame[, 1, drop=FALSE], 
-    groups, summary, ...)
+  metafeatures.default(modFrame[-1], modFrame[1], groups, summary, ...)
 }
 
 #' List the meta-features groups
@@ -106,5 +107,5 @@ metafeatures.formula <- function(formula, data, groups="all",
 #' ls.metafeatures()
 ls.metafeatures <- function() {
   c("general", "statistical", "infotheo", "model.based", "landmarking", 
-    "relative")
+    "relative", "clustering")
 }

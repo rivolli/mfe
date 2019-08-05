@@ -54,6 +54,8 @@ The following groups are allowed for this method:
      \link{model.based} for more details.}
    \item{"statistical"}{Include all statistical meta-features. See
      \link{statistical} for more details.}
+   \item{"clustering"}{Include all clustering meta-features. See
+     \link{clustering} for more details.}
  }
 }
 \examples{
