@@ -4,12 +4,12 @@ test_that("landmarking.result", {
 
   set.seed(123)
   aux = relative(Species ~ ., iris)
-  expect_named(aux, ls.landmarking())
+  expect_named(aux, ls.relative())
 
   set.seed(123)
   expect_equal(aux, relative(iris[1:4], iris[5]))
-  expect_named(relative(Species ~ ., iris, ls.landmarking()[1:3]), 
-               ls.landmarking()[1:3])
+  expect_named(relative(Species ~ ., iris, ls.relative()[1:3]), 
+               ls.relative()[1:3])
 })
 
 test_that("score.result", {
