@@ -14,7 +14,7 @@ In MtL, meta-features are designed to extract general properties able to charact
 * **Information-theoretic**: Particularly appropriate to describe discrete (categorical) attributes and their relationship with the classes.
 * **Model-based**: Measures designed to extract characteristics like the depth, the shape and size of a Decision Tree (DT) model induced from a dataset.
 * **Landmarking**: Represents the performance of simple and efficient learning algorithms. Include the subsampling and relative strategies to decrease the computation cost and enrich the relations between these meta-features.
-* **Clustering** Clustering measures extract information about validation index.
+* **Clustering**: Clustering measures extract information about dataset based on external validation indexes. 
 
 ## Installation
 
