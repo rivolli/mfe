@@ -252,8 +252,8 @@ parameter, as detailed in the `post.processing` method.
 
 Landmarking measures are simple and fast algorithms, from which performance 
 characteristics can be extracted. These measures include the performance of 
-simple and efficient learning algorithms like Naive Bayes (`nb`) and 1-Nearest 
-Neighbor (`nn`). The following examples illustrate these measures:
+simple and efficient learning algorithms like Naive Bayes (`naiveBayes`) and 
+1-Nearest Neighbor (`oneNN`). The following examples illustrate these measures:
 
 ```{r}
 ## Show the the available landmarking measures
@@ -284,6 +284,46 @@ The landmarking measures return a list named by the requested measures. The
 `post.processing` methods are applied in these measures since they return 
 multiple values. To define which them should be applied use the `summary` 
 parameter, as detailed in the `post.processing` method.
+
+## Relative
+
+The relative group is the landmarking with sampling and ranking strategies. The 
+sampling strategy decreases the computational cost of the landmarking by 
+selecting a subsample of the original examples. The ranking strategy capture 
+relative information between the performance of the algorithms. The following 
+examples illustrate these measures:
+
+```{r}
+## Show the the available relative measures
+ls.relative()
+
+## Extract all relative measures
+real.iris <- relative(Species ~ ., iris)
+
+## Extract all relative measures with half of the samples
+relative(Species ~ ., iris, size=0.5)
+
+## Extract two relative measures
+relative(Species ~ ., iris, features=c("naiveBayes", "oneNN"))
+```
+
+## Clustering
+
+Clustering measures extract information about dataset based on external 
+validation indexes. The main ideia is measure the complexity of the dataset 
+using indexes able to check information about the predictive attributes and the 
+label. The following examples illustrate these measures:
+
+```{r}
+## Show the the available clustering measures
+ls.clustering()
+
+## Extract all clustering measures
+clus.iris <- clustering(Species ~ ., iris)
+
+## Extract two clustering measures
+clustering(Species ~ ., iris, features=c("vdu", "vdb"))
+```
 
 # Post Processing Methods
 
