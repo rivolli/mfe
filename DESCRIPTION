@@ -23,6 +23,7 @@ Depends:
     R (>= 3.3),
 Imports:
     cluster,
+    class,
     clusterCrit,
     e1071,
     infotheo,

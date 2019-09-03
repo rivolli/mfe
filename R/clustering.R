@@ -28,6 +28,10 @@
 #'    \item{"ch"}{Calinski and Harabaz index.}
 #'    \item{"nre"}{Normalized relative entropy.}
 #'    \item{"sc"}{Mean of the number of examples per class.}
+#'    \item{"sc10"}{Number of clusters with size smaller than 10.}
+#'    \item{"sc15"}{Number of clusters with size smaller than 15.}
+#'    \item{"bc"}{Number of clusters with size larger than 50.}
+#'    \item{"xb"}{Ratio of overall deviation to cluster separation.}
 #'  }
 #' @return A list named by the requested meta-features.
 #'
@@ -127,7 +131,7 @@ clustering.formula <- function(formula, data, features="all",
 #' @examples
 #' ls.clustering()
 ls.clustering <- function() {
-  c("vdu", "vdb", "int", "sil", "pb", "ch", "nre", "sc")
+  c("vdu", "vdb", "int", "sil", "pb", "ch", "nre", "sc", "sc10", "sc15", "bc", "xb")
 }
 
 ls.clustering.multiples <- function() {
@@ -175,6 +179,11 @@ m.ch <- function(x, y) {
   aux$calinski_harabasz
 }
 
+m.xb <- function(x, y) {
+  aux <- clusterCrit::intCriteria(x, y, "Xie_Beni")
+  aux$xie_beni
+}
+
 m.nre <- function(x, y) {
   aux <- table(y)/length(y)
   -sum(aux * log2(aux))
@@ -183,3 +192,43 @@ m.nre <- function(x, y) {
 m.sc <- function(x, y) {
   mean(table(y))
 }
+
+m.sc10 <- function(x, y) {
+  sum(table(y) < 10)
+}
+
+m.sc15 <- function(x, y) {
+  sum(table(y) < 15)
+}
+
+m.bc <- function(x, y) {
+  sum(table(y) > 50)
+}
+
+# m.knn_out <- function(x, y){
+
+#   ##cria lista de tamanho nrow(x) com elementos que variam de 0 a 1
+#   gp <- runif(nrow(x))
+
+#   ##reordena os dataframes de acordo com gp
+#   x <- x[order(gp), ]
+#   y <- y[order(gp)]
+
+#   #pega 70% de ids aleatorios
+#   idxs <- sample(1:nrow(x),as.integer(0.7*nrow(x)))
+
+#   x_train <- x[idxs,]
+#   x_test <- x[-idxs, ]
+
+#   y_train <- y[idxs]
+#   y_test <- y[-idxs]
+
+#   ml <- class::knn(train= x_train, test = x_test, cl = y_train, k = 3)
+
+#   ## matriz de confusao
+#   confusion <- table(y_test,ml)
+
+#   ##calculo do erro
+#   length(y_test) - sum(y_test == ml)
+
+# }
