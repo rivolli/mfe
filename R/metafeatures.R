@@ -30,6 +30,8 @@
 #'      \link{statistical} for more details.}
 #'    \item{"clustering"}{Include all clustering meta-features. See
 #'      \link{clustering} for more details.}
+#'    \item{"complexity"}{Include all complexity meta-features. See
+#'      \link{complexity} for more details.}
 #'  }
 #'
 #' @return A numeric vector named by the meta-features from the specified 
