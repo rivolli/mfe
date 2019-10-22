@@ -21,7 +21,14 @@
 #' @details
 #'  The following features are allowed for this method:
 #'  \describe{
-#'    \item{""}{.}
+#'    \item{"cohesiveness"}{Example Cohesiveness is a different version of the
+#'      wgDist measure.}
+#'    \item{"conceptvar"}{Concept variation estimates the variability of class 
+#'      labels among examples.}
+#'    \item{"impconceptvar"}{Improved concept variation is a different version
+#'       of the conceptvar measure.}
+#'    \item{"wgDist"}{Weighted distance captures how dense or sparse is the 
+#'      example distribution.}
 #'  }
 #' @return A list named by the requested meta-features.
 #'
@@ -53,7 +60,7 @@ concept <- function(...) {
 
 #' @rdname concept
 #' @export
-concept <- function(x, y, features="all",
+concept.default <- function(x, y, features="all",
                                summary=c("mean", "sd"),
                                transform=TRUE, ...) {
   if(!is.data.frame(x)) {

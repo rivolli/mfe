@@ -32,6 +32,10 @@
 #'      \link{clustering} for more details.}
 #'    \item{"complexity"}{Include all complexity meta-features. See
 #'      \link{complexity} for more details.}
+#'    \item{"concept"}{Include all concept variation meta-features. See
+#'      \link{concept} for more details.}
+#'    \item{"itemset"}{Include all itemset meta-features. See
+#'      \link{itemset} for more details.}
 #'  }
 #'
 #' @return A numeric vector named by the meta-features from the specified 
@@ -113,5 +117,5 @@ metafeatures.formula <- function(formula, data, groups="default",
 #' ls.metafeatures()
 ls.metafeatures <- function() {
   c("general", "statistical", "infotheo", "model.based", "landmarking", 
-    "relative", "clustering", "complexity")
+    "relative", "clustering", "complexity", "concept", "itemset")
 }

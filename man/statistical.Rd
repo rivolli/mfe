@@ -128,8 +128,9 @@ Ciro Castiello, Giovanna Castellano, and Anna M. Fanelli. Meta-data:
 }
 \seealso{
 Other meta-features: \code{\link{clustering}},
+  \code{\link{complexity}}, \code{\link{concept}},
   \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}
+  \code{\link{itemset}}, \code{\link{landmarking}},
+  \code{\link{model.based}}, \code{\link{relative}}
 }
 \concept{meta-features}

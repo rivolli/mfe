@@ -38,6 +38,18 @@ test_that("groups.result", {
     as.numeric(c(gvals, svals, ivals, mvals, lvals)))
 })
 
+
+test_that("all.result", {
+  
+  set.seed(123)
+  aux1 = metafeatures(Species ~ ., iris, "all")
+  set.seed(123)
+  aux2 = metafeatures(Species ~ ., iris, "default")
+  
+  expect_gt(length(aux1), length(aux2))
+  expect_true(all(names(aux2) %in% names(aux1)))
+})
+
 test_that("validation.error",{
   expect_error(metafeatures(iris[1:130, 1:4], iris[5]))
   expect_error(metafeatures(as.matrix(iris[, c(1,2)]), iris$Species))

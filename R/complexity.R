@@ -67,13 +67,13 @@
 #' complexity(Species ~ ., iris)
 #'
 #' ## Extract some metafeatures
-#' complexity(iris[1:100, 1:4], iris[1:100, 5], c("F1", "F2", "linearity"))
+#' complexity(iris[30:120, 1:4], iris[30:120, 5], c("F1", "F2", "linearity"))
 #' @export
 complexity <- function(...) {
   UseMethod("complexity")
 }
 
-#' @rdname general
+#' @rdname complexity
 #' @export
 complexity.default <- function(x, y, features="all", ...) {
   if(!is.data.frame(x)) {

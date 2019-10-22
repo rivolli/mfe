@@ -72,9 +72,10 @@ Bruno A. Pimentel, and Andre C. P. L. F. de Carvalho. A new data
  Information Sciences, volume 477, pages 203 - 219, 2019.
 }
 \seealso{
-Other meta-features: \code{\link{general}},
-  \code{\link{infotheo}}, \code{\link{landmarking}},
-  \code{\link{model.based}}, \code{\link{relative}},
-  \code{\link{statistical}}
+Other meta-features: \code{\link{complexity}},
+  \code{\link{concept}}, \code{\link{general}},
+  \code{\link{infotheo}}, \code{\link{itemset}},
+  \code{\link{landmarking}}, \code{\link{model.based}},
+  \code{\link{relative}}, \code{\link{statistical}}
 }
 \concept{meta-features}

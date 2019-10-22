@@ -92,8 +92,9 @@ Hilan Bensusan, Christophe Giraud-Carrier, and Claire Kennedy. A
 }
 \seealso{
 Other meta-features: \code{\link{clustering}},
+  \code{\link{complexity}}, \code{\link{concept}},
   \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{landmarking}}, \code{\link{relative}},
-  \code{\link{statistical}}
+  \code{\link{itemset}}, \code{\link{landmarking}},
+  \code{\link{relative}}, \code{\link{statistical}}
 }
 \concept{meta-features}
