@@ -8,9 +8,11 @@
 \usage{
 complexity(...)
 
-\method{complexity}{default}(x, y, features = "all", ...)
+\method{complexity}{default}(x, y, features = "all",
+  summary = c("mean", "sd"), ...)
 
-\method{complexity}{formula}(formula, data, features = "all", ...)
+\method{complexity}{formula}(formula, data, features = "all",
+  summary = c("mean", "sd"), ...)
 }
 \arguments{
 \item{...}{Not used.}
@@ -22,6 +24,10 @@ complexity(...)
 \item{features}{A list of features names or \code{"all"} to include all them.
 The supported values are described in the details section. (Default: 
 \code{"all"})}
+
+\item{summary}{A list of summarization functions or empty for all values. See
+\link{post.processing} method to more information. (Default: 
+\code{c("mean", "sd")})}
 
 \item{formula}{A formula to define the class column.}
 

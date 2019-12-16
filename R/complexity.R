@@ -11,6 +11,9 @@
 #' @param features A list of features names or \code{"all"} to include all them.
 #'  The supported values are described in the details section. (Default: 
 #'  \code{"all"})
+#' @param summary A list of summarization functions or empty for all values. See
+#'  \link{post.processing} method to more information. (Default: 
+#'  \code{c("mean", "sd")})
 #' @param formula A formula to define the class column.
 #' @param data A data.frame dataset contained the input attributes and class
 #' @param ... Not used.
@@ -75,7 +78,8 @@ complexity <- function(...) {
 
 #' @rdname complexity
 #' @export
-complexity.default <- function(x, y, features="all", ...) {
+complexity.default <- function(x, y, features="all", 
+                               summary=c("mean", "sd"), ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
   }
@@ -98,27 +102,31 @@ complexity.default <- function(x, y, features="all", ...) {
   }
   
   if (any(features %in% ls.complexity.groups("class"))) {
-    features <- unique(c(features, unlist(sapply(features, ls.complexity.groups))))
+    features <- unique(c(features, unlist(sapply(features, 
+                                                 ls.complexity.groups))))
   }
   features <- match.arg(features, ls.complexity(), TRUE)
   colnames(x) <- make.names(colnames(x), unique=TRUE)
   
   groups <- names(which(sapply(ls.complexity.groups("class"), 
                  function(x) any(features %in% ls.complexity.groups(x)))))
-  groups <- gsub("linearity", "linearity.class", groups)
 
-  unlist(
-    lapply(groups, function(group) {
-      fmethod <- get(group, asNamespace("ECoL"))
-      measures <- intersect(features, ls.complexity.groups(group))
-      do.call(fmethod, list(x=x, y=y, measures=measures, summary="return", ...))
-    })
-  )[features]
+  do.call(c, lapply(groups, function(group) {
+    fmethod <- get(group, asNamespace("ECoL"))
+    measures <- intersect(features, ls.complexity.groups(group))
+    subgroups <- do.call(fmethod, list(x=x, y=y, measures=measures, 
+                                       summary="return", ...))
+    sapply(names(subgroups), function(measure){
+      post.processing(subgroups[[measure]], summary, 
+                      measure %in% ls.complexity.multiples(), ...)
+    }, simplify = FALSE)
+  }))[features]
 }
 
 #' @rdname complexity
 #' @export
-complexity.formula <- function(formula, data, features="all", ...) {
+complexity.formula <- function(formula, data, features="all", 
+                               summary=c("mean", "sd"), ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
   }
@@ -130,7 +138,7 @@ complexity.formula <- function(formula, data, features="all", ...) {
   modFrame <- stats::model.frame(formula, data)
   attr(modFrame, "terms") <- NULL
   
-  complexity.default(modFrame[-1], modFrame[1], features, ...)
+  complexity.default(modFrame[-1], modFrame[1], features, summary, ...)
 }
 
 #' List the complexity meta-features
@@ -145,15 +153,20 @@ ls.complexity <- function() {
 }
 
 ls.complexity.multiples <- function() {
-  c()
+  c(c("F1", "F1v", "F2", "F3", "F4"), #overlapping
+    c("N2", "N3", "N4", "T1"), #neighborhood
+    c("L1", "L2", "L3"), #linearity
+    c(), #dimensionality
+    c(), #balance
+    c("Hubs") #network
+  )
 }
 
 ls.complexity.groups <- function(type) {
   
   switch(type,
          class = {
-           c("overlapping", "neighborhood", 
-             "linearity", "dimensionality",
+           c("overlapping", "neighborhood", "linearity", "dimensionality",
              "balance", "network")
          }, regr = {
            c("correlation", "linearity", 
@@ -166,9 +179,6 @@ ls.complexity.groups <- function(type) {
            c("N1", "N2", "N3", "N4", "T1", "LSC")
          },
          linearity = {
-           c("L1", "L2", "L3")
-         },
-         linearity.class = {
            c("L1", "L2", "L3")
          },
          dimensionality = {

@@ -1,8 +1,8 @@
 Package: mfe
 Type: Package
 Title: Meta-Feature Extractor
-Version: 0.1.4.9002
-Date: 2019-10-22
+Version: 0.1.4
+Date: 2019-12-16
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
   role=c("aut", "cre")), person("Luis", "P. F. Garcia", 
   email="luis.garcia@unb.br", role="aut"), person("Andre", 
@@ -24,7 +24,7 @@ Depends:
 Imports:
     cluster,
     clusterCrit,
-    ECoL,
+    ECoL(>= 0.3),
     e1071,
     infotheo,
     MASS,
