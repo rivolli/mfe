@@ -1,11 +1,11 @@
-# Version 0.1.4 [developtment]
+# Version 0.1.4 [current]
 ### Minor changes
 * Include complexity meta-features
 * Include concept characterization meta-features
 * Include itemset meta-features
 * Include the option "default" to distinguish from "all" meta-features groups
 
-# Version 0.1.3 [current]
+# Version 0.1.3
 
 ### Minor changes
 * Include relative meta-features
