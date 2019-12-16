@@ -1,5 +1,5 @@
 ## Test environments
-* local Debian install, R 3.6.1
+* local Debian install, R 3.6.2
 * Ubuntu on Travis CI, R 3.6.1
 * win-builder (devel and release)
 
