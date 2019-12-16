@@ -5,8 +5,9 @@
 #'
 #' @param x A data.frame contained only the input attributes.
 #' @param y A factor response vector with one label for each row/component of x.
-#' @param groups A list of meta-features groups or \code{"all"} to include all
-#'  them. The details section describes the valid values for this parameter.
+#' @param groups A list of meta-features groups, \code{"default"} for traditional
+#'  groups of meta-features or \code{"all"} to include all them. The details 
+#'  section describes the valid values for this parameter.
 #' @param summary A list of summarization functions or empty for all values. See
 #'  \link{post.processing} method to more information. (Default: 
 #'  \code{c("mean", "sd")})
@@ -29,6 +30,12 @@
 #'      \link{statistical} for more details.}
 #'    \item{"clustering"}{Include all clustering meta-features. See
 #'      \link{clustering} for more details.}
+#'    \item{"complexity"}{Include all complexity meta-features. See
+#'      \link{complexity} for more details.}
+#'    \item{"concept"}{Include all concept variation meta-features. See
+#'      \link{concept} for more details.}
+#'    \item{"itemset"}{Include all itemset meta-features. See
+#'      \link{itemset} for more details.}
 #'  }
 #'
 #' @return A numeric vector named by the meta-features from the specified 
@@ -50,7 +57,7 @@ metafeatures <- function(...) {
 
 #' @rdname metafeatures
 #' @export
-metafeatures.default <- function(x, y, groups="all",
+metafeatures.default <- function(x, y, groups="default",
                                  summary=c("mean", "sd"), ...) {
   if(!is.data.frame(x)) {
     stop("data argument must be a data.frame")
@@ -68,6 +75,9 @@ metafeatures.default <- function(x, y, groups="all",
   if(groups[1] == "all") {
     groups <- ls.metafeatures()
   }
+  else if(groups[1] == "default") {
+    groups <- c("general", "statistical", "infotheo", "model.based", "landmarking")
+  }
   groups <- match.arg(groups, ls.metafeatures(), TRUE)
   
   if (length(summary) == 0) {
@@ -82,7 +92,7 @@ metafeatures.default <- function(x, y, groups="all",
 
 #' @rdname metafeatures
 #' @export
-metafeatures.formula <- function(formula, data, groups="all",
+metafeatures.formula <- function(formula, data, groups="default",
                                  summary=c("mean", "sd"), ...) {
   if(!inherits(formula, "formula")) {
     stop("method is only for formula datas")
@@ -107,5 +117,5 @@ metafeatures.formula <- function(formula, data, groups="all",
 #' ls.metafeatures()
 ls.metafeatures <- function() {
   c("general", "statistical", "infotheo", "model.based", "landmarking", 
-    "relative", "clustering")
+    "relative", "clustering", "complexity", "concept", "itemset")
 }

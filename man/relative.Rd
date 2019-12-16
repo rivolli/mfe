@@ -103,8 +103,9 @@ Johannes Furnkranz, Johann Petrak, Pavel Brazdil, and Carlos Soares. On the
 }
 \seealso{
 Other meta-features: \code{\link{clustering}},
+  \code{\link{complexity}}, \code{\link{concept}},
   \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{statistical}}
+  \code{\link{itemset}}, \code{\link{landmarking}},
+  \code{\link{model.based}}, \code{\link{statistical}}
 }
 \concept{meta-features}

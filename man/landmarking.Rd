@@ -103,8 +103,9 @@ Bernhard Pfahringer, Hilan Bensusan, and Christophe Giraud-Carrier.
 }
 \seealso{
 Other meta-features: \code{\link{clustering}},
+  \code{\link{complexity}}, \code{\link{concept}},
   \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{model.based}}, \code{\link{relative}},
-  \code{\link{statistical}}
+  \code{\link{itemset}}, \code{\link{model.based}},
+  \code{\link{relative}}, \code{\link{statistical}}
 }
 \concept{meta-features}

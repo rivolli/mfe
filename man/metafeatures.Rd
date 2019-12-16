@@ -8,10 +8,10 @@
 \usage{
 metafeatures(...)
 
-\method{metafeatures}{default}(x, y, groups = "all",
+\method{metafeatures}{default}(x, y, groups = "default",
   summary = c("mean", "sd"), ...)
 
-\method{metafeatures}{formula}(formula, data, groups = "all",
+\method{metafeatures}{formula}(formula, data, groups = "default",
   summary = c("mean", "sd"), ...)
 }
 \arguments{
@@ -21,8 +21,9 @@ metafeatures(...)
 
 \item{y}{A factor response vector with one label for each row/component of x.}
 
-\item{groups}{A list of meta-features groups or \code{"all"} to include all
-them. The details section describes the valid values for this parameter.}
+\item{groups}{A list of meta-features groups, \code{"default"} for traditional
+groups of meta-features or \code{"all"} to include all them. The details 
+section describes the valid values for this parameter.}
 
 \item{summary}{A list of summarization functions or empty for all values. See
 \link{post.processing} method to more information. (Default: 
@@ -56,6 +57,12 @@ The following groups are allowed for this method:
      \link{statistical} for more details.}
    \item{"clustering"}{Include all clustering meta-features. See
      \link{clustering} for more details.}
+   \item{"complexity"}{Include all complexity meta-features. See
+     \link{complexity} for more details.}
+   \item{"concept"}{Include all concept variation meta-features. See
+     \link{concept} for more details.}
+   \item{"itemset"}{Include all itemset meta-features. See
+     \link{itemset} for more details.}
  }
 }
 \examples{
