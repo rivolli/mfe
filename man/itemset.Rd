@@ -8,11 +8,9 @@
 \usage{
 itemset(...)
 
-\method{itemset}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), ...)
+\method{itemset}{default}(x, y, features = "all", summary = c("mean", "sd"), ...)
 
-\method{itemset}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), ...)
+\method{itemset}{formula}(formula, data, features = "all", summary = c("mean", "sd"), ...)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -69,10 +67,15 @@ Wang, G., Song, Q., & Zhu, X. (2015). An improved data characterization
   Applied Intelligence, 43(4), 892-912.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{complexity}}, \code{\link{concept}},
-  \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{complexity}()},
+\code{\link{concept}()},
+\code{\link{general}()},
+\code{\link{infotheo}()},
+\code{\link{landmarking}()},
+\code{\link{model.based}()},
+\code{\link{relative}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}

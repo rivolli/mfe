@@ -1,4 +1,8 @@
-# Version 0.1.4 [current]
+# Version 0.1.5 [current]
+### Minor changes
+* Set 'stringsAsFactors = TRUE' in data.frame to keep compatibility with R 4.0
+
+# Version 0.1.4
 ### Minor changes
 * Include complexity meta-features
 * Include concept characterization meta-features

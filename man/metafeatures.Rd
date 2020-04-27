@@ -8,11 +8,9 @@
 \usage{
 metafeatures(...)
 
-\method{metafeatures}{default}(x, y, groups = "default",
-  summary = c("mean", "sd"), ...)
+\method{metafeatures}{default}(x, y, groups = "default", summary = c("mean", "sd"), ...)
 
-\method{metafeatures}{formula}(formula, data, groups = "default",
-  summary = c("mean", "sd"), ...)
+\method{metafeatures}{formula}(formula, data, groups = "default", summary = c("mean", "sd"), ...)
 }
 \arguments{
 \item{...}{Optional arguments to the summary methods.}

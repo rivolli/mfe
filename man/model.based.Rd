@@ -8,11 +8,9 @@
 \usage{
 model.based(...)
 
-\method{model.based}{default}(x, y, features = "all",
-  summary = c("mean", "sd"), ...)
+\method{model.based}{default}(x, y, features = "all", summary = c("mean", "sd"), ...)
 
-\method{model.based}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), ...)
+\method{model.based}{formula}(formula, data, features = "all", summary = c("mean", "sd"), ...)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -91,10 +89,15 @@ Hilan Bensusan, Christophe Giraud-Carrier, and Claire Kennedy. A
  on Discovery Science (DS), pages 141 - 152, 2002.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{complexity}}, \code{\link{concept}},
-  \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{itemset}}, \code{\link{landmarking}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{complexity}()},
+\code{\link{concept}()},
+\code{\link{general}()},
+\code{\link{infotheo}()},
+\code{\link{itemset}()},
+\code{\link{landmarking}()},
+\code{\link{relative}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}

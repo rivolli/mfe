@@ -8,11 +8,23 @@
 \usage{
 clustering(...)
 
-\method{clustering}{default}(x, y, features = "all",
-  summary = c("mean", "sd"), transform = TRUE, ...)
+\method{clustering}{default}(
+  x,
+  y,
+  features = "all",
+  summary = c("mean", "sd"),
+  transform = TRUE,
+  ...
+)
 
-\method{clustering}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), transform = TRUE, ...)
+\method{clustering}{formula}(
+  formula,
+  data,
+  features = "all",
+  summary = c("mean", "sd"),
+  transform = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -72,10 +84,15 @@ Bruno A. Pimentel, and Andre C. P. L. F. de Carvalho. A new data
  Information Sciences, volume 477, pages 203 - 219, 2019.
 }
 \seealso{
-Other meta-features: \code{\link{complexity}},
-  \code{\link{concept}}, \code{\link{general}},
-  \code{\link{infotheo}}, \code{\link{itemset}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{complexity}()},
+\code{\link{concept}()},
+\code{\link{general}()},
+\code{\link{infotheo}()},
+\code{\link{itemset}()},
+\code{\link{landmarking}()},
+\code{\link{model.based}()},
+\code{\link{relative}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}

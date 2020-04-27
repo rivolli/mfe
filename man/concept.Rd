@@ -8,11 +8,23 @@
 \usage{
 concept(...)
 
-\method{concept}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), transform = TRUE, ...)
+\method{concept}{default}(
+  x,
+  y,
+  features = "all",
+  summary = c("mean", "sd"),
+  transform = TRUE,
+  ...
+)
 
-\method{concept}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), transform = TRUE, ...)
+\method{concept}{formula}(
+  formula,
+  data,
+  features = "all",
+  summary = c("mean", "sd"),
+  transform = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -80,10 +92,15 @@ Vilalta, R., 1999. Understanding accuracy performance through
  pp. 3-9.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{complexity}}, \code{\link{general}},
-  \code{\link{infotheo}}, \code{\link{itemset}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{complexity}()},
+\code{\link{general}()},
+\code{\link{infotheo}()},
+\code{\link{itemset}()},
+\code{\link{landmarking}()},
+\code{\link{model.based}()},
+\code{\link{relative}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}

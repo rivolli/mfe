@@ -8,11 +8,25 @@
 \usage{
 statistical(...)
 
-\method{statistical}{default}(x, y, features = "all",
-  summary = c("mean", "sd"), by.class = FALSE, transform = TRUE, ...)
+\method{statistical}{default}(
+  x,
+  y,
+  features = "all",
+  summary = c("mean", "sd"),
+  by.class = FALSE,
+  transform = TRUE,
+  ...
+)
 
-\method{statistical}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), by.class = FALSE, transform = TRUE, ...)
+\method{statistical}{formula}(
+  formula,
+  data,
+  features = "all",
+  summary = c("mean", "sd"),
+  by.class = FALSE,
+  transform = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -127,10 +141,15 @@ Ciro Castiello, Giovanna Castellano, and Anna M. Fanelli. Meta-data:
  classification. Applied Soft Computing, volume 6, pages 119 - 138, 2006.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{complexity}}, \code{\link{concept}},
-  \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{itemset}}, \code{\link{landmarking}},
-  \code{\link{model.based}}, \code{\link{relative}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{complexity}()},
+\code{\link{concept}()},
+\code{\link{general}()},
+\code{\link{infotheo}()},
+\code{\link{itemset}()},
+\code{\link{landmarking}()},
+\code{\link{model.based}()},
+\code{\link{relative}()}
 }
 \concept{meta-features}

@@ -4,8 +4,7 @@
 \alias{post.processing}
 \title{Post processing meta-features values}
 \usage{
-post.processing(measure, summary = c("mean", "sd"), multiple = TRUE,
-  ...)
+post.processing(measure, summary = c("mean", "sd"), multiple = TRUE, ...)
 }
 \arguments{
 \item{measure}{A list with the meta-features values.}

@@ -8,12 +8,27 @@
 \usage{
 relative(...)
 
-\method{relative}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), size = 1, folds = 10, score = "accuracy", ...)
+\method{relative}{default}(
+  x,
+  y,
+  features = "all",
+  summary = c("mean", "sd"),
+  size = 1,
+  folds = 10,
+  score = "accuracy",
+  ...
+)
 
-\method{relative}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), size = 1, folds = 10,
-  score = "accuracy", ...)
+\method{relative}{formula}(
+  formula,
+  data,
+  features = "all",
+  summary = c("mean", "sd"),
+  size = 1,
+  folds = 10,
+  score = "accuracy",
+  ...
+)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -102,10 +117,15 @@ Johannes Furnkranz, Johann Petrak, Pavel Brazdil, and Carlos Soares. On the
  Report, pages 1-9, 2002.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{complexity}}, \code{\link{concept}},
-  \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{itemset}}, \code{\link{landmarking}},
-  \code{\link{model.based}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{complexity}()},
+\code{\link{concept}()},
+\code{\link{general}()},
+\code{\link{infotheo}()},
+\code{\link{itemset}()},
+\code{\link{landmarking}()},
+\code{\link{model.based}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}

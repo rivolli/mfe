@@ -8,11 +8,9 @@
 \usage{
 complexity(...)
 
-\method{complexity}{default}(x, y, features = "all",
-  summary = c("mean", "sd"), ...)
+\method{complexity}{default}(x, y, features = "all", summary = c("mean", "sd"), ...)
 
-\method{complexity}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), ...)
+\method{complexity}{formula}(formula, data, features = "all", summary = c("mean", "sd"), ...)
 }
 \arguments{
 \item{...}{Not used.}
@@ -96,10 +94,15 @@ Ana C. Lorena, Luis P. F. Garcia, Jens Lehmann, Marcilio C. P. Souto, and
  Machine Intelligence, 24(3):289-300.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{concept}}, \code{\link{general}},
-  \code{\link{infotheo}}, \code{\link{itemset}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{concept}()},
+\code{\link{general}()},
+\code{\link{infotheo}()},
+\code{\link{itemset}()},
+\code{\link{landmarking}()},
+\code{\link{model.based}()},
+\code{\link{relative}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}

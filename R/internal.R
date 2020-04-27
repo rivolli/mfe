@@ -15,7 +15,7 @@ balanced.accuracy <- function(prediction, label) {
 binarize <- function(x) {
   att <- paste(colnames(x), collapse=" + ")
   x <- stats::model.matrix(stats::formula(paste("~ 0 +", att, sep=" ")), x)
-  data.frame(x)
+  data.frame(x, stringsAsFactors = TRUE)
 }
 
 branch <- function(x, y, l) {
@@ -25,7 +25,7 @@ branch <- function(x, y, l) {
 categorize <- function(x) {
   att <- sapply(x, is.numeric)
   x <- cbind(x[!att], infotheo::discretize(x[att]))
-  data.frame(sapply(x, as.factor))
+  data.frame(sapply(x, as.factor), stringsAsFactors = TRUE)
 }
 
 coalesce <- function(...) {

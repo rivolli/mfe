@@ -8,13 +8,27 @@
 \usage{
 landmarking(...)
 
-\method{landmarking}{default}(x, y, features = "all",
-  summary = c("mean", "sd"), size = 1, folds = 10,
-  score = "accuracy", ...)
+\method{landmarking}{default}(
+  x,
+  y,
+  features = "all",
+  summary = c("mean", "sd"),
+  size = 1,
+  folds = 10,
+  score = "accuracy",
+  ...
+)
 
-\method{landmarking}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), size = 1, folds = 10,
-  score = "accuracy", ...)
+\method{landmarking}{formula}(
+  formula,
+  data,
+  features = "all",
+  summary = c("mean", "sd"),
+  size = 1,
+  folds = 10,
+  score = "accuracy",
+  ...
+)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -102,10 +116,15 @@ Bernhard Pfahringer, Hilan Bensusan, and Christophe Giraud-Carrier.
  International Conference on Machine Learning (ICML), pages 743 - 750, 2000.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{complexity}}, \code{\link{concept}},
-  \code{\link{general}}, \code{\link{infotheo}},
-  \code{\link{itemset}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{complexity}()},
+\code{\link{concept}()},
+\code{\link{general}()},
+\code{\link{infotheo}()},
+\code{\link{itemset}()},
+\code{\link{model.based}()},
+\code{\link{relative}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}

@@ -1,8 +1,8 @@
 Package: mfe
 Type: Package
 Title: Meta-Feature Extractor
-Version: 0.1.4
-Date: 2019-12-16
+Version: 0.1.5
+Date: 2020-04-27
 Authors@R: c(person("Adriano", "Rivolli", email="rivolli@utfpr.edu.br", 
   role=c("aut", "cre")), person("Luis", "P. F. Garcia", 
   email="luis.garcia@unb.br", role="aut"), person("Andre", 
@@ -39,6 +39,6 @@ Suggests:
 License: MIT + file LICENSE
 LazyData: true
 BugReports: https://github.com/rivolli/mfe/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 VignetteBuilder: knitr
 Encoding: UTF-8

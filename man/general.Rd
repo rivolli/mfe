@@ -8,11 +8,9 @@
 \usage{
 general(...)
 
-\method{general}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), ...)
+\method{general}{default}(x, y, features = "all", summary = c("mean", "sd"), ...)
 
-\method{general}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), ...)
+\method{general}{formula}(formula, data, features = "all", summary = c("mean", "sd"), ...)
 }
 \arguments{
 \item{...}{Not used.}
@@ -88,10 +86,15 @@ Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
  pages 457 - 468, 2005.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{complexity}}, \code{\link{concept}},
-  \code{\link{infotheo}}, \code{\link{itemset}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{complexity}()},
+\code{\link{concept}()},
+\code{\link{infotheo}()},
+\code{\link{itemset}()},
+\code{\link{landmarking}()},
+\code{\link{model.based}()},
+\code{\link{relative}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}

@@ -8,11 +8,23 @@
 \usage{
 infotheo(...)
 
-\method{infotheo}{default}(x, y, features = "all", summary = c("mean",
-  "sd"), transform = TRUE, ...)
+\method{infotheo}{default}(
+  x,
+  y,
+  features = "all",
+  summary = c("mean", "sd"),
+  transform = TRUE,
+  ...
+)
 
-\method{infotheo}{formula}(formula, data, features = "all",
-  summary = c("mean", "sd"), transform = TRUE, ...)
+\method{infotheo}{formula}(
+  formula,
+  data,
+  features = "all",
+  summary = c("mean", "sd"),
+  transform = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{Further arguments passed to the summarization functions.}
@@ -103,10 +115,15 @@ Donald Michie, David J. Spiegelhalter, Charles C. Taylor, and John Campbell.
  pages 457 - 468, 2005.
 }
 \seealso{
-Other meta-features: \code{\link{clustering}},
-  \code{\link{complexity}}, \code{\link{concept}},
-  \code{\link{general}}, \code{\link{itemset}},
-  \code{\link{landmarking}}, \code{\link{model.based}},
-  \code{\link{relative}}, \code{\link{statistical}}
+Other meta-features: 
+\code{\link{clustering}()},
+\code{\link{complexity}()},
+\code{\link{concept}()},
+\code{\link{general}()},
+\code{\link{itemset}()},
+\code{\link{landmarking}()},
+\code{\link{model.based}()},
+\code{\link{relative}()},
+\code{\link{statistical}()}
 }
 \concept{meta-features}
