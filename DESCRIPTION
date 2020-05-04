@@ -15,9 +15,8 @@ Description: Extracts meta-features from datasets to support the design of
   characterization measures. By making available a large set of meta-feature 
   extraction functions, tasks like comprehensive data characterization, deep 
   data exploration and large number of Meta-Learning based data analysis can be
-  performed. These concepts are described in: A. Rivolli, L.P.F. Garcia, C. 
-  Soares, J. Vanschoren and A.C.P.L.F. de Carvalho, (2018). Towards reproducible 
-  empirical research in meta-learning. <http://arxiv.org/abs/1808.10406>
+  performed. These concepts are described in the paper: Rivolli A., Garcia L., 
+  Soares c., Vanschoren J. and Carvalho A. (2018) <arXiv:1808.10406>.
 URL: https://github.com/rivolli/mfe
 Depends:
     R (>= 3.3),
