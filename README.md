@@ -71,7 +71,20 @@ In the current version, the meta-feature extractor supports only classification 
 
 To cite `mfe` in publications use: 
 
-* Rivolli, A., Garcia, L. P. F., Soares, C., Vanschoren, J., and de Carvalho, A. C. P. L. F. (2018). Towards Reproducible Empirical Research in Meta-Learning. arXiv:1808.10406
+```
+@article{JMLR:v21:19-348,
+  author  = {Edesio Alcobaça and Felipe Siqueira and Adriano Rivolli and Luís P. F. Garcia and Jefferson T. Oliva and André C. P. L. F. de Carvalho},
+  title   = {MFE: Towards reproducible meta-feature extraction},
+  journal = {Journal of Machine Learning Research},
+  year    = {2020},
+  volume  = {21},
+  number  = {111},
+  pages   = {1-5},
+  url     = {http://jmlr.org/papers/v21/19-348.html}
+}
+```
 
+For more details about meta-features and the characterization process, see:
+* Rivolli, A., Garcia, L. P. F., Soares, C., Vanschoren, J., and de Carvalho, A. C. P. L. F. (2018). Towards Reproducible Empirical Research in Meta-Learning. arXiv:1808.10406
 
 To submit bugs and feature requests, report at [project issues](https://github.com/rivolli/mfe/issues).
