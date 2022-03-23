@@ -409,6 +409,12 @@ m.var <- function(x, ...) {
 
 m.wLambda <- function(x, y, ...) {
   if (ncol(x) > 1) {
+    if (any(table(y) < 2)) {
+        warning("WLambda: Removing classes with less than 2 instances.")
+        idx <- as.character(y) %in% names(which(table(y) < 2))
+        x <- x[!idx,]
+        y <- droplevels(y[!idx])
+    }
     as.numeric(rrcov::Wilks.test(x, grouping=y)$statistic)
   } else {
     return(NA)

@@ -1,3 +1,8 @@
+#Version 0.1.6 [development]
+### Minor changes
+* Fixes issue #22 - wLambda error when a class has less than 2 instances
+
+
 # Version 0.1.5 [current]
 ### Minor changes
 * Set 'stringsAsFactors = TRUE' in data.frame to keep compatibility with R 4.0
