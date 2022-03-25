@@ -104,7 +104,7 @@ landmarking.default <- function(x, y, features="all",
 
   idx <- sample(nrow(x), size*nrow(x), replace=FALSE)
   y <- factor(y[idx])
-  x <- x[idx,]
+  x <- x[idx,,drop=FALSE]
 
   if(features[1] == "all") {
     features <- ls.landmarking()
@@ -165,41 +165,41 @@ ls.landmarking.multiples <- function() {
 }
 
 m.bestNode <- function(x, y, test, ...) {
-  model <- dt(x[-test,], y[-test], maxdepth=1)
-  stats::predict(model, x[test,], type="class")
+  model <- dt(x[-test,,drop=FALSE], y[-test], maxdepth=1)
+  stats::predict(model, x[test,,drop=FALSE], type="class")
 }
 
 m.randomNode  <- function(x, y, test, ...) {
   attr <- sample(colnames(x), 1)
   model <- dt(x[-test, attr, drop=FALSE], y[-test], maxdepth=1)
-  stats::predict(model, x[test,], type="class")
+  stats::predict(model, x[test,,drop=FALSE], type="class")
 }
 
 m.worstNode <- function(x, y, test, ...) {
-  model <- dt(x[-test,], y[-test])
+  model <- dt(x[-test,,drop=FALSE], y[-test])
   attr <- names(model$variable.importance)
   model <- dt(x[-test, utils::tail(attr,1), drop=FALSE], y[-test], maxdepth=1)
-  stats::predict(model, x[test,], type="class")
+  stats::predict(model, x[test,,drop=FALSE], type="class")
 }
 
 m.eliteNN <- function(x, y, test, ...) {
-  model <- dt(x[-test,], y[-test], maxdepth=1)
+  model <- dt(x[-test,,drop=FALSE], y[-test], maxdepth=1)
   imp <- names(model$variable.importance)
   m.oneNN(x[imp], y, test)
 }
 
 m.linearDiscr <- function(x, y, test, ...) {
   tryCatch({
-    model <- MASS::lda(x[-test,], grouping=y[-test])
-    stats::predict(model, x[test,])$class
+    model <- MASS::lda(x[-test,,drop=FALSE], grouping=y[-test])
+    stats::predict(model, x[test,,drop=FALSE])$class
   }, error = function(e) {
     rep(NA, length(test))
   })
 }
 
 m.naiveBayes <- function(x, y, test, ...) {
-  model <- e1071::naiveBayes(x[-test,], y[-test])
-  stats::predict(model, x[test,])
+  model <- e1071::naiveBayes(x[-test,,drop=FALSE], y[-test])
+  stats::predict(model, x[test,,drop=FALSE])
 }
 
 m.oneNN <- function(x, y, test, k=1, ...) {

@@ -2,6 +2,7 @@
 ### Minor changes
 * Fixes issue #22 - wLambda error when a class has less than 2 instances
 * Fixes infotheo when the dataset cannot be discretized
+* Fixes landmarking to handle with datasets with a single column
 
 
 # Version 0.1.5 [current]
