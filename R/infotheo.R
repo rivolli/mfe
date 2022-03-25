@@ -128,7 +128,10 @@ infotheo.default <- function(x, y, features="all", summary=c("mean", "sd"),
   
   #Remove constant attributes
   x.dis <- x.dis[, sapply(x.dis, nlevels) > 1, drop=FALSE]
-  
+  if (ncol(x.dis) == 0) {
+    stop("The dataset is too small or contains constant values to be discretized.")
+  }
+  browser()
   extra <- list(
     y.entropy = entropy(y),
     y.log = base::log2(nlevels(y)),
